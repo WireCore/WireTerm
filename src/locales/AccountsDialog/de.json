@@ -1,0 +1,20 @@
+{
+  "title": "Konto | Konten",
+  "status": {
+    "signedOut": "abgemeldet",
+    "noMasterPassword": "Masterpasswort fehlt",
+    "locked": "gesperrt",
+    "ready": "bereit"
+  },
+  "hint": "Ein Konto ist ein Benutzer auf einem Backend. Daran hängen alle Workspaces, die dort seine Organisationen sind — angemeldet wird deshalb einmal je Backend und nicht einmal je Workspace.",
+  "inRail": "{n} Workspace in der Leiste | {n} Workspaces in der Leiste",
+  "removeWarning": "Das Konto und die Kopien seiner {n} Workspace verschwinden von diesem Rechner. Auf dem Backend bleibt alles; nach einer neuen Anmeldung ist es wieder da. | Das Konto und die Kopien seiner {n} Workspaces verschwinden von diesem Rechner. Auf dem Backend bleibt alles; nach einer neuen Anmeldung ist es wieder da.",
+  "removeAccount": "Konto entfernen",
+  "signIn": "Anmelden",
+  "setUpMasterPassword": "Masterpasswort einrichten",
+  "unlock": "Aufmachen",
+  "lock": "Sperren",
+  "changeMasterPassword": "Masterpasswort ändern",
+  "signOut": "Abmelden",
+  "add": "Konto hinzufügen …"
+}

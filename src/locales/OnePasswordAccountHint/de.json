@@ -1,0 +1,9 @@
+{
+  "title": "Wo der Kontoname in der 1Password-App steht",
+  "description": "Schema der 1Password-App: oben links in der Seitenleiste steht der Kontoname, hier „{name}“. Diesen Namen ins Feld „Konto“ eintragen.",
+  "sampleName": "meine-firma",
+  "line1": "Diesen Namen",
+  "line2": "eintragen",
+  "line3": "oben links in der",
+  "line4": "Seitenleiste der App"
+}

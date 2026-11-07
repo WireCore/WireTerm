@@ -1,0 +1,11 @@
+{
+  "editing": "Editing",
+  "stopWatching": "Stop watching",
+  "state": {
+    "uploading": "saving…",
+    "synced": "saved",
+    "error": "Error",
+    "closed": "ended",
+    "detached": "open"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "title": "Snippets in \"{name}\"",
+  "hint": "Stored commands, to be sent via the snippet menu in the terminal. Placeholders: {host}, {user}, {port}, {name}. With a backend, all members see them — passwords do not belong in them.",
+  "readOnly": "Only whoever manages this workspace may change its snippets: a startup command runs unasked in every colleague's terminal.",
+  "empty": "No snippets yet.",
+  "namePlaceholder": "e.g. Disk space",
+  "folder": "Folder",
+  "folderHint": "Nested with /, empty = top level.",
+  "folderPlaceholder": "e.g. Maintenance/Linux",
+  "command": "Command",
+  "commandHint": "Several lines are sent one after another, each with Enter.",
+  "usedBy": "Startup command of {names}.",
+  "quoted": "\"{name}\"",
+  "discard": "Discard",
+  "add": "New snippet"
+}

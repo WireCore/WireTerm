@@ -1,0 +1,165 @@
+_version: 2
+# Messages of the cloud module (accounts, sessions, the vault, the connection
+# to the backend). WireCloud sign-in lives in wirecloud.yml.
+
+# ---- Address and connection (cloud/http.rs) ----------------------------------
+cloud.address_missing:
+  en: "The backend address is missing."
+  de: "Es fehlt die Adresse des Backends."
+cloud.address_scheme:
+  en: "The address must start with http:// or https://."
+  de: "Die Adresse muss mit http:// oder https:// beginnen."
+cloud.backend_unreachable:
+  en: "The backend is unreachable: %{detail}"
+  de: "Das Backend ist nicht erreichbar: %{detail}"
+cloud.signed_out:
+  en: "You are no longer signed in."
+  de: "Die Anmeldung gilt nicht mehr."
+cloud.connection_failed:
+  en: "Could not set up the connection: %{error}"
+  de: "Die Verbindung ließ sich nicht aufbauen: %{error}"
+cloud.response_unreadable:
+  en: "The backend's response is unreadable: %{error}"
+  de: "Die Antwort des Backends ist unlesbar: %{error}"
+cloud.response_unexpected:
+  en: "The backend's response does not fit: %{error}"
+  de: "Die Antwort des Backends passt nicht: %{error}"
+cloud.backend_status:
+  en: "The backend answered with %{status}."
+  de: "Das Backend antwortete mit %{status}."
+cloud.timeout:
+  en: "timed out"
+  de: "Zeitüberschreitung"
+cloud.no_connection:
+  en: "no connection"
+  de: "keine Verbindung"
+
+# ---- Error codes the backend sends without text (cloud/http.rs) --------------
+cloud.code_wc_ec:
+  en: "An account with this email address already exists here and is not yet linked to WireCloud."
+  de: "Zu dieser E-Mail-Adresse gibt es hier schon ein Konto, das noch nicht mit WireCloud verknüpft ist."
+cloud.code_wc_ld:
+  en: "The password is wrong, or this account is already linked to another WireCloud account."
+  de: "Das Passwort stimmt nicht, oder dieses Konto ist schon mit einem anderen WireCloud-Konto verknüpft."
+cloud.code_wc_nv:
+  en: "Your email address has not been verified at WireCloud yet. Verify it there and sign in again."
+  de: "Ihre E-Mail-Adresse ist bei WireCloud noch nicht bestätigt. Bestätigen Sie sie dort und melden Sie sich erneut an."
+cloud.code_wc_nn:
+  en: "There is no existing account that could be linked. Simply sign in again."
+  de: "Es gibt kein bisheriges Konto, das sich verknüpfen ließe. Melden Sie sich einfach neu an."
+cloud.code_wc_rl:
+  en: "Too many failed attempts. Please wait 15 minutes."
+  de: "Zu viele falsche Versuche. Bitte warten Sie 15 Minuten."
+cloud.code_rl:
+  en: "Too many requests to the backend. Please try again in a moment."
+  de: "Zu viele Anfragen an das Backend. Bitte versuchen Sie es gleich noch einmal."
+cloud.code_wc_ur:
+  en: "This backend does not know your role in WireCloud. Please contact its operator."
+  de: "Ihre Rolle in WireCloud kennt dieses Backend nicht. Bitte wenden Sie sich an den Betreiber."
+cloud.code_wc_managed:
+  en: "You manage this in WireCloud, not in WireTerm."
+  de: "Das verwalten Sie in WireCloud, nicht in WireTerm."
+cloud.code_no_grant:
+  en: "Your WireCloud account has no access to this backend. Ask your company's administrator to grant it."
+  de: "Ihr Konto hat bei WireCloud keinen Zugriff auf dieses Backend. Bitten Sie den Administrator Ihrer Firma, ihn zu vergeben."
+cloud.code_account_suspended:
+  en: "Your WireCloud account is suspended."
+  de: "Ihr Konto bei WireCloud ist gesperrt."
+cloud.code_unknown_audience:
+  en: "WireCloud does not know this backend."
+  de: "WireCloud kennt dieses Backend nicht."
+
+# ---- Files on disk (cloud/account.rs) ----------------------------------------
+cloud.file_unreadable:
+  en: "%{path} cannot be read: %{error}"
+  de: "%{path} ist nicht lesbar: %{error}"
+cloud.file_damaged:
+  en: "%{path} is damaged: %{error}"
+  de: "%{path} ist beschädigt: %{error}"
+cloud.dir_create_failed:
+  en: "%{path} could not be created: %{error}"
+  de: "%{path} ließ sich nicht anlegen: %{error}"
+cloud.file_write_failed:
+  en: "%{path} could not be written: %{error}"
+  de: "%{path} ließ sich nicht schreiben: %{error}"
+cloud.file_replace_failed:
+  en: "%{path} could not be replaced: %{error}"
+  de: "%{path} ließ sich nicht ersetzen: %{error}"
+cloud.file_remove_failed:
+  en: "%{path} could not be removed: %{error}"
+  de: "%{path} ließ sich nicht entfernen: %{error}"
+
+# ---- Accounts and workspaces (cloud/mod.rs) ----------------------------------
+cloud.account_gone:
+  en: "This account no longer exists."
+  de: "Dieses Konto gibt es nicht mehr."
+cloud.workspace_missing:
+  en: "This workspace does not exist here."
+  de: "Diesen Workspace gibt es hier nicht."
+cloud.no_wirecloud:
+  en: "This backend does not use WireCloud, or it is not responding."
+  de: "Dieses Backend nutzt WireCloud nicht, oder es antwortet nicht."
+cloud.sign_in_expired:
+  en: "The sign-in has expired. Please sign in again."
+  de: "Die Anmeldung ist abgelaufen. Bitte melden Sie sich erneut an."
+cloud.invitation_needs_verified_email:
+  en: "This invitation can only be accepted once the email address is verified. Until then, use the link in the invitation email; afterwards the workspace appears here under \"Which workspace?\"."
+  de: "Diese Einladung lässt sich erst annehmen, wenn die E-Mail-Adresse bestätigt ist. Bis dahin geht es über den Link in der Einladungsmail; danach steht der Workspace hier unter „Welcher Workspace?“."
+
+# ---- Master password and keys (cloud/mod.rs) ---------------------------------
+cloud.master_empty:
+  en: "The master password must not be empty."
+  de: "Das Masterpasswort darf nicht leer sein."
+cloud.new_master_empty:
+  en: "The new master password must not be empty."
+  de: "Das neue Masterpasswort darf nicht leer sein."
+cloud.keys_exist:
+  en: "This account already has a key pair. A second one would make every existing project unreadable; only the master password or a recovery code can help here."
+  de: "Für dieses Konto gibt es schon ein Schlüsselpaar. Ein zweites würde jedes bestehende Projekt unlesbar machen — hier hilft nur das Masterpasswort oder ein Sicherheitscode."
+cloud.no_master_yet:
+  en: "No master password has been set up for this account yet."
+  de: "Für dieses Konto ist noch kein Masterpasswort eingerichtet."
+cloud.no_key_material:
+  en: "There is no key material for this account."
+  de: "Für dieses Konto gibt es kein Schlüsselmaterial."
+cloud.recovery_code_unknown:
+  en: "There is no entry for this code."
+  de: "Zu diesem Code gibt es keinen Eintrag."
+cloud.recovery_code_wrong:
+  en: "This code does not match."
+  de: "Dieser Code passt nicht."
+cloud.master_wrong:
+  en: "The master password is wrong."
+  de: "Das Masterpasswort stimmt nicht."
+cloud.unknown_algorithm:
+  en: "This account uses the method \"%{algorithm}\", which this version of WireTerm does not know."
+  de: "Dieses Konto benutzt das Verfahren „%{algorithm}“, das diese Fassung von WireTerm nicht kennt."
+cloud.public_key_unreadable:
+  en: "The stored public key is unreadable."
+  de: "Der hinterlegte öffentliche Schlüssel ist unlesbar."
+cloud.key_mismatch:
+  en: "The key does not match what is stored for this account."
+  de: "Der Schlüssel passt nicht zu dem, was für dieses Konto hinterlegt ist."
+cloud.salt_unreadable:
+  en: "The salt is unreadable."
+  de: "Das Salz ist unlesbar."
+cloud.nonce_unreadable:
+  en: "The nonce is unreadable."
+  de: "Das Nonce ist unlesbar."
+cloud.wrapped_key_unreadable:
+  en: "The wrapped key is unreadable."
+  de: "Der verpackte Schlüssel ist unlesbar."
+cloud.private_key_length:
+  en: "The private key has the wrong length."
+  de: "Der private Schlüssel hat die falsche Länge."
+
+# ---- Project key rotation (cloud/mod.rs, cloud/rotate.rs) --------------------
+cloud.rotate_pending:
+  en: "Changes are still waiting to be synced. The key can only be renewed once they are uploaded."
+  de: "Es warten noch Änderungen auf den Abgleich. Erst wenn sie oben sind, lässt sich der Schlüssel erneuern."
+cloud.rotate_locked:
+  en: "The master password must be entered to renew the key."
+  de: "Zum Erneuern des Schlüssels muss das Masterpasswort eingegeben sein."
+cloud.rotate_not_entitled:
+  en: "You are not among the members entitled to this project."
+  de: "Du stehst nicht unter den Berechtigten dieses Projekts."

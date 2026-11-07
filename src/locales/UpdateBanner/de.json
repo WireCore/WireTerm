@@ -1,0 +1,10 @@
+{
+  "title": "WireTerm {version} ist verfügbar.",
+  "hint": "Die Installation startet WireTerm neu; offene Verbindungen und laufende Übertragungen enden.",
+  "downloading": "Wird heruntergeladen …",
+  "downloadingPercent": "Wird heruntergeladen … {percent} %",
+  "installing": "Wird installiert …",
+  "failed": "Das Update ließ sich nicht installieren: {error}",
+  "install": "Installieren und neu starten",
+  "later": "Später"
+}

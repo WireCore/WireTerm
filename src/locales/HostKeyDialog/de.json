@@ -1,0 +1,19 @@
+{
+  "titleCertChanged": "Zertifikat hat sich geändert",
+  "titleCertUnknown": "Unbekanntes Zertifikat",
+  "titleKeyChanged": "Host-Key hat sich geändert",
+  "titleHostUnknown": "Unbekannter Host",
+  "type": "Typ",
+  "tlsCertificate": "TLS-Zertifikat (SHA-256)",
+  "reason": "Grund",
+  "certChanged": "Für diesen Server ist bereits ein anderes Zertifikat hinterlegt. Entweder wurde es erneuert — oder jemand gibt sich als dieser Server aus und liest mit.",
+  "keyChanged": "Für diesen Host ist bereits ein anderer Schlüssel hinterlegt. Entweder wurde der Server neu aufgesetzt — oder jemand gibt sich als dieser Server aus und liest mit.",
+  "certUnknown": "Das System vertraut dem Zertifikat dieses Servers nicht. Prüfe den Fingerprint, bevor du ihm vertraust: Gemerkt wird genau dieses Zertifikat, nur auf diesem Gerät — anders als bei „Zertifikat nicht prüfen“, das jedes nimmt.",
+  "hostUnknown": "Dieser Host ist noch nicht bekannt. Prüfe den Fingerprint, bevor du ihm vertraust: er ist das Einzige, was die Verbindung gegen einen Mitleser in der Mitte absichert.",
+  "verify": "Auf dem Server gegenprüfen mit {command}",
+  "certFile": "zertifikat.pem",
+  "confirm": "Sicher? Der Server könnte ein anderer sein.",
+  "trustConfirmed": "Ja, vertrauen",
+  "trustAnyway": "Trotzdem vertrauen",
+  "trust": "Vertrauen"
+}

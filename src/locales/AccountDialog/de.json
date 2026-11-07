@@ -1,0 +1,16 @@
+{
+  "title": "Anmelden ({storage})",
+  "server": "Adresse des Backends",
+  "serverPlaceholder": "https://wireterm.firma.de",
+  "serverHint": "Ohne {https} davor wird HTTPS angenommen. Eine Instanz auf diesem Rechner braucht die Adresse samt Port, etwa {example}.",
+  "acceptInvalidCert": "Zertifikat nicht prüfen",
+  "acceptInvalidCertWarning": "Die Verbindung wird weiter verschlüsselt, aber nicht mehr geprüft, ob am anderen Ende wirklich dieser Server sitzt. Nur für ein selbstsigniertes Zertifikat vor der eigenen Instanz.",
+  "email": "E-Mail",
+  "emailPlaceholder": "name{'@'}firma.de",
+  "password": "Anmeldepasswort",
+  "passwordHint": "Das Passwort für den Server. Das Masterpasswort, mit dem die Zugangsdaten verschlüsselt werden, wird gleich danach abgefragt und ist ein anderes — es verlässt diesen Rechner nie.",
+  "forgotNeedsEmail": "Dafür zuerst die E-Mail-Adresse eintragen",
+  "forgot": "Anmeldepasswort vergessen?",
+  "signIn": "Anmelden",
+  "resetSent": "Wenn es zu dieser Adresse ein Konto gibt, ist eine Mail unterwegs. Sie setzt das Anmeldepasswort zurück — nicht das Masterpasswort."
+}

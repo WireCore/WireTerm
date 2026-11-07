@@ -1,0 +1,28 @@
+{
+  "storage": {
+    "customBackend": "custom backend",
+    "cloud": "Cloud"
+  },
+  "role": {
+    "owner": "Owner",
+    "admin": "Administrator",
+    "member": "Member"
+  },
+  "shareRole": {
+    "editor": "Edit",
+    "viewer": "Read only"
+  },
+  "credential": {
+    "keyVault": "Key: {vault}",
+    "keyFile": "Key: file",
+    "keyInline": "Key: entered",
+    "keyAgent": "Key: SSH agent",
+    "passwordStored": "Password stored",
+    "passwordVault": "Password from {vault}",
+    "passwordPrompt": "Password is asked for",
+    "secretKeyVault": "Secret key from {vault}",
+    "secretKeyStored": "Secret key stored",
+    "secretKeyPrompt": "Secret key is asked for",
+    "anonymous": "Anonymous"
+  }
+}

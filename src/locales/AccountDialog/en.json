@@ -1,0 +1,16 @@
+{
+  "title": "Sign in ({storage})",
+  "server": "Backend address",
+  "serverPlaceholder": "https://wireterm.example.com",
+  "serverHint": "Without {https} in front, HTTPS is assumed. An instance on this computer needs the address including the port, for example {example}.",
+  "acceptInvalidCert": "Do not check the certificate",
+  "acceptInvalidCertWarning": "The connection stays encrypted, but it is no longer checked whether this server is really at the other end. Only for a self-signed certificate in front of your own instance.",
+  "email": "Email",
+  "emailPlaceholder": "name{'@'}example.com",
+  "password": "Sign-in password",
+  "passwordHint": "The password for the server. The master password that encrypts the credentials is asked for right after and is a different one — it never leaves this computer.",
+  "forgotNeedsEmail": "Enter the email address first",
+  "forgot": "Forgot sign-in password?",
+  "signIn": "Sign in",
+  "resetSent": "If there is an account for this address, a mail is on its way. It resets the sign-in password — not the master password."
+}

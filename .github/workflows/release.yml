@@ -1,0 +1,114 @@
+name: Release
+
+# A tag X.Y.Z (a plain version, no "v") builds the installers and gathers them in one draft GitHub
+# release, with a download table in its description (scripts/release-notes.mjs)
+# and GitHub's generated notes below it. Check the draft, then publish it.
+#
+#   Windows  x64, ARM64           EXE (NSIS), MSI
+#   macOS    Apple Silicon, Intel DMG (Intel is built on Apple Silicon)
+#   Linux    x64, ARM64           deb, rpm, AppImage
+#
+# The version comes from src-tauri/tauri.conf.json — keep it in step with the
+# tag.
+#
+# Auto-update: every installer gets a signature (.sig) and the release a
+# latest.json that installed apps check (tauri-plugin-updater). Signing needs
+# the update key in the `release` environment: TAURI_SIGNING_PRIVATE_KEY and
+# TAURI_SIGNING_PRIVATE_KEY_PASSWORD; its public half is `plugins.updater.pubkey`
+# in tauri.conf.json. The updater artifacts are switched on only here
+# (tauri.release.conf.json), so that local builds need no key. The ARM runners (windows-11-arm, ubuntu-22.04-arm) are free for public
+# repositories only.
+#
+# Not signed yet: without a code signing certificate, SmartScreen warns on
+# Windows and Gatekeeper refuses the first start on macOS. Signing needs a
+# Windows certificate and an Apple Developer ID with notarization; their
+# secrets then go into the `release` environment and tauri.conf.json.
+on:
+  push:
+    tags: ['[0-9]+.[0-9]+.[0-9]+']
+
+permissions:
+  contents: write
+
+jobs:
+  # One draft for all build jobs: created here, so that six jobs running at
+  # the same time do not each create their own.
+  create-release:
+    runs-on: ubuntu-latest
+    outputs:
+      id: ${{ steps.create.outputs.id }}
+    steps:
+      - id: create
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "$GITHUB_REF_NAME" --repo "$GITHUB_REPOSITORY" --draft \
+            --title "WireTerm $GITHUB_REF_NAME" --notes "The installers are being built …"
+          id=$(gh api "repos/$GITHUB_REPOSITORY/releases" \
+            --jq ".[] | select(.tag_name == \"$GITHUB_REF_NAME\") | .id" | head -n 1)
+          echo "id=$id" >> "$GITHUB_OUTPUT"
+
+  build:
+    needs: create-release
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { os: windows-latest, target: x86_64-pc-windows-msvc }
+          - { os: windows-11-arm, target: aarch64-pc-windows-msvc }
+          - { os: macos-latest, target: aarch64-apple-darwin }
+          - { os: macos-latest, target: x86_64-apple-darwin }
+          - { os: ubuntu-22.04, target: x86_64-unknown-linux-gnu }
+          - { os: ubuntu-22.04-arm, target: aarch64-unknown-linux-gnu }
+    runs-on: ${{ matrix.os }}
+    environment: release
+    steps:
+      - uses: actions/checkout@v5
+      - if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libwebkit2gtk-4.1-dev libayatana-appindicator3-dev \
+            librsvg2-dev libxdo-dev libssl-dev build-essential
+      - uses: actions/setup-node@v5
+        with:
+          node-version: lts/*
+          cache: npm
+      - uses: actions/setup-go@v6
+        with:
+          go-version-file: sidecar/go.mod
+          cache-dependency-path: sidecar/go.sum
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: ${{ matrix.target }}
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: src-tauri
+          key: ${{ matrix.target }}
+      - run: npm ci
+      - run: npm run build:sidecar -- ${{ matrix.target }}
+      - uses: tauri-apps/tauri-action@v0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
+          TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
+        with:
+          releaseId: ${{ needs.create-release.outputs.id }}
+          # Signatures and latest.json for the auto-updater.
+          args: --target ${{ matrix.target }} --config src-tauri/tauri.release.conf.json
+
+  # The download table, from whatever the build jobs uploaded — also when one
+  # of them failed — and GitHub's generated notes below it.
+  notes:
+    needs: [create-release, build]
+    if: ${{ !cancelled() && needs.create-release.result == 'success' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release view "$GITHUB_REF_NAME" --repo "$GITHUB_REPOSITORY" --json assets > assets.json
+          gh api "repos/$GITHUB_REPOSITORY/releases/generate-notes" \
+            -f tag_name="$GITHUB_REF_NAME" --jq .body > generated.md
+          node scripts/release-notes.mjs assets.json "$GITHUB_REPOSITORY" "$GITHUB_REF_NAME" generated.md > body.md
+          gh release edit "$GITHUB_REF_NAME" --repo "$GITHUB_REPOSITORY" --notes-file body.md

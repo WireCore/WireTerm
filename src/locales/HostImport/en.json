@@ -1,0 +1,28 @@
+{
+  "title": "Import connections",
+  "lead": "The chosen hosts become connections in \"{project}\". No import takes over passwords: where there is no key, you are asked when connecting.",
+  "source": "Source",
+  "sources": {
+    "csv": "CSV file (also from Termius)"
+  },
+  "chooseFileTitle": "Choose file",
+  "chooseFile": "Choose file …",
+  "otherFile": "Other file …",
+  "csvHint": "First line with headings: {name}, {host} (or {hostname}, {address}), {port}, {user}, {protocol} (ssh, sftp, ftp, ftps), {key}, {group} — comma, semicolon or tab. Termius has no export format of its own; a table like this is the way.",
+  "mobaxtermHint": "SSH sessions are imported with host, port, user, key and gateway. The format is not documented — look over the list before importing.",
+  "sshConfigHint": "With {identityFile} it becomes a key file, otherwise the SSH agent. {include} and forwards are imported, {match} blocks are not.",
+  "reading": "Reading …",
+  "emptyTitle": "No hosts found.",
+  "emptyDescription": "There is nothing in this source that could be imported.",
+  "present": "already in the project",
+  "jumpResolved": "goes via {hops} — imported as a jump host",
+  "jumpMissing": "goes via {proxy} — for that, {hops} must be imported too",
+  "viaProxy": "via {proxy}",
+  "forwards": "{n} forward | {n} forwards",
+  "skipped": "{n} entry cannot be imported | {n} entries cannot be imported",
+  "auth": {
+    "keyFile": "Key file {path}",
+    "agent": "SSH agent",
+    "prompt": "Password when connecting"
+  }
+}

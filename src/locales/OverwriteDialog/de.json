@@ -1,0 +1,19 @@
+{
+  "title": "Bereits vorhanden",
+  "titleNested": "Bereits vorhanden im Ordner",
+  "lead": "Ein Name ist am Ziel schon vergeben. | {n} Namen sind am Ziel schon vergeben.",
+  "leadNested": "Ein Name ist in den zusammengeführten Ordnern schon vergeben. | {n} Namen sind in den zusammengeführten Ordnern schon vergeben.",
+  "all": "Alle:",
+  "overwrite": "Ersetzen",
+  "overwriteTitle": "Das Vorhandene wird überschrieben",
+  "rename": "Umbenennen",
+  "renameTitle": "Unter einem freien Namen ablegen",
+  "skip": "Auslassen",
+  "skipTitle": "Nicht übertragen",
+  "merge": "Zusammenführen",
+  "onlyNewer": "Nur wenn neuer",
+  "onlyNewerTitle": "Ältere auslassen, neuere ersetzen",
+  "folder": "Ordner",
+  "count": "{kept} von {total} werden übertragen",
+  "apply": "Übernehmen"
+}

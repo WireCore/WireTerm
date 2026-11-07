@@ -1,0 +1,16 @@
+{
+  "appPassword": "App password",
+  "setupTitle": "Set app password",
+  "unavailableTitle": "Keyring not reachable",
+  "lockedLead": "The credentials of the workspaces on this device are encrypted with the app password. Without it, connections with an entered key or password cannot be opened.",
+  "setupLead": "This system has no keyring in which WireTerm could store its key{reason}. Entered keys and passwords are therefore encrypted with an app password that is asked for at every start.",
+  "setupWarning": "Whoever forgets the app password can no longer get at these credentials. An export with its own password is the backup for that.",
+  "minLength": "At least eight characters.",
+  "repeat": "Repeat",
+  "mismatch": "The two do not match.",
+  "unavailableLead": "The key for the credentials on this device is in the system keyring, but the keyring is not answering right now{reason}. If it is locked, it usually helps to unlock it and then try again.",
+  "unavailableHint": "Without it everything else carries on; only entered keys and passwords stay locked until then.",
+  "skip": "Continue without",
+  "set": "Set",
+  "unlock": "Unlock"
+}

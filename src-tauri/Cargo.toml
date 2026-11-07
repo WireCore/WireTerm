@@ -1,0 +1,149 @@
+[package]
+name = "wireterm"
+version = "0.1.0"
+description = "WireTerm — terminal and connection manager"
+authors = ["WireCore GmbH"]
+license = "AGPL-3.0-only"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[lib]
+# The `_lib` suffix may seem redundant but it is necessary
+# to make the lib name unique and wouldn't conflict with the bin name.
+# This seems to be only an issue on Windows, see https://github.com/rust-lang/cargo/issues/8519
+name = "wireterm_lib"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+tauri = { version = "2", features = [] }
+tauri-plugin-opener = "2"
+# The native file dialog — for the path fields (key file, editor).
+tauri-plugin-dialog = "2"
+tauri-plugin-shell = "2"
+# Updates from GitHub releases (latest.json), verified with the update key
+# whose public half is in tauri.conf.json.
+tauri-plugin-updater = "2"
+# Restarting into the new version after an update.
+tauri-plugin-process = "2"
+tokio = { version = "1", features = ["sync", "rt", "net", "io-util", "time", "fs", "process"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+# Translations for messages that reach the UI (en, de). Loads locales/*.yml at
+# compile time; the UI sets the active locale through `set_locale`.
+rust-i18n = "4.2.4"
+# "ring" instead of the default backend aws-lc-rs: its aws-lc-sys needs cmake
+# and NASM to build on Windows.
+russh = { version = "0.63.3", default-features = false, features = ["ring", "flate2", "rsa"] }
+russh-sftp = "3.0.0"
+# FTP/FTPS. "deprecated" only unlocks `connect_secure_implicit` — implicit FTPS
+# on port 990 is considered outdated, but on existing servers it is often the
+# only thing offered. TLS runs on rustls with "ring", for the same reason as
+# russh above and so that both protocols use the same crypto.
+suppaftp = { version = "12.0.1", default-features = false, features = ["deprecated", "tokio", "tokio-rustls-ring"] }
+tokio-rustls = { version = "0.26.5", default-features = false, features = ["ring", "tls12"] }
+rustls = { version = "0.23.45", default-features = false, features = ["ring", "std", "logging"] }
+# The operating system's root certificates instead of a bundled list: a
+# company's own CA is in the Windows certificate store and nowhere else.
+rustls-native-certs = "0.8.4"
+rustls-pki-types = "1.15.1"
+# For the return type of MDTM, which suppaftp delivers as NaiveDateTime, and
+# for the timestamps of the S3 signature. "now" instead of "clock": Utc::now()
+# and nothing else, in particular no query of the local time zone.
+chrono = { version = "0.4.45", default-features = false, features = ["now", "alloc"] }
+# S3. No AWS SDK: its crypto backend is aws-lc-rs — exactly what is avoided
+# everywhere here — and the signature is a manageable piece of code, see
+# s3.rs. "rustls-no-provider" means reqwest brings no TLS backend of its own
+# but gets the finished rustls configuration from us: the same as for FTPS,
+# on ring and with the system's root certificates. "socks" for a SOCKS5 proxy
+# in front of the endpoint, see proxy.rs.
+reqwest = { version = "0.13.5", default-features = false, features = ["rustls-no-provider", "socks"] }
+# For the upload body: a custom http-body with a known length. S3 rejects a
+# PUT without Content-Length, and a streamed body otherwise has none.
+http-body = "1.0.1"
+bytes = "1.12.1"
+# SHA-256 and HMAC for the signature. ring is in the tree anyway — russh and
+# rustls run on it — instead of two more crypto crates beside it.
+ring = "0.17.14"
+# S3's responses are XML, and so are its errors.
+quick-xml = "0.42.0"
+percent-encoding = "2.3.2"
+
+# ---- Bitwarden ---------------------------------------------------------------
+#
+# Bitwarden has no SDK for the password vault that could be embedded — the
+# official SDKs only cover the Secrets Manager, which Vaultwarden does not know
+# at all. So bitwarden/ speaks the HTTP API directly and decrypts itself.
+# What is missing for that is here: ring already brings PBKDF2, HKDF, HMAC and
+# SHA-256, but neither AES-CBC nor RSA decryption nor Argon2. Everything below
+# is pure Rust — no cmake, no NASM, the same constraint as above for rustls.
+base64 = "0.22.1"
+aes = "0.8.4"
+cbc = { version = "0.1.2", features = ["alloc"] }
+# RUSTSEC-2023-0071: rsa 0.9 does not decrypt in constant time. The attack
+# needs an oracle that ciphertexts can be presented to any number of times;
+# here a key is unwrapped locally exactly once per organization, and whoever
+# can present that one is already inside the process anyway. There is no pure
+# Rust alternative at the moment.
+rsa = "0.9.8"
+sha1 = "0.10.6"
+sha2 = "0.10.9"
+argon2 = "0.5.3"
+
+# ---- Cloud and custom backend -----------------------------------------------
+#
+# The envelope scheme from cloud/crypto.rs. ring is already in the tree and
+# can do X25519, but ChaCha20-Poly1305 only with a 96-bit nonce — not
+# XChaCha20 with 192 bits, and that is what the backend expects. Everything
+# below is again pure Rust from the RustCrypto family: no cmake, no NASM, the
+# same constraint as the rest.
+x25519-dalek = { version = "2", features = ["static_secrets"] }
+chacha20poly1305 = "0.10"
+hkdf = "0.12"
+# So that the private key and the project keys are really gone after use and
+# do not linger as a copy in memory.
+zeroize = "1"
+# The IDs the client assigns to projects and connections — it also creates
+# them offline, and renumbering on upload would drag along every connection
+# beneath.
+uuid = { version = "1", features = ["v4"] }
+# Randomness for new SSH keys, see keys.rs: ssh-key expects a `CryptoRng`
+# from rand_core 0.10, and getrandom provides the system's. Both are already
+# in the tree through russh.
+rand_core = "0.10"
+getrandom = { version = "0.4", features = ["sys_rng"] }
+
+# ---- Local secrets -----------------------------------------------------------
+#
+# The device key with which `workspaces.json` encrypts its secrets lives in
+# the system's keychain: Credential Manager on Windows, Keychain on macOS,
+# Secret Service on Linux. The Linux branch goes through zbus with
+# "crypto-rust" — pure Rust, no libdbus and no OpenSSL, the same constraint as
+# above.
+keyring = "4.2"
+# The local terminal (PowerShell, CMD, WSL, Git Bash). The PTY crate from
+# WezTerm: ConPTY on Windows, openpty elsewhere — the same interface for the
+# day Linux and macOS are added. See local.rs.
+portable-pty = "0.9"
+# The MCP server (mcp.rs): an HTTP endpoint on 127.0.0.1. hyper is in the
+# tree through reqwest anyway; only the server half is added here.
+hyper = { version = "1", features = ["server", "http1"] }
+hyper-util = { version = "0.1", features = ["tokio"] }
+http-body-util = "0.1"
+
+# PuTTY's saved sessions are in the registry on Windows, see import.rs. Pure
+# Rust over windows-sys; already in the tree through tauri-build.
+[target.'cfg(windows)'.dependencies]
+winreg = "0.55"
+
+
+# Read the optimization guideline for more details: https://tauri.app/concept/size/#cargo-configuration
+[profile.release]
+codegen-units = 1
+lto = true
+opt-level = 3
+panic = "abort"
+strip = true

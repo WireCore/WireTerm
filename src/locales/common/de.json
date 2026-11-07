@@ -1,0 +1,23 @@
+{
+  "cancel": "Abbrechen",
+  "save": "Speichern",
+  "close": "Schließen",
+  "done": "Fertig",
+  "delete": "Löschen",
+  "remove": "Entfernen",
+  "add": "Hinzufügen",
+  "edit": "Bearbeiten",
+  "back": "Zurück",
+  "next": "Weiter",
+  "retry": "Erneut versuchen",
+  "reset": "Zurücksetzen",
+  "yes": "Ja",
+  "no": "Nein",
+  "name": "Name",
+  "email": "E-Mail",
+  "password": "Passwort",
+  "loading": "Lädt …",
+  "local": "lokal",
+  "language": "Sprache",
+  "languageSystem": "System ({language})"
+}

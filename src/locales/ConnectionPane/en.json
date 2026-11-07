@@ -1,0 +1,7 @@
+{
+  "forwards": "Forwards",
+  "view": "View",
+  "portForwards": "Port forwards",
+  "openConnections": "{n} connection open right now | {n} connections open right now",
+  "ready": "ready"
+}

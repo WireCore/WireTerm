@@ -1,0 +1,12 @@
+{
+  "title": "{provider} account",
+  "accountFor": "Account for \"{name}\"",
+  "accountPlaceholder": "e.g. my-company or name{'@'}company.com",
+  "onePasswordHint": "The name is at the top left of the 1Password app's sidebar. The account UUID and the sign-in address work just as well.",
+  "emailFor": "Sign-in address for \"{name}\"",
+  "emailPlaceholder": "name{'@'}company.com",
+  "server": "Server",
+  "serverPlaceholder": "empty = bitwarden.com",
+  "bitwardenHint": "For your own instance enter its address, such as {example} — Vaultwarden works the same. The master password is asked for right after and stored nowhere.",
+  "serverExample": "https://vault.internal.example"
+}

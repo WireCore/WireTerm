@@ -1,0 +1,6 @@
+{
+  "test": "Verbindung testen",
+  "testing": "Teste…",
+  "connecting": "verbindet…",
+  "connected": "Verbunden in {millis} ms"
+}

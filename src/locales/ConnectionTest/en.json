@@ -1,0 +1,6 @@
+{
+  "test": "Test connection",
+  "testing": "Testing…",
+  "connecting": "connecting…",
+  "connected": "Connected in {millis} ms"
+}

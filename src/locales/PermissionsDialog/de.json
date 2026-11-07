@@ -1,0 +1,21 @@
+{
+  "title": "Rechte für „{name}“",
+  "owner": "Eigentümer",
+  "group": "Gruppe",
+  "other": "Andere",
+  "read": "Lesen",
+  "write": "Schreiben",
+  "execute": "Ausführen",
+  "executeOpen": "Ausführen/Öffnen",
+  "cell": "{who}: {what}",
+  "advanced": "Erweiterte Rechte",
+  "setuidHint": "Läuft als der Eigentümer der Datei, unabhängig davon, wer sie startet.",
+  "setgidHint": "Läuft als die Gruppe der Datei — bei einem Ordner erben neue Einträge seine Gruppe.",
+  "sticky": "Sticky Bit",
+  "stickyHint": "In einem Ordner darf jeder nur eigene Einträge löschen oder umbenennen.",
+  "octal": "Oktal:",
+  "recursive": "Auch auf den Inhalt anwenden",
+  "recursiveHint": "Gilt für alle Ordner und Dateien darunter. Ordner bekommen {folders}, Dateien {files} — ohne das Ausführen-Recht, das nur Dateien behalten, die es schon haben. Das lässt sich nicht rückgängig machen.",
+  "running": "läuft…",
+  "apply": "Übernehmen"
+}

@@ -1,0 +1,38 @@
+{
+  "columns": {
+    "size": "Size",
+    "modified": "Modified",
+    "permissions": "Permissions"
+  },
+  "menu": {
+    "open": "Open",
+    "link": "Create link…",
+    "chmod": "Change permissions…",
+    "refresh": "Refresh"
+  },
+  "rename": "Rename",
+  "newFolder": "New folder",
+  "newFile": "New file",
+  "newFolderPreset": "New folder",
+  "newFilePreset": "New file.txt",
+  "create": "Create",
+  "removeFile": "Delete \"{name}\"?",
+  "removeDir": "Delete \"{name}\" and its contents?",
+  "removeMany": "Delete {n} entries? Folders are removed with their contents.",
+  "irreversible": "This cannot be undone.",
+  "drive": "Drive",
+  "path": "Path {title}",
+  "up": "Up (Backspace)",
+  "reload": "Reload",
+  "settings": "File view settings",
+  "actions": "Actions",
+  "empty": "Empty",
+  "loading": "loading…",
+  "selected": "{n} of {total} selected",
+  "truncated": "{n}+ entries — list truncated, a path ending in * narrows it down",
+  "truncatedTitle": "A * at the end of the path narrows it down, e.g. /bucket/photos/2024*",
+  "entries": "{n} entries | {n} entry | {n} entries",
+  "free": "{size} free",
+  "space": "Storage space",
+  "usage": "{used} of {total}"
+}

@@ -1,0 +1,17 @@
+{
+  "title": "Freigaben für „{name}“",
+  "wholeOrganization": "Die ganze Organisation",
+  "hint": "Eigentümer und Administratoren sehen jedes Projekt, auch ohne Freigabe. Für alle anderen entscheidet diese Liste, ob es das Projekt überhaupt gibt.",
+  "none": "keine Freigabe",
+  "shareFor": "Freigabe für {name}",
+  "noTeams": "Es gibt noch keine Teams. Bis dahin ist „die ganze Organisation“ die einzige Freigabe — Teams werden unter „Mitglieder“ angelegt.",
+  "newMember": "Ein neues Mitglied sieht die Verbindungen sofort, die Zugangsdaten aber erst, wenn ihm ein Client mit Zugriff den Projektschlüssel verpackt hat. Das passiert beim nächsten Abgleich — es sei denn, er hat noch kein Masterpasswort eingerichtet.",
+  "rotateTitle": "Projektschlüssel erneuern",
+  "rotateHint": "Wer eine Freigabe verliert, verliert auch seine Kopie des Projektschlüssels — aber was er bis dahin gelesen hat, weiß er weiterhin. Dicht wird es erst mit einer neuen Fassung: alle Zugangsdaten des Projekts werden darunter neu verschlüsselt, und nur wer jetzt noch freigegeben ist, bekommt sie.",
+  "removingWarning": "Hier wird gerade eine Freigabe entfernt. Danach den Schlüssel zu erneuern, ist der sichere Weg.",
+  "rotated": "Erneuert: {secrets} Zugangsdaten neu verschlüsselt, für {n} Person verpackt. | Erneuert: {secrets} Zugangsdaten neu verschlüsselt, für {n} Personen verpackt.",
+  "rotatedWaiting": "{n} ohne Masterpasswort bekommen sie, sobald sie es einrichten.",
+  "rotatedSkipped": "{n} ließen sich hier nicht öffnen und liegen weiter unter der alten Fassung.",
+  "saveAndRotate": "Speichern und Schlüssel erneuern",
+  "rotate": "Schlüssel erneuern"
+}

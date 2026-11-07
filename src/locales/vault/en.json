@@ -1,0 +1,8 @@
+{
+  "onePasswordNoAccount": "No 1Password account has been set for this workspace yet.",
+  "onePasswordUnknownAccount": "1Password does not know this account.",
+  "bitwardenNoAccount": "No Bitwarden account has been set for this workspace yet.",
+  "bitwardenTwoFactor": "Bitwarden also requires a verification code.",
+  "secondFactor": "Second factor",
+  "bitwardenLocked": "The Bitwarden vault is locked."
+}

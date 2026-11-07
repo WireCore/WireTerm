@@ -1,0 +1,11 @@
+{
+  "intro": "Dieses Backend meldet über {wirecloud} an ({url}). Die Anmeldung läuft im Browser, auch ein neues Konto legen Sie dort an. Ihr Passwort sieht dieses Programm nie.",
+  "signIn": "Mit WireCloud anmelden",
+  "waiting": "Warte auf die Anmeldung im Browser …",
+  "waitingHint": "Der Browser hat sich geöffnet. Melden Sie sich dort an und stimmen Sie zu; danach geht es hier weiter. Nichts passiert? Dann ist die Anmeldung dort noch offen.",
+  "linkIntro": "Auf diesem Backend gibt es schon ein Konto für {email} aus der Zeit vor WireCloud. Geben Sie dessen bisheriges {password} ein, um es mit Ihrem WireCloud-Konto zu verknüpfen. Ihre Daten und Schlüssel bleiben erhalten.",
+  "linkIntroPassword": "Anmeldepasswort",
+  "previousPassword": "Bisheriges Anmeldepasswort",
+  "previousPasswordHint": "Das Passwort, mit dem Sie sich hier bisher angemeldet haben. Das Masterpasswort ist ein anderes und wird nicht abgefragt.",
+  "link": "Verknüpfen"
+}

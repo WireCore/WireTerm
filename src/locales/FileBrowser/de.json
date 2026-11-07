@@ -1,0 +1,19 @@
+{
+  "noConnection": "Keine Verbindung zum Server.",
+  "reconnect": "Erneut verbinden",
+  "staleUploads": "In {bucket} liegt ein unvollständiger Upload, der älteste vom {date}. Sie stehen in keinem Listing, werden aber wie Dateien berechnet. | In {bucket} liegen {n} unvollständige Uploads, der älteste vom {date}. Sie stehen in keinem Listing, werden aber wie Dateien berechnet.",
+  "cleanUp": "Aufräumen",
+  "hide": "Ausblenden",
+  "local": "Lokal",
+  "server": "Server",
+  "upload": "Hochladen ↑",
+  "download": "↓ Herunterladen",
+  "deleting": "löscht…",
+  "connecting": "verbindet…",
+  "queueHeight": "Höhe der Übertragungen",
+  "entries": "Einträge",
+  "removeCancelled": "Löschen abgebrochen — was schon gelöscht war, bleibt gelöscht.",
+  "chmodCancelled": "Abgebrochen nach {n} Einträgen — der Rest blieb unverändert.",
+  "chmodFailed": "{failed} von {total} Einträgen blieben unverändert: {reason}",
+  "unknownReason": "Grund unbekannt"
+}

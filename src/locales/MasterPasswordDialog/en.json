@@ -1,0 +1,38 @@
+{
+  "title": {
+    "setup": "Set up master password",
+    "recover": "Redeem recovery code",
+    "change": "Change master password",
+    "codes": "Recovery codes",
+    "default": "Master password"
+  },
+  "unlock": "Unlock",
+  "busy": {
+    "setup": "Setting up",
+    "recover": "Redeeming",
+    "change": "Changing",
+    "unlock": "Unlocking"
+  },
+  "onServer": "on {server}",
+  "checking": "Checking …",
+  "setupHint": "This password encrypts the credentials of this account. It does not go to the server — not even as a hash. Whoever loses it can only get back in with one of the recovery codes shown next.",
+  "masterPassword": "Master password",
+  "repeat": "Repeat",
+  "mismatch": "The two entries are not the same.",
+  "unlockHint": "To unlock the credentials. If it is wrong, decryption fails — the server notices nothing of this and cannot check it either.",
+  "recoverHint": "One of the recovery codes from the setup. Upper and lower case and the hyphens do not matter.",
+  "code": "Recovery code",
+  "storedCodes": "Stored codes start with {labels}.",
+  "newMasterPassword": "New master password",
+  "recoverReplaces": "The whole set of codes is replaced: every old one opened the same door.",
+  "changeHint": "The key pair stays the same — only the wrapping is new. All projects therefore stay readable, for the others too.",
+  "currentMasterPassword": "Current master password",
+  "codesWarning": "These codes are shown {onlyNow}. The server does not know them and cannot send them again. Each of them unlocks the credentials of this account — keep them where you would otherwise keep a key.",
+  "codesWarningOnlyNow": "only now",
+  "copied": "Copied",
+  "copyAll": "Copy all codes to the clipboard",
+  "codesStored": "I have stored the codes in a safe place.",
+  "working": "The recovery codes are being created. Each one is encrypted separately — that takes a moment and is meant to: exactly this computing time stands between a guessed password and your credentials.",
+  "forgot": "Forgot master password? Redeem a recovery code",
+  "backToMaster": "Back to the master password"
+}

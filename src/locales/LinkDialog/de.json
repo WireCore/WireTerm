@@ -1,0 +1,16 @@
+{
+  "title": "Link erzeugen",
+  "lead": "Ein Link auf {name}, der ohne Zugangsdaten funktioniert. Wer ihn hat, kann die Datei herunterladen, bis er abläuft.",
+  "validFor": "Gültig für",
+  "spans": {
+    "hour": "1 Stunde",
+    "eightHours": "8 Stunden",
+    "day": "1 Tag",
+    "week": "7 Tage (Maximum)"
+  },
+  "copy": "Kopieren",
+  "copied": "Kopiert",
+  "create": "Erzeugen",
+  "recreate": "Neu erzeugen",
+  "creating": "Erzeuge…"
+}

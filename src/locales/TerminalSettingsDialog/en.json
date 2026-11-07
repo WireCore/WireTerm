@@ -1,0 +1,20 @@
+{
+  "title": "Terminal settings",
+  "theme": "Theme",
+  "themeHint": "Applies to all connections in all workspaces.",
+  "font": "Font",
+  "fontFamily": "Font family",
+  "fontSize": "Size",
+  "lineHeight": "Line height",
+  "fontHint": "A font that is not installed silently falls back to Consolas – then nothing looks different from before.",
+  "cursor": "Cursor",
+  "cursorStyle": "Shape",
+  "cursorBlink": "Blink",
+  "readability": "Readability and scrollback",
+  "minimumContrast": "Minimum contrast",
+  "minimumContrastHint": "Brightens foreground colors that are too dark until they stand out – against programs that write dark blue on black.",
+  "scrollback": "Scrollback",
+  "scrollbackHint": "Lines kept above the screen, and therefore searchable. Only costs memory.",
+  "boldBright": "Also brighten bold text",
+  "boldBrightHint": "Off looks calmer: bold stays bold instead of also changing color."
+}

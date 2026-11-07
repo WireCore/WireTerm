@@ -1,0 +1,28 @@
+{
+  "title": "Verbindungen importieren",
+  "lead": "Die gewählten Hosts kommen als Verbindungen nach „{project}“. Passwörter übernimmt kein Import: Wo kein Schlüssel steht, wird beim Verbinden gefragt.",
+  "source": "Quelle",
+  "sources": {
+    "csv": "CSV-Datei (auch aus Termius)"
+  },
+  "chooseFileTitle": "Datei wählen",
+  "chooseFile": "Datei wählen …",
+  "otherFile": "Andere Datei …",
+  "csvHint": "Erste Zeile mit Überschriften: {name}, {host} (oder {hostname}, {address}), {port}, {user}, {protocol} (ssh, sftp, ftp, ftps), {key}, {group} — Komma, Semikolon oder Tab. Termius hat kein eigenes Exportformat; eine solche Tabelle ist der Weg.",
+  "mobaxtermHint": "Übernommen werden SSH-Sitzungen mit Host, Port, Benutzer, Schlüssel und Gateway. Das Format ist nicht dokumentiert — die Liste vor dem Übernehmen ansehen.",
+  "sshConfigHint": "Mit {identityFile} wird daraus eine Schlüsseldatei, sonst der SSH-Agent. {include} und Weiterleitungen werden übernommen, {match}-Blöcke nicht.",
+  "reading": "Liest …",
+  "emptyTitle": "Keine Hosts gefunden.",
+  "emptyDescription": "In dieser Quelle steht nichts, was sich übernehmen ließe.",
+  "present": "schon im Projekt",
+  "jumpResolved": "geht über {hops} — wird als Jump-Host übernommen",
+  "jumpMissing": "geht über {proxy} — dafür müssen {hops} mit übernommen werden",
+  "viaProxy": "über {proxy}",
+  "forwards": "{n} Weiterleitung | {n} Weiterleitungen",
+  "skipped": "{n} Eintrag nicht übernehmbar | {n} Einträge nicht übernehmbar",
+  "auth": {
+    "keyFile": "Schlüsseldatei {path}",
+    "agent": "SSH-Agent",
+    "prompt": "Passwort beim Verbinden"
+  }
+}

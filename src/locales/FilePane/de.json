@@ -1,0 +1,38 @@
+{
+  "columns": {
+    "size": "Größe",
+    "modified": "Geändert",
+    "permissions": "Rechte"
+  },
+  "menu": {
+    "open": "Öffnen",
+    "link": "Link erzeugen…",
+    "chmod": "Rechte ändern…",
+    "refresh": "Aktualisieren"
+  },
+  "rename": "Umbenennen",
+  "newFolder": "Neuer Ordner",
+  "newFile": "Neue Datei",
+  "newFolderPreset": "Neuer Ordner",
+  "newFilePreset": "Neue Datei.txt",
+  "create": "Anlegen",
+  "removeFile": "„{name}“ löschen?",
+  "removeDir": "„{name}“ samt Inhalt löschen?",
+  "removeMany": "{n} Einträge löschen? Ordner werden samt Inhalt entfernt.",
+  "irreversible": "Das lässt sich nicht rückgängig machen.",
+  "drive": "Laufwerk",
+  "path": "Pfad {title}",
+  "up": "Nach oben (Rücktaste)",
+  "reload": "Neu laden",
+  "settings": "Einstellungen der Dateiansicht",
+  "actions": "Aktionen",
+  "empty": "Leer",
+  "loading": "lädt…",
+  "selected": "{n} von {total} gewählt",
+  "truncated": "{n}+ Einträge — Liste gekürzt, Pfad mit * am Ende grenzt ein",
+  "truncatedTitle": "Ein * am Ende des Pfads grenzt ein, z. B. /eimer/fotos/2024*",
+  "entries": "{n} Einträge | {n} Eintrag | {n} Einträge",
+  "free": "{size} frei",
+  "space": "Speicherplatz",
+  "usage": "{used} von {total}"
+}

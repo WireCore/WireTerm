@@ -1,0 +1,10 @@
+{
+  "title": "Default proxy",
+  "hint": "Applies to every connection that says nothing else — in all workspaces, but only on this machine. A connection can deviate from it: directly or via its own proxy, under Options.",
+  "enabled": "Connect via a proxy",
+  "kind": "Kind",
+  "hostPlaceholder": "proxy.company.com",
+  "user": "User",
+  "userHint": "Empty means without login.",
+  "dnsHint": "SOCKS5 resolves the target names only at the proxy, just as HTTP CONNECT does. Over FTP, neither implicit FTPS nor active mode go through a proxy."
+}

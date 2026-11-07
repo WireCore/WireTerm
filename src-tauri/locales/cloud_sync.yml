@@ -1,0 +1,130 @@
+_version: 2
+# Messages from syncing a cloud workspace: the queue, the diff, the wire model,
+# the envelope encryption and the organization calls (src/cloud/{sync,cache,
+# diff,model,crypto,org}.rs).
+
+# ---- Queued changes, as named in an error message (cache.rs) ----------------
+cloud_sync.op_rename_workspace:
+  en: 'Rename workspace "%{name}"'
+  de: "Workspace „%{name}“ umbenennen"
+cloud_sync.op_create_project:
+  en: 'Create project "%{name}"'
+  de: "Projekt „%{name}“ anlegen"
+cloud_sync.op_update_project:
+  en: 'Change project "%{name}"'
+  de: "Projekt „%{name}“ ändern"
+cloud_sync.op_delete_project:
+  en: "Delete project"
+  de: "Projekt löschen"
+cloud_sync.op_grant_keys:
+  en: "Distribute project keys"
+  de: "Projektschlüssel verteilen"
+cloud_sync.op_create_connection:
+  en: 'Create connection "%{name}"'
+  de: "Verbindung „%{name}“ anlegen"
+cloud_sync.op_update_connection:
+  en: 'Change connection "%{name}"'
+  de: "Verbindung „%{name}“ ändern"
+cloud_sync.op_delete_connection:
+  en: "Delete connection"
+  de: "Verbindung löschen"
+cloud_sync.op_put_secret:
+  en: "Upload secret"
+  de: "Geheimnis hochladen"
+cloud_sync.op_delete_secret:
+  en: "Remove secret"
+  de: "Geheimnis entfernen"
+cloud_sync.op_put_vault_account:
+  en: "Set vault account"
+  de: "Tresorkonto setzen"
+cloud_sync.op_delete_vault_account:
+  en: "Remove vault account"
+  de: "Tresorkonto entfernen"
+cloud_sync.op_create_snippet:
+  en: 'Create snippet "%{name}"'
+  de: "Snippet „%{name}“ anlegen"
+cloud_sync.op_update_snippet:
+  en: 'Change snippet "%{name}"'
+  de: "Snippet „%{name}“ ändern"
+cloud_sync.op_delete_snippet:
+  en: "Delete snippet"
+  de: "Snippet löschen"
+
+# ---- Sync (sync.rs) ---------------------------------------------------------
+cloud_sync.conflict:
+  en: "%{label}: changed by someone else in the meantime. Your change was discarded; theirs applies."
+  de: "%{label}: inzwischen von jemand anderem geändert. Deine Änderung ist verworfen, es gilt dessen Stand."
+
+# ---- Diff (diff.rs) ---------------------------------------------------------
+cloud_sync.project_missing_from_cache:
+  en: "A project is missing from the local copy."
+  de: "Ein Projekt fehlt in der lokalen Kopie."
+cloud_sync.no_project_key:
+  en: "There is no project key for this project yet."
+  de: "Für dieses Projekt gibt es noch keinen Projektschlüssel."
+cloud_sync.project_key_unwrap_failed:
+  en: "The project key cannot be unwrapped."
+  de: "Der Projektschlüssel lässt sich nicht auspacken."
+cloud_sync.vault_locked:
+  en: "The vault is locked. Enter the master password to save."
+  de: "Der Tresor ist gesperrt. Zum Speichern muss das Masterpasswort eingegeben werden."
+
+# ---- Wire model (model.rs) --------------------------------------------------
+cloud_sync.missing_ssh_settings:
+  en: "The connection is missing its SSH settings."
+  de: "Der Verbindung fehlen ihre SSH-Einstellungen."
+cloud_sync.missing_ftp_settings:
+  en: "The connection is missing its FTP settings."
+  de: "Der Verbindung fehlen ihre FTP-Einstellungen."
+cloud_sync.missing_s3_settings:
+  en: "The connection is missing its S3 settings."
+  de: "Der Verbindung fehlen ihre S3-Einstellungen."
+cloud_sync.unknown_key_source:
+  en: 'Unknown key source "%{source}".'
+  de: "Unbekannte Schlüsselquelle „%{source}“."
+cloud_sync.unknown_password_source:
+  en: 'Unknown password source "%{source}".'
+  de: "Unbekannte Passwortquelle „%{source}“."
+cloud_sync.unknown_connection_type:
+  en: 'Unknown connection type "%{kind}".'
+  de: "Unbekannter Verbindungstyp „%{kind}“."
+
+# ---- Envelope encryption (crypto.rs) ----------------------------------------
+cloud_sync.kdf_params_unreadable:
+  en: "kdfParams are unreadable: %{error}"
+  de: "kdfParams sind unlesbar: %{error}"
+cloud_sync.rng_unavailable:
+  en: "the system's random number generator is not responding"
+  de: "der Zufallsgenerator des Systems antwortet nicht"
+cloud_sync.kdf_params_unusable:
+  en: "the kdfParams are not usable: %{error}"
+  de: "die kdfParams sind nicht brauchbar: %{error}"
+cloud_sync.derivation_failed:
+  en: "key derivation failed: %{error}"
+  de: "die Ableitung ist fehlgeschlagen: %{error}"
+cloud_sync.nonce_length:
+  en: "nonce must be %{len} bytes long"
+  de: "nonce muss %{len} Byte lang sein"
+cloud_sync.encryption_failed:
+  en: "encryption failed"
+  de: "das Verschlüsseln ist fehlgeschlagen"
+cloud_sync.decryption_failed:
+  en: "the ciphertext cannot be decrypted"
+  de: "das Chiffrat lässt sich nicht aufmachen"
+cloud_sync.recipient_key_length:
+  en: "the recipient's public key has the wrong length"
+  de: "der öffentliche Schlüssel des Empfängers hat die falsche Länge"
+cloud_sync.ephemeral_key_length:
+  en: "the ephemeral public key has the wrong length"
+  de: "der flüchtige öffentliche Schlüssel hat die falsche Länge"
+cloud_sync.unwrapped_key_length:
+  en: "the unwrapped project key has the wrong length"
+  de: "der ausgepackte Projektschlüssel hat die falsche Länge"
+
+# ---- Organizations (org.rs) -------------------------------------------------
+cloud_sync.unexpected_response:
+  en: "The backend's response does not match what was expected: %{error}"
+  de: "Die Antwort des Backends passt nicht: %{error}"
+cloud_sync.no_free_slug:
+  en: "No free identifier could be found for this name."
+  de: "Für diesen Namen ließ sich keine freie Kennung finden."

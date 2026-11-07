@@ -1,0 +1,12 @@
+{
+  "title": "Host-Keys",
+  "tlsCertificate": "TLS-Zertifikat",
+  "unreadable": "unlesbar",
+  "inWorkspace": "Im Workspace „{name}“",
+  "workspaceHint": "Für alle Mitglieder. Ein Entzug gilt beim nächsten Abgleich überall — die lokale Datei auf den Geräten bleibt davon unberührt.",
+  "workspaceEmpty": "Noch kein Host-Key im Workspace.",
+  "revoke": "Entziehen",
+  "onDevice": "Auf diesem Gerät",
+  "deviceHint": "WireTerms eigene {knownHosts} und die gemerkten TLS-Zertifikate (FTPS, S3). Entfernt, fragt die App beim nächsten Verbinden wieder nach — es sei denn, {sshKnownHosts} kennt den Schlüssel.",
+  "deviceEmpty": "Noch kein Host-Key auf diesem Gerät."
+}

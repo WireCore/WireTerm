@@ -1,0 +1,31 @@
+# All text files are stored in the repository with LF only
+# and checked out with LF in the working tree too - regardless of the OS.
+* text=auto eol=lf
+
+# Windows scripts need CRLF in the working tree (in the repo they stay LF).
+*.bat  text eol=crlf
+*.cmd  text eol=crlf
+*.ps1  text eol=crlf
+
+# Never touch binary files.
+*.png  binary
+*.jpg  binary
+*.jpeg binary
+*.gif  binary
+*.ico  binary
+*.icns binary
+*.webp binary
+*.woff binary
+*.woff2 binary
+*.ttf  binary
+*.otf  binary
+*.eot  binary
+*.pdf  binary
+*.zip  binary
+*.gz   binary
+*.7z   binary
+*.exe  binary
+*.dll  binary
+*.so   binary
+*.dylib binary
+*.node binary

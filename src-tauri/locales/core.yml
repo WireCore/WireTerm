@@ -1,0 +1,133 @@
+_version: 2
+# Messages from the core modules: proxy.rs, storage.rs, local.rs, paths.rs.
+
+# ---- Files ---------------------------------------------------------------------
+core.no_app_data_dir:
+  en: "No app data directory: %{error}"
+  de: "Kein Verzeichnis für App-Daten: %{error}"
+core.read_failed:
+  en: "%{path} could not be read: %{error}"
+  de: "%{path} ließ sich nicht lesen: %{error}"
+core.damaged:
+  en: "%{path} is damaged: %{error}"
+  de: "%{path} ist beschädigt: %{error}"
+core.delete_failed:
+  en: "%{path} could not be deleted: %{error}"
+  de: "%{path} ließ sich nicht löschen: %{error}"
+core.create_failed:
+  en: "%{path} could not be created: %{error}"
+  de: "%{path} ließ sich nicht anlegen: %{error}"
+core.write_failed:
+  en: "%{path} could not be written: %{error}"
+  de: "%{path} ließ sich nicht schreiben: %{error}"
+core.replace_failed:
+  en: "%{path} could not be replaced: %{error}"
+  de: "%{path} ließ sich nicht ersetzen: %{error}"
+
+# ---- Proxy ---------------------------------------------------------------------
+core.proxy_custom_without_host:
+  en: "This connection's own proxy has no host."
+  de: "Der eigene Proxy dieser Verbindung hat keinen Host."
+core.proxy_password_locked:
+  en: "The default proxy needs its password, but the device key is locked."
+  de: "Der Standard-Proxy braucht sein Passwort, aber der Geräteschlüssel ist gesperrt."
+core.proxy_needs_host:
+  en: "The proxy needs a host."
+  de: "Der Proxy braucht einen Host."
+core.proxy_password_needs_key:
+  en: "Without the device key the proxy's password cannot be saved."
+  de: "Ohne Geräteschlüssel lässt sich das Passwort des Proxys nicht speichern."
+core.proxy_no_answer:
+  en: "the proxy %{proxy} does not respond"
+  de: "der Proxy %{proxy} antwortet nicht"
+core.proxy_unreachable:
+  en: "the proxy %{proxy} cannot be reached: %{error}"
+  de: "der Proxy %{proxy} ist nicht erreichbar: %{error}"
+core.proxy_not_through:
+  en: "the proxy %{proxy} does not put the connection through"
+  de: "der Proxy %{proxy} stellt nicht durch"
+core.proxy_error:
+  en: "Proxy %{proxy}: %{error}"
+  de: "Proxy %{proxy}: %{error}"
+core.proxy_not_socks5:
+  en: "this is not a SOCKS5 proxy"
+  de: "das ist kein SOCKS5-Proxy"
+core.proxy_credentials_too_long:
+  en: "user name or password is longer than 255 bytes"
+  de: "Benutzername oder Passwort ist länger als 255 Byte"
+core.proxy_login_rejected:
+  en: "the login was rejected"
+  de: "die Anmeldung wurde abgelehnt"
+core.proxy_login_required:
+  en: "the proxy requires a login"
+  de: "der Proxy verlangt eine Anmeldung"
+core.proxy_no_accepted_method:
+  en: "the proxy accepts none of the offered login methods"
+  de: "der Proxy nimmt keine der angebotenen Anmeldearten"
+core.proxy_host_name_too_long:
+  en: "the host name is longer than 255 bytes"
+  de: "der Hostname ist länger als 255 Byte"
+core.proxy_target_forbidden:
+  en: "the proxy's rules forbid this target"
+  de: "die Regeln des Proxys verbieten dieses Ziel"
+core.proxy_network_unreachable:
+  en: "the target's network cannot be reached from the proxy"
+  de: "das Netz des Ziels ist vom Proxy aus nicht erreichbar"
+core.proxy_host_unreachable:
+  en: "%{host} cannot be reached from the proxy"
+  de: "%{host} ist vom Proxy aus nicht erreichbar"
+core.proxy_connection_refused:
+  en: "%{target} refused the connection"
+  de: "%{target} hat die Verbindung abgelehnt"
+core.proxy_timed_out:
+  en: "timed out at the proxy"
+  de: "beim Proxy abgelaufen"
+core.proxy_error_code:
+  en: "the proxy reports error %{code}"
+  de: "der Proxy meldet Fehler %{code}"
+core.proxy_reply_unreadable:
+  en: "the proxy's reply cannot be read"
+  de: "die Antwort des Proxys ist nicht zu lesen"
+core.proxy_reply_endless:
+  en: "the proxy's reply does not end"
+  de: "die Antwort des Proxys hört nicht auf"
+core.proxy_not_http:
+  en: "this is not an HTTP proxy"
+  de: "das ist kein HTTP-Proxy"
+core.proxy_answers:
+  en: 'the proxy answers "%{status}"'
+  de: "der Proxy antwortet „%{status}“"
+core.proxy_login_not_in_url:
+  en: "Proxy %{proxy}: the login does not fit into the address"
+  de: "Proxy %{proxy}: die Anmeldung passt nicht in die Adresse"
+
+# ---- Workspaces ----------------------------------------------------------------
+core.local_key_locked:
+  en: "The local key is locked. Without the app password no secret can be saved."
+  de: "Der lokale Schlüssel ist gesperrt. Ohne App-Passwort lässt sich kein Geheimnis speichern."
+core.seal_check_failed:
+  en: "Encrypting did not round-trip; nothing was written."
+  de: "Das Verschlüsseln hat nicht zurückgeführt; nichts geschrieben."
+
+# ---- Local terminal ------------------------------------------------------------
+core.shell_cmd:
+  en: "Command Prompt"
+  de: "Eingabeaufforderung"
+core.shell_default:
+  en: "%{name} (default)"
+  de: "%{name} (Standard)"
+core.command_missing:
+  en: "The command is missing."
+  de: "Es fehlt der Befehl."
+core.program_not_found:
+  en: '"%{program}" was not found.'
+  de: "„%{program}“ wurde nicht gefunden."
+core.terminal_create_failed:
+  en: "The terminal could not be created: %{error}"
+  de: "Das Terminal ließ sich nicht anlegen: %{error}"
+core.shell_start_failed:
+  en: '"%{name}" could not be started: %{error}'
+  de: "„%{name}“ ließ sich nicht starten: %{error}"
+core.terminal_not_open:
+  en: "The terminal is no longer open."
+  de: "Das Terminal ist nicht mehr offen."

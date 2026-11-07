@@ -1,0 +1,9 @@
+{
+  "title": "Where the account name is in the 1Password app",
+  "description": "Schematic of the 1Password app: at the top left of the sidebar is the account name, here \"{name}\". Enter this name in the \"Account\" field.",
+  "sampleName": "my-company",
+  "line1": "Enter this",
+  "line2": "name",
+  "line3": "at the top left of",
+  "line4": "the app's sidebar"
+}

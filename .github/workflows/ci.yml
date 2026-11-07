@@ -1,0 +1,65 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest, ubuntu-22.04, macos-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v5
+      # WebKitGTK and friends for Tauri on Linux.
+      - if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libwebkit2gtk-4.1-dev libayatana-appindicator3-dev \
+            librsvg2-dev libxdo-dev libssl-dev build-essential
+      - uses: actions/setup-node@v5
+        with:
+          node-version: lts/*
+          cache: npm
+      - uses: actions/setup-go@v6
+        with:
+          go-version-file: sidecar/go.mod
+          cache-dependency-path: sidecar/go.sum
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          components: rustfmt
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: src-tauri
+      - run: npm ci
+      # vue-tsc and the Vite build.
+      - run: npm run build
+      # Tauri expects the 1Password sidecar next to the binary, also for tests.
+      - run: npm run build:sidecar
+      - if: runner.os == 'Linux'
+        run: cargo fmt --check
+        working-directory: src-tauri
+      # Live tests are #[ignore]d; they need servers (see README).
+      - run: cargo test --lib
+        working-directory: src-tauri
+
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: lts/*
+      - run: npm audit --package-lock-only
+      - uses: taiki-e/install-action@v2
+        with:
+          tool: cargo-audit
+      # Accepted advisories and why: src-tauri/.cargo/audit.toml
+      - run: cargo audit
+        working-directory: src-tauri

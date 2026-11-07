@@ -1,0 +1,33 @@
+name: Bug report
+description: Something does not work as described.
+labels: [bug]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened?
+      description: And what did you expect instead?
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Version
+      description: WireTerm version and Windows version.
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options: [Terminal / SSH, File browser (SFTP, FTP, S3), Workspaces and sync, Vaults (1Password, Bitwarden), Import / export, MCP, Other]
+  - type: textarea
+    id: logs
+    attributes:
+      label: Messages or logs
+      description: Remove anything secret (keys, passwords, tokens, host names you do not want to share).
+      render: text

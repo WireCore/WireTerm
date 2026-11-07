@@ -1,0 +1,30 @@
+{
+  "status": {
+    "connecting": "verbindet…",
+    "connected": "verbunden",
+    "closed": "getrennt",
+    "error": "Fehler"
+  },
+  "openConnections": "Geöffnete Verbindungen",
+  "overview": "Übersicht",
+  "openConnection": "Verbindung öffnen",
+  "newConnection": "Neue Verbindung",
+  "search": "Suchen…",
+  "searchLabel": "Projekte und Verbindungen durchsuchen",
+  "local": "Lokal",
+  "commandPlaceholder": "Eigener Befehl, z. B. ssh-agent bash",
+  "commandLabel": "Eigenen Befehl als lokales Terminal starten",
+  "noWorkspace": "Kein Workspace gewählt.",
+  "noConnections": "In „{name}“ gibt es noch keine Verbindungen.",
+  "noMatches": "Keine Treffer für „{query}“.",
+  "bookmarked": "Gemerkt",
+  "projectEmpty": "keine Verbindungen",
+  "broadcastOff": "Broadcast aus",
+  "broadcastOn": "Broadcast an",
+  "broadcastOffTitle": "Eingaben gehen an alle Terminals der Ansicht — ausschalten",
+  "broadcastOnTitle": "Eingaben an alle Terminals der Ansicht schicken",
+  "splitOff": "Nebeneinander beenden",
+  "splitOn": "Nebeneinander",
+  "splitOffTitle": "Wieder ein Tab auf einmal",
+  "splitOnTitle": "Bis zu vier Tabs nebeneinander zeigen"
+}

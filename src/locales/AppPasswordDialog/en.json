@@ -1,0 +1,8 @@
+{
+  "title": "Change app password",
+  "current": "Current app password",
+  "new": "New app password",
+  "minLength": "At least eight characters.",
+  "repeat": "Repeat",
+  "mismatch": "The two do not match."
+}

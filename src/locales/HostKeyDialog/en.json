@@ -1,0 +1,19 @@
+{
+  "titleCertChanged": "Certificate has changed",
+  "titleCertUnknown": "Unknown certificate",
+  "titleKeyChanged": "Host key has changed",
+  "titleHostUnknown": "Unknown host",
+  "type": "Type",
+  "tlsCertificate": "TLS certificate (SHA-256)",
+  "reason": "Reason",
+  "certChanged": "A different certificate is already stored for this server. Either it was renewed — or someone is posing as this server and listening in.",
+  "keyChanged": "A different key is already stored for this host. Either the server was set up anew — or someone is posing as this server and listening in.",
+  "certUnknown": "The system does not trust this server's certificate. Check the fingerprint before you trust it: exactly this certificate is remembered, only on this device — unlike \"Don't verify certificate\", which takes any.",
+  "hostUnknown": "This host is not known yet. Check the fingerprint before you trust it: it is the only thing that protects the connection against an eavesdropper in the middle.",
+  "verify": "Verify on the server with {command}",
+  "certFile": "certificate.pem",
+  "confirm": "Sure? The server might be a different one.",
+  "trustConfirmed": "Yes, trust",
+  "trustAnyway": "Trust anyway",
+  "trust": "Trust"
+}

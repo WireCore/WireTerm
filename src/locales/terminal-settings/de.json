@@ -1,0 +1,16 @@
+{
+  "font": {
+    "system": "Systemstandard"
+  },
+  "cursor": {
+    "block": "Block",
+    "underline": "Unterstrich",
+    "bar": "Strich"
+  },
+  "contrast": {
+    "off": "Aus – Farben unverändert",
+    "light": "Leicht – 3:1",
+    "readable": "Lesbar – 4.5:1 (WCAG AA)",
+    "strong": "Stark – 7:1 (WCAG AAA)"
+  }
+}

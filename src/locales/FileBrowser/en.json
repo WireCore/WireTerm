@@ -1,0 +1,19 @@
+{
+  "noConnection": "No connection to the server.",
+  "reconnect": "Reconnect",
+  "staleUploads": "{bucket} holds an incomplete upload, the oldest from {date}. They appear in no listing but are billed like files. | {bucket} holds {n} incomplete uploads, the oldest from {date}. They appear in no listing but are billed like files.",
+  "cleanUp": "Clean up",
+  "hide": "Hide",
+  "local": "Local",
+  "server": "Server",
+  "upload": "Upload ↑",
+  "download": "↓ Download",
+  "deleting": "deleting…",
+  "connecting": "connecting…",
+  "queueHeight": "Height of the transfers",
+  "entries": "entries",
+  "removeCancelled": "Deletion cancelled — what was already deleted stays deleted.",
+  "chmodCancelled": "Cancelled after {n} entries — the rest was left unchanged.",
+  "chmodFailed": "{failed} of {total} entries were left unchanged: {reason}",
+  "unknownReason": "reason unknown"
+}

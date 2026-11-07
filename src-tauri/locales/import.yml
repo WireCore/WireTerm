@@ -1,0 +1,56 @@
+_version: 2
+# Messages from importing connections: import.rs and ssh_config.rs.
+import.no_home_dir:
+  en: "No home directory: %{error}"
+  de: "Kein Benutzerverzeichnis: %{error}"
+import.read_failed:
+  en: "%{path} could not be read: %{error}"
+  de: "%{path} ließ sich nicht lesen: %{error}"
+import.unknown_format:
+  en: 'Unknown format "%{format}".'
+  de: "Unbekanntes Format „%{format}“."
+
+# Why an entry was skipped.
+import.instead_of_ssh:
+  en: "%{protocol} instead of SSH"
+  de: "%{protocol} statt SSH"
+import.session_type_instead_of_ssh:
+  en: "session type %{kind} instead of SSH"
+  de: "Sitzungsart %{kind} statt SSH"
+import.instead_of_ssh_or_ftp:
+  en: "%{protocol} instead of SSH or FTP"
+  de: "%{protocol} statt SSH oder FTP"
+import.no_host:
+  en: "no host"
+  de: "ohne Host"
+import.row:
+  en: "Row %{number}"
+  de: "Zeile %{number}"
+
+# What did not come along with an imported host.
+import.socks4_not_imported:
+  en: "SOCKS4 proxy not imported"
+  de: "SOCKS4-Proxy nicht übernommen"
+import.proxy_command_not_imported:
+  en: "Proxy command not imported"
+  de: "Proxy-Befehl nicht übernommen"
+import.proxy_login_not_imported:
+  en: "Proxy login not imported"
+  de: "Anmeldung am Proxy nicht übernommen"
+import.forward_not_understood:
+  en: 'Forwarding "%{entry}" not understood'
+  de: "Weiterleitung „%{entry}“ nicht verstanden"
+import.forward_not_imported:
+  en: 'Forwarding "%{entry}" not imported'
+  de: "Weiterleitung „%{entry}“ nicht übernommen"
+import.named_proxy_command_not_imported:
+  en: 'ProxyCommand "%{command}" not imported'
+  de: "ProxyCommand „%{command}“ nicht übernommen"
+
+# CSV
+import.csv_empty:
+  en: "The file is empty."
+  de: "Die Datei ist leer."
+import.csv_no_host_column:
+  en: "The first line lacks a column for the host (host, hostname or address)."
+  de: "In der ersten Zeile fehlt eine Spalte für den Host (host, hostname oder address)."

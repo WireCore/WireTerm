@@ -1,0 +1,10 @@
+{
+  "title": "WireTerm {version} is available.",
+  "hint": "Installing restarts WireTerm; open connections and running transfers end.",
+  "downloading": "Downloading …",
+  "downloadingPercent": "Downloading … {percent} %",
+  "installing": "Installing …",
+  "failed": "The update could not be installed: {error}",
+  "install": "Install and restart",
+  "later": "Later"
+}

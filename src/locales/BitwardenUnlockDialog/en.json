@@ -1,0 +1,9 @@
+{
+  "title": "Unlock Bitwarden",
+  "accountOn": "{email} on {server}",
+  "masterPassword": "Master password",
+  "code": "Code ({method})",
+  "hint": "The password is not stored. The vault stays open until the app is closed or nothing has been read from it for a quarter of an hour.",
+  "unlocking": "Unlocking…",
+  "unlock": "Unlock"
+}

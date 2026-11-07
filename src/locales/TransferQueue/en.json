@@ -1,0 +1,26 @@
+{
+  "title": "Transfers",
+  "expand": "Show transfers",
+  "collapse": "Collapse transfers",
+  "running": "{n} running",
+  "queued": "{n} waiting",
+  "completed": "{n} transferred ({size})",
+  "failed": "{n} failed",
+  "cancelled": "{n} cancelled",
+  "none": "none",
+  "cancelAll": "Cancel all",
+  "download": "Download",
+  "upload": "Upload",
+  "percent": "{value}%",
+  "status": {
+    "queued": "waiting",
+    "done": "done",
+    "error": "failed",
+    "cancelled": "cancelled"
+  },
+  "retry": "Try again",
+  "retryTitle": "Try again — continues from what has already been transferred",
+  "dismiss": "Discard",
+  "dismissTitle": "Discard — also removes the partial fragment",
+  "empty": "Drag files to the other side — or double-click."
+}

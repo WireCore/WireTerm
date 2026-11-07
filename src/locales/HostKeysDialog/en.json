@@ -1,0 +1,12 @@
+{
+  "title": "Host keys",
+  "tlsCertificate": "TLS certificate",
+  "unreadable": "unreadable",
+  "inWorkspace": "In the workspace \"{name}\"",
+  "workspaceHint": "For all members. A revocation applies everywhere at the next sync — the local file on the devices stays untouched.",
+  "workspaceEmpty": "No host key in the workspace yet.",
+  "revoke": "Revoke",
+  "onDevice": "On this device",
+  "deviceHint": "WireTerm's own {knownHosts} and the remembered TLS certificates (FTPS, S3). Once removed, the app asks again at the next connect — unless {sshKnownHosts} knows the key.",
+  "deviceEmpty": "No host key on this device yet."
+}

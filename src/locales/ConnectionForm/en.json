@@ -1,0 +1,159 @@
+{
+  "type": "Type",
+  "reference": "Reference",
+  "pickIn": "Choose in {provider}",
+  "encryption": "Encryption",
+  "acceptInvalidCert": "Don't verify certificate",
+  "acceptInvalidCertHint": "The connection stays encrypted, but it is no longer checked whether this server is really at the other end. A self-signed certificate does not need this: without this checkbox, connecting asks whether you trust exactly this certificate.",
+  "startPath": "Start path",
+  "startPathPlaceholder": "empty = home, e.g. /var/www or ~/logs",
+  "method": "Method",
+  "secretUnreadable": "The stored secret cannot be opened on this device — it was encrypted with a different device key, or the app password is still missing. If the field stays empty, it is kept when saving; entering a new one replaces it.",
+  "path": "Path",
+  "browse": "Browse …",
+  "privateKey": "Private key",
+  "sessionToken": "Session token (optional)",
+  "sessionTokenHint": "For temporary credentials from STS or an SSO login. When the token expires, enter the new one here.",
+  "agentForwarding": "Forward SSH agent to the server",
+  "agentForwardingHint": "This lets you connect onward from there with the same keys, without copying them to the server. Whoever is root on the server can then use the agent as well, as long as the connection is up — only turn it on for servers you trust that far.",
+  "hostPlaceholder": "example.com or 10.0.0.1",
+  "hostPlaceholderS3": "s3.eu-central-1.amazonaws.com or minio.internal",
+  "fields": {
+    "ssh": {
+      "host": "Host",
+      "user": "User",
+      "credentials": "Login"
+    },
+    "ftp": {
+      "host": "Host",
+      "user": "User",
+      "credentials": "Password"
+    },
+    "s3": {
+      "host": "Endpoint",
+      "user": "Access Key ID",
+      "credentials": "Secret Access Key"
+    }
+  },
+  "sshMethods": {
+    "key": "Key",
+    "password": "Password"
+  },
+  "sources": {
+    "vault": "From {provider}",
+    "vaultHint": {
+      "key": "Only the reference is stored. The key stays in {provider} and is only read when connecting.",
+      "password": "Only the reference is stored. The password stays in {provider} and is only read when connecting."
+    },
+    "keyFile": "File on this device",
+    "keyFileHint": "Only the path is stored. The file is read when connecting.",
+    "agent": "SSH agent",
+    "agentHint": "Nothing is stored. When connecting, the keys of the running agent are tried — first the Windows OpenSSH agent (including the one from 1Password), then Pageant.",
+    "inlineKey": "Enter key",
+    "inlineKeyHint": "The key is stored encrypted — locally with this device's key, on a backend with the master password.",
+    "prompt": "Ask when connecting",
+    "promptHintSsh": "Nothing is stored. You are asked once per tab; terminal and file browser in the same tab use the same input.",
+    "promptHintTransfers": "Nothing is stored. You are asked once per tab; further transfers in the same tab use the same input.",
+    "password": "Enter password",
+    "passwordHint": "The password is stored encrypted — locally with this device's key, on a backend with the master password.",
+    "anonymous": "Anonymous",
+    "anonymousHint": "Logs in as \"anonymous\". The user name above is not used.",
+    "secretHint": "The Secret Access Key is stored encrypted — locally with this device's key, on a backend with the master password."
+  },
+  "user": {
+    "typed": "Enter",
+    "vaultHint": "Only the reference is stored. The name is only read from {provider} when connecting."
+  },
+  "jump": {
+    "label": "Via jump host",
+    "hint": "The target is reached through this connection — with its credentials. It can have a jump host of its own. In a team workspace only from that workspace itself.",
+    "none": "none — connect directly",
+    "locked": "(locked)"
+  },
+  "forwards": {
+    "title": "Port forwards",
+    "hint": "Start as soon as the terminal is connected, and end with the tab. {local}: a port here leads to a target as the server sees it. {remote}: a port on the server leads here. {socks}: a proxy here that reaches out beyond the server. Without an address, only 127.0.0.1 is listened on.",
+    "local": "Local",
+    "remote": "Remote",
+    "kind": "Kind",
+    "address": "Address",
+    "target": "Target",
+    "targetPort": "Target port",
+    "add": "Add forward",
+    "kinds": {
+      "local": "Local (-L)",
+      "remote": "Remote (-R)",
+      "dynamic": "SOCKS (-D)"
+    }
+  },
+  "startup": {
+    "label": "Run when connecting",
+    "hint": "A snippet of this workspace, sent as soon as the terminal is up.",
+    "none": "none"
+  },
+  "proxy": {
+    "modes": {
+      "default": "Device's default proxy",
+      "direct": "Direct, without proxy",
+      "custom": "Custom proxy"
+    },
+    "noDefault": "none set, so direct",
+    "defaultHint": "This device's default proxy: {proxy}. It is set in the overview under \"Proxy\" and only applies on this machine.",
+    "kind": "Kind",
+    "hostPlaceholder": "proxy.internal",
+    "customHint": "Without login: the proxy travels with the connection, and its only secret is its credentials. A proxy with a password belongs in the default proxy.",
+    "jumpHint": "With a jump host, the proxy of the first hop applies — everything after that is set up by the jump host.",
+    "ftpHint": "Neither implicit FTPS nor active mode work through a proxy."
+  },
+  "key": {
+    "generating": "Generating …",
+    "generatingRsa": "Generating an RSA key …",
+    "reading": "Reading …",
+    "installing": "Installing …",
+    "importTitle": "Import private key (.ppk, OpenSSH, PEM)",
+    "chooseTitle": "Choose private key",
+    "copied": "Public key copied.",
+    "installed": "Installed on the server. After saving, the connection logs in with it.",
+    "alreadyInstalled": "The key was already there.",
+    "generate": "Generate new",
+    "rsa": "RSA instead of Ed25519",
+    "rsaHint": "For servers that do not know Ed25519 yet. Takes a few seconds.",
+    "fromFile": "From file (.ppk, OpenSSH, PEM) …",
+    "showPublic": "Show public key",
+    "passphrase": "Passphrase of the file",
+    "unlock": "Unlock",
+    "copyPublic": "Copy public key",
+    "installHint": "Into ~/.ssh/authorized_keys on the server — logged in with what applies so far, otherwise with a password",
+    "install": "Install on the server"
+  },
+  "security": {
+    "explicit": "FTPS (explicit)",
+    "explicitHint": "Encrypts the existing connection with AUTH TLS. The usual way today.",
+    "implicit": "FTPS (implicit)",
+    "implicitHint": "Encrypts from the first byte, classically on port 990. Considered outdated, but on older servers often the only option.",
+    "plain": "Without encryption",
+    "plainHint": "Warning: password and file contents travel over the wire in plain text."
+  },
+  "s3": {
+    "tlsHint": "Encrypted, as usual for any S3 service on the network.",
+    "noTlsHint": "Warning: without TLS, signature and file contents travel over the wire in plain text. Only acceptable for an endpoint in your own network.",
+    "pathStyle": "Bucket in path",
+    "pathStyleHint": "AWS expects the bucket in the host name ({virtualHost}), MinIO, Ceph and anything reached via an IP in the path ({pathStyle}) — because {ip} resolves nowhere.",
+    "virtualHostExample": "bucket.endpoint",
+    "pathStyleExample": "endpoint/bucket",
+    "bucketPlaceholder": "empty = all buckets",
+    "region": "Region",
+    "prefix": "Start folder",
+    "prefixPlaceholder": "e.g. backups/2024",
+    "bucketHint": "Without a bucket, the view starts at the list of all buckets — that requires the key to be allowed to list them. With a bucket, it starts inside it, and it goes no higher. The start folder is only a starting point: going up leads to the root of the bucket.",
+    "regionHint": "The region is part of the signature, not of the address. AWS rejects a wrong one and names the right one; most other implementations ignore it.",
+    "storageClass": "Storage class",
+    "storageClassPlaceholder": "empty = server default",
+    "storageClassHint": "Applies to uploads. {standard}, {standardIa}, {glacierIr} and so on — a class the server does not know is rejected, so for anything other than AWS the field is better left empty."
+  },
+  "ftp": {
+    "dataConnection": "Data connection",
+    "passive": "Passive",
+    "passiveHint": "In passive mode, this machine sets up the data connection — the only thing that works reliably behind a router or firewall. Active lets the server connect back and needs an open port here for that."
+  }
+}

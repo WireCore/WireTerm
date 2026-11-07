@@ -1,0 +1,12 @@
+{
+  "title": "{provider}-Konto",
+  "accountFor": "Konto für „{name}“",
+  "accountPlaceholder": "z. B. meine-firma oder name{'@'}firma.de",
+  "onePasswordHint": "Der Name steht oben links in der Seitenleiste der 1Password-App. Die Konto-UUID und die Anmeldeadresse gehen genauso.",
+  "emailFor": "Anmeldeadresse für „{name}“",
+  "emailPlaceholder": "name{'@'}firma.de",
+  "server": "Server",
+  "serverPlaceholder": "leer = bitwarden.com",
+  "bitwardenHint": "Für eine eigene Instanz die Adresse eintragen, etwa {example} — Vaultwarden genauso. Das Master-Passwort wird gleich danach abgefragt und nirgends gespeichert.",
+  "serverExample": "https://vault.intern.de"
+}

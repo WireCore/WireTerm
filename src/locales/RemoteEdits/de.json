@@ -1,0 +1,11 @@
+{
+  "editing": "Bearbeitet",
+  "stopWatching": "Nicht mehr überwachen",
+  "state": {
+    "uploading": "wird gespeichert…",
+    "synced": "gespeichert",
+    "error": "Fehler",
+    "closed": "beendet",
+    "detached": "offen"
+  }
+}

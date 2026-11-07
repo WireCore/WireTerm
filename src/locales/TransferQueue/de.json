@@ -1,0 +1,26 @@
+{
+  "title": "Übertragungen",
+  "expand": "Übertragungen zeigen",
+  "collapse": "Übertragungen einklappen",
+  "running": "{n} laufend",
+  "queued": "{n} wartend",
+  "completed": "{n} übertragen ({size})",
+  "failed": "{n} fehlgeschlagen",
+  "cancelled": "{n} abgebrochen",
+  "none": "keine",
+  "cancelAll": "Alles abbrechen",
+  "download": "Herunterladen",
+  "upload": "Hochladen",
+  "percent": "{value} %",
+  "status": {
+    "queued": "wartet",
+    "done": "fertig",
+    "error": "fehlgeschlagen",
+    "cancelled": "abgebrochen"
+  },
+  "retry": "Noch einmal versuchen",
+  "retryTitle": "Noch einmal versuchen — setzt fort, was schon übertragen ist",
+  "dismiss": "Verwerfen",
+  "dismissTitle": "Verwerfen — entfernt auch das angefangene Bruchstück",
+  "empty": "Dateien auf die andere Seite ziehen — oder doppelklicken."
+}

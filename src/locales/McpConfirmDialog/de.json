@@ -1,0 +1,7 @@
+{
+  "requestFrom": "Anfrage von {client}",
+  "requestFromAgent": "Anfrage von einem Agenten",
+  "hint": "Über den MCP-Server. Jeder Aufruf wird einzeln gefragt.",
+  "decline": "Ablehnen",
+  "run": "Ausführen"
+}

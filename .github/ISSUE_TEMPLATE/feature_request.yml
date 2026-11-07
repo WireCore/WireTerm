@@ -1,0 +1,15 @@
+name: Feature request
+description: An idea for something WireTerm should do.
+labels: [enhancement]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem would it solve?
+    validations:
+      required: true
+  - type: textarea
+    id: idea
+    attributes:
+      label: What do you have in mind?
+      description: Other tools that do it well are a good reference.

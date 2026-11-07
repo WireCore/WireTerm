@@ -1,0 +1,28 @@
+{
+  "storage": {
+    "customBackend": "eigenes Backend",
+    "cloud": "Cloud"
+  },
+  "role": {
+    "owner": "Eigentümer",
+    "admin": "Administrator",
+    "member": "Mitglied"
+  },
+  "shareRole": {
+    "editor": "Bearbeiten",
+    "viewer": "Nur lesen"
+  },
+  "credential": {
+    "keyVault": "Schlüssel: {vault}",
+    "keyFile": "Schlüssel: Datei",
+    "keyInline": "Schlüssel: eingegeben",
+    "keyAgent": "Schlüssel: SSH-Agent",
+    "passwordStored": "Passwort gespeichert",
+    "passwordVault": "Passwort aus {vault}",
+    "passwordPrompt": "Passwort wird abgefragt",
+    "secretKeyVault": "Secret Key aus {vault}",
+    "secretKeyStored": "Secret Key gespeichert",
+    "secretKeyPrompt": "Secret Key wird abgefragt",
+    "anonymous": "Anonym"
+  }
+}

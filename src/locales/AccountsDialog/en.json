@@ -1,0 +1,20 @@
+{
+  "title": "Account | Accounts",
+  "status": {
+    "signedOut": "signed out",
+    "noMasterPassword": "master password missing",
+    "locked": "locked",
+    "ready": "ready"
+  },
+  "hint": "An account is a user on a backend. All workspaces that are its organizations there belong to it — so you sign in once per backend and not once per workspace.",
+  "inRail": "{n} workspace in the rail | {n} workspaces in the rail",
+  "removeWarning": "The account and the copies of its {n} workspace disappear from this computer. Everything stays on the backend; after signing in again it is back. | The account and the copies of its {n} workspaces disappear from this computer. Everything stays on the backend; after signing in again it is back.",
+  "removeAccount": "Remove account",
+  "signIn": "Sign in",
+  "setUpMasterPassword": "Set up master password",
+  "unlock": "Unlock",
+  "lock": "Lock",
+  "changeMasterPassword": "Change master password",
+  "signOut": "Sign out",
+  "add": "Add account …"
+}

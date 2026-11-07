@@ -1,0 +1,38 @@
+{
+  "title": {
+    "setup": "Masterpasswort einrichten",
+    "recover": "Sicherheitscode einlösen",
+    "change": "Masterpasswort ändern",
+    "codes": "Sicherheitscodes",
+    "default": "Masterpasswort"
+  },
+  "unlock": "Aufmachen",
+  "busy": {
+    "setup": "Wird eingerichtet",
+    "recover": "Wird eingelöst",
+    "change": "Wird geändert",
+    "unlock": "Wird geöffnet"
+  },
+  "onServer": "auf {server}",
+  "checking": "Wird geprüft …",
+  "setupHint": "Mit diesem Passwort werden die Zugangsdaten dieses Kontos verschlüsselt. Es geht nicht an den Server — auch nicht als Hash. Wer es verliert, kommt nur über einen der Sicherheitscodes wieder heran, die gleich angezeigt werden.",
+  "masterPassword": "Masterpasswort",
+  "repeat": "Wiederholen",
+  "mismatch": "Die beiden Eingaben sind nicht gleich.",
+  "unlockHint": "Zum Aufmachen der Zugangsdaten. Stimmt es nicht, schlägt die Entschlüsselung fehl — der Server merkt davon nichts und kann es auch nicht prüfen.",
+  "recoverHint": "Einer der Sicherheitscodes von der Einrichtung. Groß- und Kleinschreibung und die Bindestriche sind egal.",
+  "code": "Sicherheitscode",
+  "storedCodes": "Hinterlegt sind Codes, die mit {labels} beginnen.",
+  "newMasterPassword": "Neues Masterpasswort",
+  "recoverReplaces": "Der ganze Satz Codes wird dabei ersetzt: jeder alte machte dieselbe Tür auf.",
+  "changeHint": "Das Schlüsselpaar bleibt dasselbe — nur die Verpackung ist neu. Alle Projekte bleiben deshalb lesbar, auch für die anderen.",
+  "currentMasterPassword": "Bisheriges Masterpasswort",
+  "codesWarning": "Diese Codes werden {onlyNow} angezeigt. Der Server kennt sie nicht und kann sie nicht noch einmal schicken. Jeder von ihnen macht die Zugangsdaten dieses Kontos auf — sie gehören dorthin, wo sonst ein Schlüssel liegt.",
+  "codesWarningOnlyNow": "nur jetzt",
+  "copied": "Kopiert",
+  "copyAll": "Alle Codes in die Zwischenablage",
+  "codesStored": "Ich habe die Codes an einem sicheren Ort abgelegt.",
+  "working": "Die Sicherheitscodes werden erzeugt. Jeder einzelne wird eigens verschlüsselt — das dauert einen Moment und soll es auch: genau diese Rechenzeit steht zwischen einem geratenen Passwort und Ihren Zugangsdaten.",
+  "forgot": "Masterpasswort vergessen? Sicherheitscode einlösen",
+  "backToMaster": "Zurück zum Masterpasswort"
+}

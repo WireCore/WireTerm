@@ -1,0 +1,8 @@
+{
+  "title": "App-Passwort ändern",
+  "current": "Bisheriges App-Passwort",
+  "new": "Neues App-Passwort",
+  "minLength": "Mindestens acht Zeichen.",
+  "repeat": "Wiederholen",
+  "mismatch": "Die beiden stimmen nicht überein."
+}

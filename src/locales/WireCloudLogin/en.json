@@ -1,0 +1,11 @@
+{
+  "intro": "This backend signs in through {wirecloud} ({url}). Signing in happens in the browser, and you create a new account there too. This program never sees your password.",
+  "signIn": "Sign in with WireCloud",
+  "waiting": "Waiting for the sign-in in the browser …",
+  "waitingHint": "The browser has opened. Sign in there and give your consent; then it continues here. Nothing happens? Then the sign-in is still open there.",
+  "linkIntro": "This backend already has an account for {email} from the time before WireCloud. Enter its previous {password} to link it with your WireCloud account. Your data and keys are kept.",
+  "linkIntroPassword": "sign-in password",
+  "previousPassword": "Previous sign-in password",
+  "previousPasswordHint": "The password you have used to sign in here so far. The master password is a different one and is not asked for.",
+  "link": "Link"
+}

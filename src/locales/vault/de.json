@@ -1,0 +1,8 @@
+{
+  "onePasswordNoAccount": "Für diesen Workspace ist noch kein 1Password-Konto hinterlegt.",
+  "onePasswordUnknownAccount": "1Password kennt dieses Konto nicht.",
+  "bitwardenNoAccount": "Für diesen Workspace ist noch kein Bitwarden-Konto hinterlegt.",
+  "bitwardenTwoFactor": "Bitwarden verlangt zusätzlich einen Bestätigungscode.",
+  "secondFactor": "Zweiter Faktor",
+  "bitwardenLocked": "Der Bitwarden-Tresor ist gesperrt."
+}

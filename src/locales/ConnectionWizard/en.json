@@ -1,0 +1,44 @@
+{
+  "title": "New connection",
+  "summaryLabel": "Summary",
+  "finish": "Create",
+  "typeQuestion": "What do you want to connect to?",
+  "types": {
+    "ssh": "Terminal and files over SFTP.",
+    "ftp": "Files over FTP or FTPS.",
+    "s3": "Buckets at AWS, MinIO, Ceph and co."
+  },
+  "security": {
+    "explicit": "FTPS (explicit)",
+    "implicit": "FTPS (implicit)",
+    "plain": "none"
+  },
+  "steps": {
+    "type": "Type",
+    "server": "Server",
+    "login": "Login",
+    "options": "Options"
+  },
+  "auth": {
+    "secretAccessKey": "Secret Access Key",
+    "key": "Key",
+    "password": "Password",
+    "anonymous": "Anonymous",
+    "agent": "Key from the SSH agent",
+    "prompt": "{what} asked for when connecting",
+    "from": "{what} from {source}",
+    "entered": "{what} entered"
+  },
+  "summary": {
+    "type": "Type",
+    "endpoint": "Endpoint",
+    "server": "Server",
+    "encryption": "Encryption",
+    "yes": "yes",
+    "no": "no",
+    "user": "User",
+    "login": "Login",
+    "allBuckets": "all",
+    "startPath": "Start path"
+  }
+}

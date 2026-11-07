@@ -1,0 +1,25 @@
+{
+  "password": {
+    "title": "Password",
+    "label": "Password",
+    "asks": "asks for a password"
+  },
+  "secretKey": {
+    "title": "Secret Access Key",
+    "label": "Secret Access Key",
+    "asks": "asks for the Secret Access Key"
+  },
+  "passphrase": {
+    "title": "Passphrase",
+    "label": "Passphrase of the key",
+    "asks": "— the key for it is protected with a passphrase"
+  },
+  "challenge": {
+    "title": "Login",
+    "label": "Answer",
+    "asks": "asks during login"
+  },
+  "oneLogin": "The input only applies to this one login.",
+  "thisTab": "The input is stored nowhere and only applies to this tab.",
+  "connect": "Connect"
+}

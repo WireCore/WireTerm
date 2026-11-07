@@ -1,0 +1,5 @@
+{
+  "titleCreate": "New project",
+  "titleEdit": "Edit project",
+  "deleteQuestion": "Really delete \"{name}\" with {n} connection? | Really delete \"{name}\" with {n} connections?"
+}

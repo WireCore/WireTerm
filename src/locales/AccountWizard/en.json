@@ -1,0 +1,48 @@
+{
+  "title": "Add account",
+  "backends": {
+    "cloud": "The service by Wirecore.",
+    "customTitle": "Custom backend",
+    "custom": "A self-hosted server."
+  },
+  "modes": {
+    "signInTitle": "I already have an account",
+    "signIn": "Sign in with email and sign-in password.",
+    "signUpTitle": "Create a new account",
+    "signUp": "Register on this backend."
+  },
+  "steps": {
+    "backend": "Backend",
+    "server": "Server",
+    "account": "Account",
+    "credentials": "Credentials"
+  },
+  "summary": {
+    "title": "Summary",
+    "backend": "Backend",
+    "address": "Address",
+    "certificate": "Certificate",
+    "certificateUnchecked": "not checked",
+    "certificateChecked": "checked",
+    "action": "Action"
+  },
+  "backendQuestion": "Where is the account?",
+  "modeQuestion": "Does the account already exist?",
+  "server": "Backend address",
+  "serverPlaceholder": "https://wireterm.example.com",
+  "serverHint": "Without {https} in front, HTTPS is assumed. An instance on this computer needs the address including the port, for example {example}.",
+  "acceptInvalidCert": "Do not check the certificate",
+  "acceptInvalidCertWarning": "The connection stays encrypted, but it is no longer checked whether this server is really at the other end. Only for a self-signed certificate in front of your own instance.",
+  "namePlaceholder": "First and last name",
+  "email": "Email",
+  "emailPlaceholder": "name{'@'}example.com",
+  "password": "Sign-in password",
+  "passwordHint": "The password for the server. The master password that encrypts the credentials is asked for afterwards and is a different one — it never leaves this computer.",
+  "forgotNeedsEmail": "Enter the email address first",
+  "forgot": "Forgot sign-in password?",
+  "signIn": "Sign in",
+  "signUp": "Create account",
+  "signingIn": "Signing in …",
+  "signingUp": "Creating account …",
+  "resetSent": "If there is an account for this address, a mail is on its way. It resets the sign-in password — not the master password."
+}

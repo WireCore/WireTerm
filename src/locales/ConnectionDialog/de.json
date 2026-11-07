@@ -1,0 +1,11 @@
+{
+  "title": "Verbindung bearbeiten",
+  "deleteQuestion": "„{name}“ wirklich löschen?",
+  "sectionsLabel": "Abschnitte",
+  "sections": {
+    "general": "Allgemein",
+    "server": "Server",
+    "login": "Anmeldung",
+    "options": "Optionen"
+  }
+}

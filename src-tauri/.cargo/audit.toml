@@ -1,0 +1,10 @@
+# Advisories cargo-audit reports that are accepted, each with its reason.
+[advisories]
+ignore = [
+    # rsa: Marvin attack, decryption is not constant-time. Used once per
+    # Bitwarden organization to unwrap a key locally; the attack needs an
+    # oracle that decrypts arbitrary ciphertexts on demand, and whoever has that
+    # is already inside the process. No fixed version exists; move to rsa 0.10
+    # once it is stable (see Cargo.toml and TODO.md).
+    "RUSTSEC-2023-0071",
+]

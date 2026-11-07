@@ -1,0 +1,13 @@
+{
+  "title": "Export workspaces",
+  "saveTitle": "Save export",
+  "filterName": "WireTerm export",
+  "saved": "Saved to {path}.",
+  "importHint": "The file is imported via \"Add workspace\" → \"Or take it from an export file\", with the same password.",
+  "lead": "The chosen workspaces go into a file, including entered keys and passwords, encrypted with the password below. Without this password it cannot be opened — not even by WireTerm.",
+  "missing": "Some credentials are not open right now and go along empty.",
+  "password": "Password for the file",
+  "passwordHint": "At least eight characters.",
+  "repeat": "Repeat",
+  "mismatch": "The two do not match."
+}

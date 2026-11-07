@@ -1,0 +1,175 @@
+_version: 2
+# Messages of the SSH side: logins and terminals (ssh.rs), keys (keys.rs),
+# port forwardings (forward.rs) and known hosts (known_hosts.rs).
+
+# ---- Host keys (ssh.rs) -------------------------------------------------------
+ssh.known_hosts_read_failed:
+  en: "could not read the known hosts: %{error}"
+  de: "die bekannten Hosts ließen sich nicht lesen: %{error}"
+ssh.host_key_changed_rejected:
+  en: "the host key of %{host} has changed and was not accepted"
+  de: "der Host-Key von %{host} hat sich geändert und wurde nicht angenommen"
+ssh.host_key_rejected:
+  en: "the host key of %{host} was not accepted"
+  de: "der Host-Key von %{host} wurde nicht angenommen"
+ssh.host_key_record_failed:
+  en: "could not record the host key: %{error}"
+  de: "der Host-Key ließ sich nicht speichern: %{error}"
+
+# ---- Credentials (ssh.rs) -----------------------------------------------------
+ssh.stored_key_unusable:
+  en: "the stored key is unusable"
+  de: "der gespeicherte Schlüssel ist unbrauchbar"
+ssh.key_file_read_failed:
+  en: "could not read %{path}"
+  de: "%{path} ließ sich nicht lesen"
+ssh.vault_key_read_failed:
+  en: "could not read the key from %{name}: %{error}"
+  de: "der Schlüssel ließ sich nicht aus %{name} lesen: %{error}"
+ssh.vault_key_unusable:
+  en: "%{name} returned an unusable key"
+  de: "%{name} hat einen unbrauchbaren Schlüssel geliefert"
+ssh.vault_password_read_failed:
+  en: "could not read the password from %{name}: %{error}"
+  de: "das Passwort ließ sich nicht aus %{name} lesen: %{error}"
+# Must contain "passphrase" / "Passphrase": the UI recognises it by that word.
+ssh.passphrase_wrong:
+  en: "the passphrase does not open the key"
+  de: "die Passphrase öffnet den Schlüssel nicht"
+ssh.no_agent:
+  en: "no SSH agent is reachable (on Windows the OpenSSH agent or Pageant, elsewhere the one in SSH_AUTH_SOCK)"
+  de: "kein SSH-Agent erreichbar (unter Windows der OpenSSH-Agent oder Pageant, sonst der aus SSH_AUTH_SOCK)"
+
+# ---- Login (ssh.rs) -----------------------------------------------------------
+ssh.jump_host_gone:
+  en: "This connection's jump host no longer exists, or the chain goes round in a circle."
+  de: "Den Jump-Host dieser Verbindung gibt es nicht mehr, oder die Kette führt im Kreis."
+ssh.too_many_jumps:
+  en: "More than %{max} jump hosts in a row."
+  de: "Mehr als %{max} Jump-Hosts hintereinander."
+ssh.jump_host_failed:
+  en: "Jump host %{host}: %{error}"
+  de: "Jump-Host %{host}: %{error}"
+ssh.tunnel_failed:
+  en: "the jump host cannot reach %{host}:%{port}: %{error}"
+  de: "der Jump-Host kommt nicht an %{host}:%{port}: %{error}"
+ssh.unreachable:
+  en: "could not reach %{host}: %{error}"
+  de: "%{host} ist nicht erreichbar: %{error}"
+ssh.auth_failed:
+  en: "authentication failed: %{error}"
+  de: "die Anmeldung ist fehlgeschlagen: %{error}"
+ssh.agent_identities_failed:
+  en: "could not ask the SSH agent for its keys: %{error}"
+  de: "der SSH-Agent ließ sich nicht nach seinen Schlüsseln fragen: %{error}"
+ssh.agent_empty:
+  en: "the SSH agent holds no keys"
+  de: "der SSH-Agent hält keine Schlüssel"
+ssh.rejected_key:
+  en: "server rejected the key for %{user}"
+  de: "der Server hat den Schlüssel für %{user} abgelehnt"
+ssh.rejected_password:
+  en: "server rejected the password for %{user}"
+  de: "der Server hat das Passwort für %{user} abgelehnt"
+ssh.rejected_agent_keys:
+  en: "server rejected the agent's keys for %{user}"
+  de: "der Server hat die Schlüssel des Agents für %{user} abgelehnt"
+ssh.rejected_login:
+  en: "server rejected the login for %{user}"
+  de: "der Server hat die Anmeldung für %{user} abgelehnt"
+ssh.kept_asking:
+  en: "the server kept asking"
+  de: "der Server hat immer weiter gefragt"
+
+# ---- Commands and terminal (ssh.rs) -------------------------------------------
+ssh.no_channel:
+  en: "no channel to the server: %{error}"
+  de: "kein Kanal zum Server: %{error}"
+ssh.command_not_sent:
+  en: "the command could not be sent: %{error}"
+  de: "der Befehl ging nicht ab: %{error}"
+ssh.key_not_installed:
+  en: "The server did not add the key (status %{status}): %{output}"
+  de: "Der Server hat den Schlüssel nicht eingetragen (Status %{status}): %{output}"
+ssh.already_connected:
+  en: "this tab is already connected"
+  de: "dieser Tab ist schon verbunden"
+ssh.session_open_failed:
+  en: "could not open a session: %{error}"
+  de: "es ließ sich keine Sitzung öffnen: %{error}"
+ssh.pty_failed:
+  en: "pty request failed: %{error}"
+  de: "die Anforderung des Terminals ist fehlgeschlagen: %{error}"
+ssh.shell_failed:
+  en: "shell request failed: %{error}"
+  de: "die Anforderung der Shell ist fehlgeschlagen: %{error}"
+ssh.start_path_failed:
+  en: "could not send the start path: %{error}"
+  de: "der Startpfad ließ sich nicht senden: %{error}"
+ssh.not_connected:
+  en: "not connected"
+  de: "nicht verbunden"
+ssh.send_failed:
+  en: "could not send: %{error}"
+  de: "das Senden ist fehlgeschlagen: %{error}"
+ssh.resize_failed:
+  en: "could not resize: %{error}"
+  de: "die Größe ließ sich nicht ändern: %{error}"
+
+# ---- Keys (keys.rs) -----------------------------------------------------------
+ssh.key_write_failed:
+  en: "The key could not be written: %{error}"
+  de: "Der Schlüssel lässt sich nicht schreiben: %{error}"
+ssh.public_key_write_failed:
+  en: "The public key could not be written: %{error}"
+  de: "Der öffentliche Schlüssel lässt sich nicht schreiben: %{error}"
+ssh.unknown_key_type:
+  en: "Unknown key type \"%{kind}\"."
+  de: "Unbekannte Schlüsselart „%{kind}“."
+ssh.key_generate_failed:
+  en: "The key could not be generated: %{error}"
+  de: "Der Schlüssel ließ sich nicht erzeugen: %{error}"
+# Must contain "passphrase" / "Passphrase": the UI recognises it by that word.
+ssh.key_needs_passphrase:
+  en: "The key is protected by a passphrase."
+  de: "Der Schlüssel ist mit einer Passphrase geschützt."
+ssh.key_unreadable:
+  en: "This is not a private key WireTerm can read: %{error}"
+  de: "Das ist kein privater Schlüssel, den WireTerm lesen kann: %{error}"
+ssh.not_openssh_public_key:
+  en: "This is not a public key in OpenSSH format."
+  de: "Das ist kein öffentlicher Schlüssel im OpenSSH-Format."
+ssh.file_read_failed:
+  en: "%{path} could not be read: %{error}"
+  de: "%{path} ließ sich nicht lesen: %{error}"
+
+# ---- Port forwardings (forward.rs) --------------------------------------------
+ssh.forward_port_busy:
+  en: "Port not available: %{error}"
+  de: "Port nicht frei: %{error}"
+ssh.forward_refused:
+  en: "the server does not allow the forwarding: %{error}"
+  de: "der Server lässt die Weiterleitung nicht zu: %{error}"
+ssh.tab_not_connected:
+  en: "The tab is not connected."
+  de: "Der Tab ist nicht verbunden."
+
+# ---- Known hosts (known_hosts.rs) ---------------------------------------------
+ssh.create_failed:
+  en: "could not create %{path}: %{error}"
+  de: "%{path} ließ sich nicht anlegen: %{error}"
+ssh.write_failed:
+  en: "could not write %{path}: %{error}"
+  de: "%{path} ließ sich nicht schreiben: %{error}"
+ssh.rewrite_failed:
+  en: "could not rewrite %{path}: %{error}"
+  de: "%{path} ließ sich nicht neu schreiben: %{error}"
+ssh.host_key_unreadable:
+  en: "the host key is unreadable: %{error}"
+  de: "der Host-Key ist unlesbar: %{error}"
+ssh.unknown_key_algorithm:
+  en: "unknown type: %{error}"
+  de: "unbekannter Typ: %{error}"
+ssh.host_key_write_failed:
+  en: "the host key could not be written: %{error}"
+  de: "der Host-Key ließ sich nicht schreiben: %{error}"

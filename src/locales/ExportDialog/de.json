@@ -1,0 +1,13 @@
+{
+  "title": "Workspaces exportieren",
+  "saveTitle": "Export speichern",
+  "filterName": "WireTerm-Export",
+  "saved": "Gespeichert unter {path}.",
+  "importHint": "Importiert wird die Datei über „Workspace anlegen“ → „Oder aus einer Export-Datei übernehmen“, mit demselben Passwort.",
+  "lead": "Die gewählten Workspaces kommen samt eingegebener Schlüssel und Passwörter in eine Datei, verschlüsselt mit dem Passwort unten. Ohne dieses Passwort ist sie nicht zu öffnen — auch nicht für WireTerm.",
+  "missing": "Einige Zugangsdaten sind gerade nicht offen und gehen leer mit.",
+  "password": "Passwort für die Datei",
+  "passwordHint": "Mindestens acht Zeichen.",
+  "repeat": "Wiederholen",
+  "mismatch": "Die beiden stimmen nicht überein."
+}

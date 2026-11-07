@@ -1,0 +1,16 @@
+{
+  "title": "Snippets in „{name}“",
+  "hint": "Gespeicherte Befehle, abzuschicken über das Snippet-Menü im Terminal. Platzhalter: {host}, {user}, {port}, {name}. Bei einem Backend sehen sie alle Mitglieder — Passwörter gehören nicht hinein.",
+  "readOnly": "Ändern darf die Snippets in diesem Workspace nur, wer ihn verwaltet: ein Startbefehl läuft ungefragt im Terminal jedes Kollegen.",
+  "empty": "Noch keine Snippets.",
+  "namePlaceholder": "z. B. Speicherplatz",
+  "folder": "Ordner",
+  "folderHint": "Mit / verschachtelt, leer = oben.",
+  "folderPlaceholder": "z. B. Wartung/Linux",
+  "command": "Befehl",
+  "commandHint": "Mehrere Zeilen gehen nacheinander ab, jede mit Enter.",
+  "usedBy": "Startbefehl von {names}.",
+  "quoted": "„{name}“",
+  "discard": "Verwerfen",
+  "add": "Neues Snippet"
+}

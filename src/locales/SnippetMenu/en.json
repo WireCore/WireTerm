@@ -1,0 +1,8 @@
+{
+  "search": "Search snippet …",
+  "searchLabel": "Search snippets",
+  "broadcast": "Broadcast is on: the snippet goes to all terminals alongside.",
+  "empty": "There are no snippets in this workspace yet — they are created in the overview.",
+  "noMatches": "No matches.",
+  "onlyHere": "only here"
+}

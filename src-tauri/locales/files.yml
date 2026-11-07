@@ -1,0 +1,31 @@
+_version: 2
+# Messages from the local file browser and what every protocol shares:
+# files.rs, edit.rs (transfer.rs and resume.rs have none of their own).
+
+# ---- Local files ---------------------------------------------------------------
+files.home_not_found:
+  en: "The home directory could not be found: %{error}"
+  de: "Das Home-Verzeichnis ließ sich nicht finden: %{error}"
+files.read_failed:
+  en: "%{path} could not be read: %{error}"
+  de: "%{path} ließ sich nicht lesen: %{error}"
+files.create_failed:
+  en: "%{path} could not be created: %{error}"
+  de: "%{path} ließ sich nicht anlegen: %{error}"
+files.delete_failed:
+  en: "%{path} could not be deleted: %{error}"
+  de: "%{path} ließ sich nicht löschen: %{error}"
+files.rename_failed:
+  en: "%{path} could not be renamed: %{error}"
+  de: "%{path} ließ sich nicht umbenennen: %{error}"
+
+# ---- Edit on server ------------------------------------------------------------
+files.working_copy_failed:
+  en: "The working copy could not be prepared: %{error}"
+  de: "Die Arbeitskopie ließ sich nicht vorbereiten: %{error}"
+files.editor_start_failed:
+  en: "%{path} could not be started: %{error}"
+  de: "%{path} ließ sich nicht starten: %{error}"
+files.editor_handed_off:
+  en: 'The editor handed the file to a window that was already open and quit straight away. That means the end of editing cannot be detected — the row stays until it is closed by hand. An argument that forces a separate instance fixes this: "-multiInst -nosession" for Notepad++, "--wait" for VS Code.'
+  de: "Der Editor hat die Datei an ein bereits laufendes Fenster übergeben und sich sofort beendet. Das Ende der Bearbeitung lässt sich dadurch nicht erkennen — die Zeile bleibt, bis sie von Hand geschlossen wird. Mit einem Argument, das eine eigene Instanz erzwingt, geht es: „-multiInst -nosession“ bei Notepad++, „--wait“ bei VS Code."

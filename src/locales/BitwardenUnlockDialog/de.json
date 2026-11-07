@@ -1,0 +1,9 @@
+{
+  "title": "Bitwarden entsperren",
+  "accountOn": "{email} auf {server}",
+  "masterPassword": "Master-Passwort",
+  "code": "Code ({method})",
+  "hint": "Das Passwort wird nicht gespeichert. Der Tresor bleibt offen, bis die App beendet wird oder eine Viertelstunde lang nichts daraus gelesen wurde.",
+  "unlocking": "Entsperrt…",
+  "unlock": "Entsperren"
+}

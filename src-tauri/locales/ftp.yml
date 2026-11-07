@@ -1,0 +1,71 @@
+_version: 2
+# Messages of the FTP and FTPS file browser (ftp.rs).
+
+# ---- Login --------------------------------------------------------------------
+ftp.vault_password_read_failed:
+  en: "could not read the password from %{name}: %{error}"
+  de: "das Passwort ließ sich nicht aus %{name} lesen: %{error}"
+ftp.implicit_over_proxy:
+  en: "Implicit FTPS does not work through a proxy — explicit (AUTH TLS) does."
+  de: "Implizites FTPS geht nicht über einen Proxy — explizites (AUTH TLS) schon."
+ftp.unreachable:
+  en: "could not reach %{host}: %{error}"
+  de: "%{host} ist nicht erreichbar: %{error}"
+ftp.tls_failed:
+  en: "TLS with %{host} failed: %{error}"
+  de: "TLS mit %{host} ist fehlgeschlagen: %{error}"
+ftp.timeout:
+  en: "%{host} did not answer in time"
+  de: "%{host} hat nicht rechtzeitig geantwortet"
+ftp.active_over_proxy:
+  en: "Active mode does not work through a proxy."
+  de: "Aktiver Modus geht nicht über einen Proxy."
+ftp.login_failed:
+  en: "login as %{user} failed: %{error}"
+  de: "die Anmeldung als %{user} ist fehlgeschlagen: %{error}"
+ftp.binary_refused:
+  en: "the server refused binary mode: %{error}"
+  de: "der Server hat den Binärmodus abgelehnt: %{error}"
+
+# ---- File browser -------------------------------------------------------------
+ftp.not_connected:
+  en: "the file browser is not connected"
+  de: "die Dateiansicht ist nicht verbunden"
+ftp.home_not_found:
+  en: "could not find the home directory: %{error}"
+  de: "das Home-Verzeichnis ließ sich nicht ermitteln: %{error}"
+ftp.already_exists:
+  en: "%{path} already exists"
+  de: "%{path} gibt es schon"
+ftp.open_failed:
+  en: "could not open %{path}: %{error}"
+  de: "%{path} ließ sich nicht öffnen: %{error}"
+ftp.read_failed:
+  en: "could not read %{path}: %{error}"
+  de: "%{path} ließ sich nicht lesen: %{error}"
+ftp.write_failed:
+  en: "could not write %{path}: %{error}"
+  de: "%{path} ließ sich nicht schreiben: %{error}"
+ftp.create_failed:
+  en: "could not create %{path}: %{error}"
+  de: "%{path} ließ sich nicht anlegen: %{error}"
+ftp.rename_failed:
+  en: "could not rename %{path}: %{error}"
+  de: "%{path} ließ sich nicht umbenennen: %{error}"
+ftp.delete_failed:
+  en: "could not delete %{path}: %{error}"
+  de: "%{path} ließ sich nicht löschen: %{error}"
+ftp.chmod_failed:
+  en: "could not change the permissions of %{path}: %{error}"
+  de: "die Rechte von %{path} ließen sich nicht ändern: %{error}"
+
+# ---- Transfers ----------------------------------------------------------------
+ftp.resume_failed:
+  en: "could not resume %{path}: %{error}"
+  de: "%{path} ließ sich nicht fortsetzen: %{error}"
+ftp.incomplete:
+  en: "%{path} did not transfer completely: %{error}"
+  de: "%{path} wurde nicht vollständig übertragen: %{error}"
+ftp.finish_failed:
+  en: "could not finish %{path}: %{error}"
+  de: "%{path} ließ sich nicht abschließen: %{error}"

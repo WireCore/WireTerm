@@ -1,0 +1,21 @@
+{
+  "title": "Permissions for \"{name}\"",
+  "owner": "Owner",
+  "group": "Group",
+  "other": "Others",
+  "read": "Read",
+  "write": "Write",
+  "execute": "Execute",
+  "executeOpen": "Execute/Open",
+  "cell": "{who}: {what}",
+  "advanced": "Advanced permissions",
+  "setuidHint": "Runs as the file's owner, regardless of who starts it.",
+  "setgidHint": "Runs as the file's group — in a folder, new entries inherit its group.",
+  "sticky": "Sticky bit",
+  "stickyHint": "In a folder, everyone may only delete or rename their own entries.",
+  "octal": "Octal:",
+  "recursive": "Also apply to contents",
+  "recursiveHint": "Applies to all folders and files below. Folders get {folders}, files {files} — without the execute permission, which only files that already have it keep. This cannot be undone.",
+  "running": "running…",
+  "apply": "Apply"
+}

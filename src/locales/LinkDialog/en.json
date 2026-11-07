@@ -1,0 +1,16 @@
+{
+  "title": "Create link",
+  "lead": "A link to {name} that works without credentials. Whoever has it can download the file until it expires.",
+  "validFor": "Valid for",
+  "spans": {
+    "hour": "1 hour",
+    "eightHours": "8 hours",
+    "day": "1 day",
+    "week": "7 days (maximum)"
+  },
+  "copy": "Copy",
+  "copied": "Copied",
+  "create": "Create",
+  "recreate": "Create new",
+  "creating": "Creating…"
+}

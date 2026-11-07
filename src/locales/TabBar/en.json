@@ -1,0 +1,30 @@
+{
+  "status": {
+    "connecting": "connecting…",
+    "connected": "connected",
+    "closed": "disconnected",
+    "error": "error"
+  },
+  "openConnections": "Open connections",
+  "overview": "Overview",
+  "openConnection": "Open connection",
+  "newConnection": "New connection",
+  "search": "Search…",
+  "searchLabel": "Search projects and connections",
+  "local": "Local",
+  "commandPlaceholder": "Custom command, e.g. ssh-agent bash",
+  "commandLabel": "Start a custom command as a local terminal",
+  "noWorkspace": "No workspace selected.",
+  "noConnections": "There are no connections in \"{name}\" yet.",
+  "noMatches": "No matches for \"{query}\".",
+  "bookmarked": "Bookmarked",
+  "projectEmpty": "no connections",
+  "broadcastOff": "Broadcast off",
+  "broadcastOn": "Broadcast on",
+  "broadcastOffTitle": "Input goes to all terminals of the view — turn off",
+  "broadcastOnTitle": "Send input to all terminals of the view",
+  "splitOff": "End side by side",
+  "splitOn": "Side by side",
+  "splitOffTitle": "One tab at a time again",
+  "splitOnTitle": "Show up to four tabs side by side"
+}

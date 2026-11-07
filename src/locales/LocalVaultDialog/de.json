@@ -1,0 +1,16 @@
+{
+  "appPassword": "App-Passwort",
+  "setupTitle": "App-Passwort festlegen",
+  "unavailableTitle": "Schlüsselbund nicht erreichbar",
+  "lockedLead": "Die Zugangsdaten der Workspaces auf diesem Gerät sind mit dem App-Passwort verschlüsselt. Ohne es lassen sich Verbindungen mit eingegebenem Schlüssel oder Passwort nicht öffnen.",
+  "setupLead": "Auf diesem System gibt es keinen Schlüsselbund, in dem WireTerm seinen Schlüssel ablegen könnte{reason}. Eingegebene Schlüssel und Passwörter werden deshalb mit einem App-Passwort verschlüsselt, das bei jedem Start abgefragt wird.",
+  "setupWarning": "Wer das App-Passwort vergisst, kommt an diese Zugangsdaten nicht mehr heran. Ein Export mit eigenem Passwort ist das Backup dafür.",
+  "minLength": "Mindestens acht Zeichen.",
+  "repeat": "Wiederholen",
+  "mismatch": "Die beiden stimmen nicht überein.",
+  "unavailableLead": "Der Schlüssel für die Zugangsdaten auf diesem Gerät liegt im Schlüsselbund des Systems, aber der antwortet gerade nicht{reason}. Ist er gesperrt, hilft es meist, ihn zu entsperren und es dann erneut zu versuchen.",
+  "unavailableHint": "Ohne ihn geht alles andere weiter; nur eingegebene Schlüssel und Passwörter bleiben bis dahin verschlossen.",
+  "skip": "Ohne fortfahren",
+  "set": "Festlegen",
+  "unlock": "Entsperren"
+}

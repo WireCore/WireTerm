@@ -1,0 +1,25 @@
+{
+  "password": {
+    "title": "Passwort",
+    "label": "Passwort",
+    "asks": "verlangt ein Passwort"
+  },
+  "secretKey": {
+    "title": "Secret Access Key",
+    "label": "Secret Access Key",
+    "asks": "verlangt den Secret Access Key"
+  },
+  "passphrase": {
+    "title": "Passphrase",
+    "label": "Passphrase des Schlüssels",
+    "asks": "— der Schlüssel dafür ist mit einer Passphrase geschützt"
+  },
+  "challenge": {
+    "title": "Anmeldung",
+    "label": "Antwort",
+    "asks": "fragt bei der Anmeldung nach"
+  },
+  "oneLogin": "Die Eingabe gilt nur für diese eine Anmeldung.",
+  "thisTab": "Die Eingabe wird nirgends gespeichert und gilt nur für diesen Tab.",
+  "connect": "Verbinden"
+}

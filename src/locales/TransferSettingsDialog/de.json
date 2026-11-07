@@ -1,0 +1,14 @@
+{
+  "title": "Dateiansicht",
+  "transfers": "Übertragungen",
+  "parallel": "Gleichzeitig",
+  "parallelHint": "Wie viele Dateien zugleich übertragen werden. Bei vielen kleinen Dateien bringt das am meisten, weil die Wartezeit auf die Antwort des Servers geteilt wird; eine einzelne große Datei füllt die Leitung ohnehin allein. Gilt für alle Verbindungen in allen Workspaces.",
+  "remoteEditing": "Bearbeiten am Server",
+  "editor": "Editor",
+  "chooseEditor": "Editor wählen",
+  "editorPlaceholder": "Standardprogramm des Systems",
+  "browse": "Durchsuchen …",
+  "arguments": "Argumente",
+  "editorHint": "Der vollständige Pfad zum Programm. Leer heißt: das Programm, mit dem das System die Datei ohnehin öffnen würde.",
+  "argumentsHint": "Ist ein Editor eingetragen, startet WireTerm ihn selbst und beendet die Bearbeitung, sobald er sich schließt — die Zeile oben verschwindet dann von allein. Dafür muss der Editor allerdings ein eigenes Fenster aufmachen, statt die Datei an ein schon offenes weiterzureichen und sich sofort zu beenden. Genau dafür sind die Argumente da: {notepad} bei Notepad++, {vscode} bei VS Code. Der Dateipfad wird angehängt; wo er anders stehen muss, schreibt man {file} hin."
+}

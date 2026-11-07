@@ -1,0 +1,79 @@
+_version: 2
+# Sign-in through WireCloud (cloud/wirecloud.rs), including the page the
+# browser shows after the sign-in (cloud/callback_page.html).
+
+# ---- Sign-in flow ------------------------------------------------------------
+wirecloud.no_randomness:
+  en: "No randomness available: %{error}"
+  de: "Kein Zufall verfügbar: %{error}"
+wirecloud.cancelled:
+  en: "The sign-in was cancelled."
+  de: "Die Anmeldung wurde abgebrochen."
+wirecloud.timeout:
+  en: "The sign-in in the browser was not completed in time. Please try again."
+  de: "Die Anmeldung im Browser wurde nicht rechtzeitig abgeschlossen. Bitte erneut versuchen."
+wirecloud.denied:
+  en: "You declined the sign-in in the browser."
+  de: "Sie haben die Anmeldung im Browser abgelehnt."
+wirecloud.failed:
+  en: "WireCloud rejected the sign-in (%{code})."
+  de: "WireCloud hat die Anmeldung abgelehnt (%{code})."
+wirecloud.flooded:
+  en: "Too many foreign requests arrived on the local port. The sign-in was cancelled."
+  de: "Auf dem lokalen Anschluss kamen zu viele fremde Anfragen. Die Anmeldung wurde abgebrochen."
+wirecloud.io:
+  en: "The local port for the sign-in could not be opened: %{detail}"
+  de: "Der lokale Anschluss für die Anmeldung ließ sich nicht öffnen: %{detail}"
+wirecloud.browser_failed:
+  en: "The browser could not be opened: %{error}"
+  de: "Der Browser ließ sich nicht öffnen: %{error}"
+wirecloud.exchange_rejected:
+  en: "WireCloud did not accept the sign-in, or it has expired. Please try again."
+  de: "WireCloud hat die Anmeldung nicht angenommen oder sie ist abgelaufen. Bitte erneut versuchen."
+wirecloud.unreachable:
+  en: "WireCloud is unreachable: %{detail}"
+  de: "WireCloud ist nicht erreichbar: %{detail}"
+wirecloud.response_unreadable:
+  en: "The response from WireCloud is unreadable."
+  de: "Die Antwort von WireCloud ist unlesbar."
+
+# ---- The page in the browser after the sign-in -------------------------------
+wirecloud.page_label:
+  en: "Sign-in"
+  de: "Anmeldung"
+wirecloud.page_done_heading:
+  en: "Sign-in complete"
+  de: "Anmeldung abgeschlossen"
+wirecloud.page_done_text:
+  en: "You can close this window and return to WireTerm."
+  de: "Sie können dieses Fenster schließen und zu WireTerm zurückkehren."
+wirecloud.page_denied_heading:
+  en: "Sign-in declined"
+  de: "Anmeldung abgelehnt"
+wirecloud.page_denied_text:
+  en: "You declined the sign-in. You can close this window."
+  de: "Sie haben die Anmeldung abgelehnt. Sie können dieses Fenster schließen."
+wirecloud.page_failed_heading:
+  en: "Sign-in failed"
+  de: "Anmeldung fehlgeschlagen"
+wirecloud.page_failed_text:
+  en: "The sign-in failed. You can close this window and try again in WireTerm."
+  de: "Die Anmeldung ist fehlgeschlagen. Sie können dieses Fenster schließen und es in WireTerm erneut versuchen."
+wirecloud.page_not_found_heading:
+  en: "Not found"
+  de: "Nicht gefunden"
+wirecloud.page_not_found_text:
+  en: "This address does not exist."
+  de: "Diese Adresse gibt es nicht."
+wirecloud.page_not_allowed_heading:
+  en: "Not allowed"
+  de: "Nicht erlaubt"
+wirecloud.page_not_allowed_text:
+  en: "This request is not allowed."
+  de: "Diese Anfrage ist nicht erlaubt."
+wirecloud.page_bad_request_heading:
+  en: "Invalid request"
+  de: "Ungültige Anfrage"
+wirecloud.page_bad_request_text:
+  en: "The request is invalid."
+  de: "Die Anfrage ist ungültig."

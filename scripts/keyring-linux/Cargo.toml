@@ -1,0 +1,11 @@
+# Builds only `src-tauri/src/local_secrets/store.rs` — without Tauri, without
+# WebKit. See Dockerfile.
+[package]
+name = "keyring-linux"
+version = "0.0.0"
+edition = "2021"
+publish = false
+
+[dependencies]
+keyring = "4.2"
+zeroize = "1"

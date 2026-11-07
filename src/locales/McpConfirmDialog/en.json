@@ -1,0 +1,7 @@
+{
+  "requestFrom": "Request from {client}",
+  "requestFromAgent": "Request from an agent",
+  "hint": "Via the MCP server. Every call is asked about separately.",
+  "decline": "Decline",
+  "run": "Run"
+}

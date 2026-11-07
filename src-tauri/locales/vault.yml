@@ -1,0 +1,199 @@
+_version: 2
+# Password managers: 1Password (op.rs), Bitwarden and Vaultwarden (bitwarden/),
+# and the layer in front of both (vault.rs).
+
+# ---- vault.rs ----------------------------------------------------------------
+vault.user_name_unreadable:
+  en: "could not read the user name from %{provider}: %{error}"
+  de: "der Benutzername ließ sich nicht aus %{provider} lesen: %{error}"
+
+# ---- op.rs -------------------------------------------------------------------
+vault.op_sidecar_missing:
+  en: "sidecar not found: %{error}"
+  de: "Sidecar nicht gefunden: %{error}"
+vault.op_sidecar_start_failed:
+  en: "could not start sidecar: %{error}"
+  de: "Sidecar ließ sich nicht starten: %{error}"
+vault.op_sidecar_unreachable:
+  en: "could not reach 1Password sidecar: %{error}"
+  de: "1Password-Sidecar nicht erreichbar: %{error}"
+vault.op_sidecar_unknown_error:
+  en: "unknown sidecar error"
+  de: "unbekannter Fehler im Sidecar"
+vault.op_sidecar_error:
+  en: "1Password sidecar error: %{error}"
+  de: "Fehler im 1Password-Sidecar: %{error}"
+vault.op_sidecar_stopped:
+  en: "1Password sidecar stopped unexpectedly"
+  de: "der 1Password-Sidecar hat sich unerwartet beendet"
+vault.op_no_secret:
+  en: "sidecar returned no secret"
+  de: "der Sidecar hat kein Geheimnis geliefert"
+
+# ---- bitwarden/mod.rs --------------------------------------------------------
+vault.bw_org_key_missing:
+  en: "this entry belongs to an organization (%{id}) whose key this account does not have"
+  de: "dieser Eintrag gehört zu einer Organisation (%{id}), deren Schlüssel dieses Konto nicht hat"
+vault.bw_two_factor_needs_browser:
+  en: "this account's two-factor method needs a browser, which WireTerm cannot open for it"
+  de: "der zweite Faktor dieses Kontos braucht einen Browser, und den kann WireTerm dafür nicht öffnen"
+vault.bw_two_factor_rejected:
+  en: "the two-factor code was not accepted"
+  de: "der Bestätigungscode wurde nicht angenommen"
+vault.bw_entry_gone:
+  en: "this entry is no longer in the vault"
+  de: "dieser Eintrag ist nicht mehr im Tresor"
+vault.bw_http_client_failed:
+  en: "the HTTP client could not be set up: %{error}"
+  de: "der HTTP-Client ließ sich nicht einrichten: %{error}"
+vault.bw_no_profile:
+  en: "the Bitwarden server sent no account profile"
+  de: "der Bitwarden-Server hat kein Kontoprofil geschickt"
+vault.bw_no_vault_key:
+  en: "the Bitwarden account carries no vault key"
+  de: "das Bitwarden-Konto hat keinen Tresorschlüssel"
+vault.bw_wrong_master_password:
+  en: "%{error} — the master password is probably wrong"
+  de: "%{error} — vermutlich stimmt das Master-Passwort nicht"
+vault.bw_my_vault:
+  en: "My vault"
+  de: "Mein Tresor"
+vault.bw_organization:
+  en: "Organization"
+  de: "Organisation"
+vault.bw_field_username:
+  en: "Username"
+  de: "Benutzername"
+vault.bw_field_password:
+  en: "Password"
+  de: "Passwort"
+vault.bw_field_private_key:
+  en: "Private key"
+  de: "Privater Schlüssel"
+vault.bw_field_public_key:
+  en: "Public key"
+  de: "Öffentlicher Schlüssel"
+vault.bw_field_notes:
+  en: "Note"
+  de: "Notiz"
+vault.bw_not_a_reference:
+  en: "%{reference} is not a Bitwarden reference (bw://vault/item/field)"
+  de: "%{reference} ist keine Bitwarden-Referenz (bw://vault/item/field)"
+vault.bw_reference_incomplete:
+  en: "%{reference} is missing a part — it reads bw://vault/item/field"
+  de: "%{reference} fehlt ein Teil — die Form ist bw://vault/item/field"
+vault.bw_unknown_field:
+  en: "%{field} is not a field WireTerm can read"
+  de: "%{field} ist kein Feld, das WireTerm lesen kann"
+vault.bw_entry_has_no_field:
+  en: 'this Bitwarden entry has no field "%{field}"'
+  de: "dieser Bitwarden-Eintrag hat kein Feld „%{field}“"
+vault.bw_create_dir_failed:
+  en: "could not create %{path}: %{error}"
+  de: "%{path} ließ sich nicht anlegen: %{error}"
+vault.bw_write_failed:
+  en: "could not write %{path}: %{error}"
+  de: "%{path} ließ sich nicht schreiben: %{error}"
+vault.bw_no_randomness:
+  en: "no randomness available for a device id"
+  de: "kein Zufall verfügbar für eine Gerätekennung"
+
+# ---- bitwarden/api.rs --------------------------------------------------------
+vault.bw_not_an_address:
+  en: "%{server} is not an address"
+  de: "%{server} ist keine Adresse"
+vault.bw_https_required:
+  en: "a Bitwarden server has to be reached over HTTPS"
+  de: "ein Bitwarden-Server muss über HTTPS erreicht werden"
+vault.bw_two_factor_authenticator:
+  en: "Authenticator app"
+  de: "Authenticator-App"
+vault.bw_two_factor_email:
+  en: "Email"
+  de: "E-Mail"
+vault.bw_two_factor_other:
+  en: "Second factor"
+  de: "Zweiter Faktor"
+vault.bw_endpoint_status:
+  en: "%{endpoint} said %{status}"
+  de: "%{endpoint} antwortete %{status}"
+vault.bw_endpoint_unreachable:
+  en: "%{endpoint} could not be reached: %{error}"
+  de: "%{endpoint} war nicht erreichbar: %{error}"
+vault.bw_no_answer:
+  en: "the Bitwarden server did not answer: %{detail}"
+  de: "der Bitwarden-Server hat nicht geantwortet: %{detail}"
+vault.bw_unknown_kdf:
+  en: "this account uses key derivation %{kdf}, which WireTerm does not know"
+  de: "dieses Konto verwendet die Schlüsselableitung %{kdf}, die WireTerm nicht kennt"
+vault.bw_unreachable:
+  en: "the Bitwarden server could not be reached: %{error}"
+  de: "der Bitwarden-Server war nicht erreichbar: %{error}"
+vault.bw_login_refused:
+  en: "the Bitwarden server refused the login (%{status})"
+  de: "der Bitwarden-Server hat die Anmeldung abgelehnt (%{status})"
+vault.bw_code_not_sent:
+  en: "the code could not be sent"
+  de: "der Code ließ sich nicht verschicken"
+vault.bw_session_not_renewed:
+  en: "the Bitwarden session could not be renewed"
+  de: "die Bitwarden-Sitzung ließ sich nicht erneuern"
+vault.bw_status:
+  en: "Bitwarden answered %{status}"
+  de: "Bitwarden antwortete %{status}"
+vault.bw_no_access_token:
+  en: "the Bitwarden server sent no access token"
+  de: "der Bitwarden-Server hat kein Zugangstoken geschickt"
+vault.bw_answer_unreadable:
+  en: "the Bitwarden server's answer could not be read: %{error}"
+  de: "die Antwort des Bitwarden-Servers ließ sich nicht lesen: %{error}"
+
+# ---- bitwarden/crypto.rs -----------------------------------------------------
+vault.bw_zero_iterations:
+  en: "the server reported zero KDF iterations"
+  de: "der Server hat null KDF-Runden gemeldet"
+vault.bw_bad_argon2_params:
+  en: "the server reported unusable Argon2 parameters: %{error}"
+  de: "der Server hat unbrauchbare Argon2-Parameter gemeldet: %{error}"
+vault.bw_argon2_failed:
+  en: "Argon2 failed: %{error}"
+  de: "Argon2 ist gescheitert: %{error}"
+vault.bw_bad_key_length:
+  en: "a vault key of %{length} bytes is not a key Bitwarden uses"
+  de: "ein Tresorschlüssel mit %{length} Bytes ist keiner, den Bitwarden verwendet"
+vault.bw_aes128:
+  en: "this entry uses AES-128, a format from before 2016 that WireTerm does not read"
+  de: "dieser Eintrag verwendet AES-128, ein Format aus der Zeit vor 2016, das WireTerm nicht liest"
+vault.bw_unknown_cipher_format:
+  en: "unknown Bitwarden cipher format %{format}"
+  de: "unbekanntes Bitwarden-Chiffratformat %{format}"
+vault.bw_bad_base64:
+  en: "a Bitwarden value is not valid base64: %{error}"
+  de: "ein Bitwarden-Wert ist kein gültiges Base64: %{error}"
+vault.bw_needs_private_key:
+  en: "this value is RSA-encrypted and needs the account's private key"
+  de: "dieser Wert ist mit RSA verschlüsselt und braucht den privaten Schlüssel des Kontos"
+vault.bw_no_mac_half:
+  en: "this vault key carries no MAC half"
+  de: "dieser Tresorschlüssel hat keine MAC-Hälfte"
+vault.bw_integrity_failed:
+  en: "a Bitwarden value failed its integrity check"
+  de: "ein Bitwarden-Wert hat die Integritätsprüfung nicht bestanden"
+vault.bw_not_rsa:
+  en: "this value is not RSA-encrypted"
+  de: "dieser Wert ist nicht mit RSA verschlüsselt"
+vault.bw_org_key_unwrap_failed:
+  en: "an organization key could not be unwrapped: %{error}"
+  de: "ein Organisationsschlüssel ließ sich nicht auspacken: %{error}"
+vault.bw_no_iv:
+  en: "a Bitwarden value has no usable initialisation vector"
+  de: "ein Bitwarden-Wert hat keinen brauchbaren Initialisierungsvektor"
+vault.bw_decrypt_failed:
+  en: "a Bitwarden value could not be decrypted"
+  de: "ein Bitwarden-Wert ließ sich nicht entschlüsseln"
+vault.bw_not_text:
+  en: "a Bitwarden value is not text"
+  de: "ein Bitwarden-Wert ist kein Text"
+vault.bw_private_key_unreadable:
+  en: "the account's private key could not be read: %{error}"
+  de: "der private Schlüssel des Kontos ließ sich nicht lesen: %{error}"

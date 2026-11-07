@@ -1,0 +1,39 @@
+_version: 2
+# Messages of the shared TLS setup (tls.rs) and the trusted certificates
+# (certificates.rs), used by FTPS and S3.
+
+# ---- Setup (tls.rs) -----------------------------------------------------------
+tls.setup_failed:
+  en: "TLS could not be set up: %{error}"
+  de: "TLS ließ sich nicht einrichten: %{error}"
+tls.no_roots:
+  en: "no trusted root certificates could be read from the system"
+  de: "aus dem System ließen sich keine vertrauenswürdigen Stammzertifikate lesen"
+
+# ---- Why the system does not trust a certificate (tls.rs) ---------------------
+tls.reason_unknown_issuer:
+  en: "not issued by any known authority, probably self-signed"
+  de: "von keiner bekannten Stelle ausgestellt, vermutlich selbst signiert"
+tls.reason_wrong_name:
+  en: "issued for a different name"
+  de: "für einen anderen Namen ausgestellt"
+tls.reason_expired:
+  en: "expired"
+  de: "abgelaufen"
+tls.reason_not_yet_valid:
+  en: "not yet valid"
+  de: "noch nicht gültig"
+
+# ---- Trusted certificates (certificates.rs) -----------------------------------
+tls.create_failed:
+  en: "could not create %{path}: %{error}"
+  de: "%{path} ließ sich nicht anlegen: %{error}"
+tls.write_failed:
+  en: "could not write %{path}: %{error}"
+  de: "%{path} ließ sich nicht schreiben: %{error}"
+tls.fingerprint_unreadable:
+  en: "the fingerprint is unreadable"
+  de: "der Fingerprint ist unlesbar"
+tls.certificate_rejected:
+  en: "the certificate of %{host} was not accepted (%{reason})"
+  de: "das Zertifikat von %{host} wurde nicht angenommen (%{reason})"

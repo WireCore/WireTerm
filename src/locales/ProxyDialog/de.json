@@ -1,0 +1,10 @@
+{
+  "title": "Standard-Proxy",
+  "hint": "Gilt für jede Verbindung, die nichts anderes sagt — in allen Workspaces, aber nur auf diesem Rechner. Eine Verbindung kann davon abweichen: direkt oder über einen eigenen Proxy, unter Optionen.",
+  "enabled": "Über einen Proxy verbinden",
+  "kind": "Art",
+  "hostPlaceholder": "proxy.firma.de",
+  "user": "Benutzer",
+  "userHint": "Leer heißt ohne Anmeldung.",
+  "dnsHint": "SOCKS5 löst die Namen der Ziele erst beim Proxy auf, so wie es auch HTTP CONNECT tut. Über FTP gehen weder implizites FTPS noch der aktive Modus durch einen Proxy."
+}

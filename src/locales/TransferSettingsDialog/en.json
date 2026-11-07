@@ -1,0 +1,14 @@
+{
+  "title": "File view",
+  "transfers": "Transfers",
+  "parallel": "Simultaneous",
+  "parallelHint": "How many files are transferred at once. This helps most with many small files, because the wait for the server's reply is shared; a single large file fills the line on its own anyway. Applies to all connections in all workspaces.",
+  "remoteEditing": "Editing on the server",
+  "editor": "Editor",
+  "chooseEditor": "Choose editor",
+  "editorPlaceholder": "System default program",
+  "browse": "Browse …",
+  "arguments": "Arguments",
+  "editorHint": "The full path to the program. Empty means: the program the system would open the file with anyway.",
+  "argumentsHint": "If an editor is set, WireTerm starts it itself and ends the editing as soon as it closes — the row above then disappears on its own. For that, though, the editor has to open a window of its own instead of passing the file to one that is already open and quitting right away. That is exactly what the arguments are for: {notepad} for Notepad++, {vscode} for VS Code. The file path is appended; where it has to go elsewhere, write {file}."
+}

@@ -1,0 +1,20 @@
+{
+  "title": "Terminal-Einstellungen",
+  "theme": "Theme",
+  "themeHint": "Gilt für alle Verbindungen in allen Workspaces.",
+  "font": "Schrift",
+  "fontFamily": "Schriftart",
+  "fontSize": "Größe",
+  "lineHeight": "Zeilenhöhe",
+  "fontHint": "Eine nicht installierte Schrift fällt still auf Consolas zurück – dann sieht nichts anders aus, als es vorher war.",
+  "cursor": "Cursor",
+  "cursorStyle": "Form",
+  "cursorBlink": "Blinken",
+  "readability": "Lesbarkeit und Verlauf",
+  "minimumContrast": "Mindestkontrast",
+  "minimumContrastHint": "Hellt zu dunkle Vordergrundfarben so weit auf, bis sie sich abheben – gegen Programme, die Dunkelblau auf Schwarz schreiben.",
+  "scrollback": "Verlauf",
+  "scrollbackHint": "Zeilen, die über dem Bild aufgehoben werden und damit durchsuchbar sind. Kostet nur Arbeitsspeicher.",
+  "boldBright": "Fette Schrift zusätzlich aufhellen",
+  "boldBrightHint": "Aus wirkt ruhiger: Fettes bleibt fett, statt nebenbei die Farbe zu wechseln."
+}

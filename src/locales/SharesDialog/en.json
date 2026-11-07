@@ -1,0 +1,17 @@
+{
+  "title": "Shares for \"{name}\"",
+  "wholeOrganization": "The whole organization",
+  "hint": "Owners and administrators see every project, even without a share. For everyone else this list decides whether the project exists at all.",
+  "none": "not shared",
+  "shareFor": "Share for {name}",
+  "noTeams": "There are no teams yet. Until then \"the whole organization\" is the only share — teams are created under \"Members\".",
+  "newMember": "A new member sees the connections right away, but the credentials only once a client with access has wrapped the project key for them. That happens at the next sync — unless they have not set up a master password yet.",
+  "rotateTitle": "Renew project key",
+  "rotateHint": "Whoever loses a share also loses their copy of the project key — but what they have read until then, they still know. It only becomes tight with a new version: all credentials of the project are re-encrypted under it, and only those who are still shared with get it.",
+  "removingWarning": "A share is being removed here. Renewing the key afterwards is the safe way.",
+  "rotated": "Renewed: {secrets} credentials re-encrypted, wrapped for {n} person. | Renewed: {secrets} credentials re-encrypted, wrapped for {n} people.",
+  "rotatedWaiting": "{n} without a master password get it as soon as they set one up.",
+  "rotatedSkipped": "{n} could not be opened here and stay under the old version.",
+  "saveAndRotate": "Save and renew key",
+  "rotate": "Renew key"
+}

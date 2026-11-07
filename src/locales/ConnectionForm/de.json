@@ -1,0 +1,159 @@
+{
+  "type": "Typ",
+  "reference": "Referenz",
+  "pickIn": "In {provider} auswählen",
+  "encryption": "Verschlüsselung",
+  "acceptInvalidCert": "Zertifikat nicht prüfen",
+  "acceptInvalidCertHint": "Die Verbindung wird weiter verschlüsselt, aber nicht mehr geprüft, ob am anderen Ende wirklich dieser Server sitzt. Für ein selbstsigniertes Zertifikat ist das nicht nötig: Ohne diesen Haken fragt das Verbinden, ob du genau diesem Zertifikat vertraust.",
+  "startPath": "Startpfad",
+  "startPathPlaceholder": "leer = Home, z. B. /var/www oder ~/logs",
+  "method": "Methode",
+  "secretUnreadable": "Das gespeicherte Geheimnis lässt sich auf diesem Gerät nicht öffnen — es wurde mit einem anderen Geräteschlüssel verschlüsselt, oder das App-Passwort fehlt noch. Bleibt das Feld leer, bleibt es beim Speichern erhalten; neu eingegeben ersetzt es.",
+  "path": "Pfad",
+  "browse": "Durchsuchen …",
+  "privateKey": "Privater Schlüssel",
+  "sessionToken": "Session-Token (optional)",
+  "sessionTokenHint": "Für zeitlich begrenzte Zugangsdaten aus STS oder einem SSO-Login. Läuft das Token ab, hier das neue eintragen.",
+  "agentForwarding": "SSH-Agent an den Server weiterreichen",
+  "agentForwardingHint": "Damit lässt sich von dort aus mit denselben Schlüsseln weiter verbinden, ohne sie auf den Server zu kopieren. Wer auf dem Server root ist, kann den Agent dann ebenfalls benutzen, solange die Verbindung steht — nur für Server einschalten, denen man so weit traut.",
+  "hostPlaceholder": "beispiel.de oder 10.0.0.1",
+  "hostPlaceholderS3": "s3.eu-central-1.amazonaws.com oder minio.intern",
+  "fields": {
+    "ssh": {
+      "host": "Host",
+      "user": "Benutzer",
+      "credentials": "Anmeldung"
+    },
+    "ftp": {
+      "host": "Host",
+      "user": "Benutzer",
+      "credentials": "Passwort"
+    },
+    "s3": {
+      "host": "Endpunkt",
+      "user": "Access Key ID",
+      "credentials": "Secret Access Key"
+    }
+  },
+  "sshMethods": {
+    "key": "Schlüssel",
+    "password": "Passwort"
+  },
+  "sources": {
+    "vault": "Aus {provider}",
+    "vaultHint": {
+      "key": "Nur die Referenz wird gespeichert. Der Schlüssel bleibt in {provider} und wird erst beim Verbinden gelesen.",
+      "password": "Nur die Referenz wird gespeichert. Das Passwort bleibt in {provider} und wird erst beim Verbinden gelesen."
+    },
+    "keyFile": "Datei auf diesem Gerät",
+    "keyFileHint": "Nur der Pfad wird gespeichert. Die Datei wird beim Verbinden gelesen.",
+    "agent": "SSH-Agent",
+    "agentHint": "Nichts wird gespeichert. Beim Verbinden werden die Schlüssel des laufenden Agents probiert — erst der OpenSSH-Agent von Windows (auch der von 1Password), dann Pageant.",
+    "inlineKey": "Schlüssel eingeben",
+    "inlineKeyHint": "Der Schlüssel wird verschlüsselt gespeichert — lokal mit dem Schlüssel dieses Geräts, auf einem Backend mit dem Masterpasswort.",
+    "prompt": "Beim Verbinden abfragen",
+    "promptHintSsh": "Nichts wird gespeichert. Einmal pro Tab wird gefragt; Terminal und Dateibrowser im selben Tab verwenden dieselbe Eingabe.",
+    "promptHintTransfers": "Nichts wird gespeichert. Einmal pro Tab wird gefragt; weitere Übertragungen im selben Tab verwenden dieselbe Eingabe.",
+    "password": "Passwort eingeben",
+    "passwordHint": "Das Passwort wird verschlüsselt gespeichert — lokal mit dem Schlüssel dieses Geräts, auf einem Backend mit dem Masterpasswort.",
+    "anonymous": "Anonym",
+    "anonymousHint": "Meldet sich als „anonymous“ an. Der Benutzername oben wird dabei nicht verwendet.",
+    "secretHint": "Der Secret Access Key wird verschlüsselt gespeichert — lokal mit dem Schlüssel dieses Geräts, auf einem Backend mit dem Masterpasswort."
+  },
+  "user": {
+    "typed": "Eingeben",
+    "vaultHint": "Nur die Referenz wird gespeichert. Der Name wird erst beim Verbinden aus {provider} gelesen."
+  },
+  "jump": {
+    "label": "Über Jump-Host",
+    "hint": "Das Ziel wird durch diese Verbindung erreicht — mit deren Zugangsdaten. Sie kann selbst wieder einen Jump-Host haben. In einem Team-Workspace nur aus ihm selbst.",
+    "none": "keiner — direkt verbinden",
+    "locked": "(gesperrt)"
+  },
+  "forwards": {
+    "title": "Port-Weiterleitungen",
+    "hint": "Starten, sobald das Terminal verbunden ist, und enden mit dem Tab. {local}: ein Port hier führt zu einem Ziel, wie der Server es sieht. {remote}: ein Port auf dem Server führt hierher. {socks}: ein Proxy hier, der über den Server hinausgeht. Ohne Adresse wird nur auf 127.0.0.1 gelauscht.",
+    "local": "Lokal",
+    "remote": "Entfernt",
+    "kind": "Art",
+    "address": "Adresse",
+    "target": "Ziel",
+    "targetPort": "Zielport",
+    "add": "Weiterleitung hinzufügen",
+    "kinds": {
+      "local": "Lokal (-L)",
+      "remote": "Entfernt (-R)",
+      "dynamic": "SOCKS (-D)"
+    }
+  },
+  "startup": {
+    "label": "Beim Verbinden ausführen",
+    "hint": "Ein Snippet dieses Workspaces, abgeschickt, sobald das Terminal steht.",
+    "none": "keiner"
+  },
+  "proxy": {
+    "modes": {
+      "default": "Standard-Proxy des Geräts",
+      "direct": "Direkt, ohne Proxy",
+      "custom": "Eigener Proxy"
+    },
+    "noDefault": "keiner eingetragen, also direkt",
+    "defaultHint": "Standard-Proxy dieses Geräts: {proxy}. Eingestellt wird er in der Übersicht unter „Proxy“, und er gilt nur auf diesem Rechner.",
+    "kind": "Art",
+    "hostPlaceholder": "proxy.intern",
+    "customHint": "Ohne Anmeldung: der Proxy reist mit der Verbindung mit, und ihr einziges Geheimnis sind ihre Zugangsdaten. Ein Proxy mit Passwort gehört als Standard-Proxy eingetragen.",
+    "jumpHint": "Mit Jump-Host gilt der Proxy des ersten Hops — alles danach baut der Jump-Host auf.",
+    "ftpHint": "Über einen Proxy gehen weder implizites FTPS noch der aktive Modus."
+  },
+  "key": {
+    "generating": "Erzeugt …",
+    "generatingRsa": "Erzeugt einen RSA-Schlüssel …",
+    "reading": "Liest …",
+    "installing": "Trägt ein …",
+    "importTitle": "Privaten Schlüssel übernehmen (.ppk, OpenSSH, PEM)",
+    "chooseTitle": "Privaten Schlüssel wählen",
+    "copied": "Öffentlicher Schlüssel kopiert.",
+    "installed": "Auf dem Server eingetragen. Nach dem Speichern meldet sich die Verbindung damit an.",
+    "alreadyInstalled": "Der Schlüssel stand dort schon.",
+    "generate": "Neu erzeugen",
+    "rsa": "RSA statt Ed25519",
+    "rsaHint": "Für Server, die Ed25519 noch nicht kennen. Dauert ein paar Sekunden.",
+    "fromFile": "Aus Datei (.ppk, OpenSSH, PEM) …",
+    "showPublic": "Öffentlichen Schlüssel zeigen",
+    "passphrase": "Passphrase der Datei",
+    "unlock": "Entsperren",
+    "copyPublic": "Öffentlichen Schlüssel kopieren",
+    "installHint": "In ~/.ssh/authorized_keys auf dem Server — angemeldet mit dem, was bisher gilt, sonst mit Passwort",
+    "install": "Auf dem Server eintragen"
+  },
+  "security": {
+    "explicit": "FTPS (explizit)",
+    "explicitHint": "Verschlüsselt die bestehende Verbindung mit AUTH TLS. Der heute übliche Weg.",
+    "implicit": "FTPS (implizit)",
+    "implicitHint": "Verschlüsselt ab dem ersten Byte, klassisch auf Port 990. Gilt als überholt, ist aber auf älteren Servern oft das Einzige.",
+    "plain": "Ohne Verschlüsselung",
+    "plainHint": "Achtung: Passwort und Dateiinhalte gehen im Klartext über die Leitung."
+  },
+  "s3": {
+    "tlsHint": "Verschlüsselt, wie bei jedem S3-Dienst im Netz üblich.",
+    "noTlsHint": "Achtung: Ohne TLS gehen Signatur und Dateiinhalte im Klartext über die Leitung. Nur für einen Endpunkt im eigenen Netz vertretbar.",
+    "pathStyle": "Bucket im Pfad",
+    "pathStyleHint": "AWS erwartet den Bucket im Hostnamen ({virtualHost}), MinIO, Ceph und alles, was über eine IP erreicht wird, im Pfad ({pathStyle}) — denn {ip} löst nirgendwo auf.",
+    "virtualHostExample": "bucket.endpunkt",
+    "pathStyleExample": "endpunkt/bucket",
+    "bucketPlaceholder": "leer = alle Buckets",
+    "region": "Region",
+    "prefix": "Startordner",
+    "prefixPlaceholder": "z. B. backups/2024",
+    "bucketHint": "Ohne Bucket beginnt die Ansicht bei der Liste aller Buckets — das setzt voraus, dass der Schlüssel sie auflisten darf. Mit Bucket beginnt sie darin, und höher geht es nicht. Der Startordner ist nur ein Startpunkt: Nach oben führt der Weg bis zur Wurzel des Buckets.",
+    "regionHint": "Die Region gehört zur Signatur, nicht zur Adresse. AWS lehnt eine falsche ab und nennt die richtige; die meisten anderen Implementierungen ignorieren sie.",
+    "storageClass": "Speicherklasse",
+    "storageClassPlaceholder": "leer = Vorgabe des Servers",
+    "storageClassHint": "Gilt für Uploads. {standard}, {standardIa}, {glacierIr} und so weiter — eine Klasse, die der Server nicht kennt, lehnt er ab, deshalb bleibt das Feld für alles außer AWS besser leer."
+  },
+  "ftp": {
+    "dataConnection": "Datenverbindung",
+    "passive": "Passiv",
+    "passiveHint": "Im passiven Modus baut dieser Rechner die Datenverbindung auf — das Einzige, was hinter einem Router oder einer Firewall zuverlässig funktioniert. Aktiv lässt den Server sich zurückverbinden und braucht dafür einen offenen Port hier."
+  }
+}

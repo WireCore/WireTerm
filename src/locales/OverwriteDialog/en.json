@@ -1,0 +1,19 @@
+{
+  "title": "Already exists",
+  "titleNested": "Already exists in folder",
+  "lead": "One name is already taken at the target. | {n} names are already taken at the target.",
+  "leadNested": "One name is already taken in the merged folders. | {n} names are already taken in the merged folders.",
+  "all": "All:",
+  "overwrite": "Replace",
+  "overwriteTitle": "What is there gets overwritten",
+  "rename": "Rename",
+  "renameTitle": "Store under a free name",
+  "skip": "Skip",
+  "skipTitle": "Do not transfer",
+  "merge": "Merge",
+  "onlyNewer": "Only if newer",
+  "onlyNewerTitle": "Skip older, replace newer",
+  "folder": "Folder",
+  "count": "{kept} of {total} will be transferred",
+  "apply": "Apply"
+}

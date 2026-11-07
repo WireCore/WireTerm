@@ -1,0 +1,19 @@
+{
+  "title": "MCP-Server",
+  "intro": "Damit Claude und andere Agenten WireTerm benutzen können: Verbindungen, Snippets und offene Terminals ansehen, Verzeichnisse auflisten. Einen Befehl ausführen oder in ein Terminal tippen geht nur, wenn du jeden einzelnen Aufruf hier bestätigst. Passwörter und Schlüssel gibt der Server nie heraus.",
+  "enable": "MCP-Server einschalten",
+  "port": "Port",
+  "runningOn": "Läuft auf {url}",
+  "notRunning": "Läuft gerade nicht.",
+  "localOnly": "Nur von diesem Rechner aus erreichbar.",
+  "setup": "Einrichten",
+  "claudeCode": "Claude Code, in einem Terminal:",
+  "otherClients": "Andere Clients (Claude Desktop über einen HTTP-Proxy, Cursor, …):",
+  "copied": "kopiert",
+  "copyCommand": "Befehl kopieren",
+  "copyJson": "JSON kopieren",
+  "copyFailed": "Kopieren war nicht möglich.",
+  "showToken": "Token anzeigen",
+  "newToken": "Neues Token",
+  "newTokenTitle": "Das alte Token gilt sofort nicht mehr"
+}

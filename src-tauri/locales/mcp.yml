@@ -1,0 +1,12 @@
+_version: 2
+# Messages from the MCP server (mcp.rs) that a person sees. What agents read
+# (tool names, descriptions, protocol errors) stays English in the code.
+mcp.unknown_client:
+  en: "An agent"
+  de: "Ein Agent"
+mcp.port_in_use:
+  en: "Port %{port} is not free: %{error}"
+  de: "Port %{port} ist nicht frei: %{error}"
+mcp.device_key_locked:
+  en: "The device key is locked — unlock it first."
+  de: "Der Geräteschlüssel ist gesperrt — erst entsperren."

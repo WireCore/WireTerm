@@ -1,0 +1,11 @@
+{
+  "title": "Aus einer Export-Datei",
+  "lead": "Die Workspaces aus der Datei kommen als neue, lokale Workspaces auf dieses Gerät — samt ihrer Zugangsdaten. Vorhandene bleiben, wie sie sind.",
+  "file": "Datei",
+  "filePlaceholder": "…\\Firma.wireterm",
+  "browse": "Durchsuchen …",
+  "password": "Passwort der Datei",
+  "chooseTitle": "Export-Datei wählen",
+  "filterName": "WireTerm-Export",
+  "empty": "Die Datei enthält keinen Workspace."
+}

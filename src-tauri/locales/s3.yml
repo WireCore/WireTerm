@@ -1,0 +1,124 @@
+_version: 2
+# Messages from the S3 file browser: s3.rs.
+
+# ---- Requests ------------------------------------------------------------------
+s3.not_connected:
+  en: "The file browser is not connected."
+  de: "Der Dateibrowser ist nicht verbunden."
+s3.http_client_failed:
+  en: "The HTTP client could not be set up: %{error}"
+  de: "Der HTTP-Client ließ sich nicht einrichten: %{error}"
+s3.invalid_method:
+  en: "%{method} is not an HTTP method"
+  de: "%{method} ist keine HTTP-Methode"
+s3.unreachable:
+  en: "%{host} could not be reached: %{error}"
+  de: "%{host} ist nicht erreichbar: %{error}"
+s3.not_found:
+  en: "Not found"
+  de: "Nicht gefunden"
+s3.forbidden:
+  en: "Refused: the access key may not do this, or the signature was not accepted"
+  de: "Abgelehnt: Der Zugriffsschlüssel darf das nicht, oder die Signatur wurde nicht akzeptiert"
+s3.unauthorized:
+  en: "The access key was not accepted"
+  de: "Der Zugriffsschlüssel wurde nicht akzeptiert"
+s3.server_answered:
+  en: "The server answered %{status}"
+  de: "Der Server antwortete mit %{status}"
+s3.bucket_region:
+  en: "%{message} (the bucket is in %{region})"
+  de: "%{message} (der Bucket liegt in %{region})"
+s3.endpoint_unnamed:
+  en: "S3 endpoint without server details"
+  de: "S3-Endpunkt ohne Server-Angabe"
+
+# ---- Sessions ------------------------------------------------------------------
+s3.vault_read_failed:
+  en: "The secret key could not be read from %{provider}: %{error}"
+  de: "Der Secret Key ließ sich nicht aus %{provider} lesen: %{error}"
+
+# ---- Directories ---------------------------------------------------------------
+s3.listing_read_failed:
+  en: "The listing of %{bucket} could not be read: %{error}"
+  de: "Der Inhalt von %{bucket} ließ sich nicht lesen: %{error}"
+s3.buckets_read_failed:
+  en: "The buckets could not be read: %{error}"
+  de: "Die Buckets ließen sich nicht lesen: %{error}"
+s3.name_needed:
+  en: "A name is needed."
+  de: "Es wird ein Name gebraucht."
+s3.file_needs_bucket:
+  en: "A file needs a bucket to live in."
+  de: "Eine Datei braucht einen Bucket, in dem sie liegt."
+s3.already_exists:
+  en: "%{path} already exists"
+  de: "%{path} existiert bereits"
+s3.does_not_exist:
+  en: "%{key} does not exist"
+  de: "%{key} existiert nicht"
+s3.copy_failed:
+  en: "%{key} could not be copied: %{error}"
+  de: "%{key} ließ sich nicht kopieren: %{error}"
+s3.metadata_not_carried:
+  en: "The metadata of %{key} cannot be carried over"
+  de: "Die Metadaten von %{key} lassen sich nicht übernehmen"
+s3.copy_part_failed:
+  en: "Part %{number} of %{key} could not be copied: %{error}"
+  de: "Teil %{number} von %{key} ließ sich nicht kopieren: %{error}"
+s3.part_not_acknowledged:
+  en: "The server did not acknowledge part %{number} of %{key}"
+  de: "Der Server hat Teil %{number} von %{key} nicht bestätigt"
+s3.deletion_unfinished:
+  en: "A deletion did not finish: %{error}"
+  de: "Ein Löschvorgang wurde nicht fertig: %{error}"
+s3.bucket_not_renamable:
+  en: "A bucket cannot be renamed here."
+  de: "Ein Bucket lässt sich hier nicht umbenennen."
+s3.nothing_above_buckets:
+  en: "There is nothing above the buckets to delete."
+  de: "Oberhalb der Buckets gibt es nichts zu löschen."
+
+# ---- Left-behind uploads -------------------------------------------------------
+s3.uploads_read_failed:
+  en: "The uploads in %{bucket} could not be read: %{error}"
+  de: "Die Uploads in %{bucket} ließen sich nicht lesen: %{error}"
+s3.abort_upload_failed:
+  en: "The upload of %{key} could not be aborted: %{error}"
+  de: "Der Upload von %{key} ließ sich nicht abbrechen: %{error}"
+
+# ---- Permissions ---------------------------------------------------------------
+s3.no_permissions:
+  en: "S3 has no Unix permissions — access is decided by policies, not by modes."
+  de: "S3 kennt keine Unix-Rechte — über den Zugriff entscheiden Richtlinien, nicht Modi."
+
+# ---- Transfers -----------------------------------------------------------------
+s3.file_shortened:
+  en: "The file was shortened while it was being sent"
+  de: "Die Datei wurde gekürzt, während sie gesendet wurde"
+s3.not_an_object:
+  en: "%{path} is not an object"
+  de: "%{path} ist kein Objekt"
+s3.not_an_upload_target:
+  en: "%{path} is not a place for an object"
+  de: "%{path} ist kein Ort für ein Objekt"
+s3.read_failed:
+  en: "%{path} could not be read: %{error}"
+  de: "%{path} ließ sich nicht lesen: %{error}"
+s3.write_failed:
+  en: "%{path} could not be written: %{error}"
+  de: "%{path} ließ sich nicht schreiben: %{error}"
+s3.finish_failed:
+  en: "%{path} could not be finished: %{error}"
+  de: "%{path} ließ sich nicht abschließen: %{error}"
+s3.upload_start_failed:
+  en: "The upload of %{key} could not be started: %{error}"
+  de: "Der Upload von %{key} ließ sich nicht starten: %{error}"
+s3.upload_not_named:
+  en: "The server did not name an upload for %{key}"
+  de: "Der Server hat keinen Upload für %{key} genannt"
+
+# ---- Links ---------------------------------------------------------------------
+s3.link_file_only:
+  en: "A link can only be made for a file."
+  de: "Ein Link lässt sich nur für eine Datei erstellen."
