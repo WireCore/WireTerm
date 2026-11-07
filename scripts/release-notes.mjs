@@ -1,9 +1,10 @@
 // Writes the body of a GitHub release: a table of the installers, the way
 // RustDesk shows its downloads, followed by GitHub's generated notes.
 //
-//   node scripts/release-notes.mjs <assets.json> <owner/repo> <tag> [generated-notes.md] > body.md
+//   node scripts/release-notes.mjs <release.json> <owner/repo> <tag> [generated-notes.md] > body.md
 //
-// <assets.json> is `gh release view <tag> --json assets`. The table is built from
+// <release.json> is the release from the API (`gh api repos/<owner/repo>/releases/<id>`);
+// only the names in its `assets` are read. The table is built from
 // the files that were actually uploaded, so it never links to one a build job
 // did not produce. The links are built from tag and file name: while the
 // release is a draft, GitHub serves its files under a provisional path that
@@ -11,15 +12,15 @@
 
 import { readFileSync } from "node:fs";
 
-const [assetsFile, repo, tag, notesFile] = process.argv.slice(2);
-if (!assetsFile || !repo || !tag) {
-  console.error("usage: release-notes.mjs <assets.json> <owner/repo> <tag> [generated-notes.md]");
+const [releaseFile, repo, tag, notesFile] = process.argv.slice(2);
+if (!releaseFile || !repo || !tag) {
+  console.error("usage: release-notes.mjs <release.json> <owner/repo> <tag> [generated-notes.md]");
   process.exit(1);
 }
 const download = (name) =>
   `https://github.com/${repo}/releases/download/${encodeURIComponent(tag)}/${encodeURIComponent(name)}`;
 
-const { assets } = JSON.parse(readFileSync(assetsFile, "utf8"));
+const { assets } = JSON.parse(readFileSync(releaseFile, "utf8"));
 const notes = notesFile ? readFileSync(notesFile, "utf8").trim() : "";
 
 // The file name endings Tauri's bundlers produce, by column and row.

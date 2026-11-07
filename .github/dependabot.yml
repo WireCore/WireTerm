@@ -11,6 +11,10 @@ updates:
       # 3.3.12 to 3.3.14 mis-type a slot scope in AccountWizard.vue; see the
       # commit that pinned it. Lift this once a release fixes it.
       - dependency-name: vue-tsc
+      # TypeScript 7 drops the JavaScript compiler that vue-tsc builds on
+      # (ERR_PACKAGE_PATH_NOT_EXPORTED). Lift this once vue-tsc supports it.
+      - dependency-name: typescript
+        update-types: [version-update:semver-major]
   - package-ecosystem: cargo
     directory: /src-tauri
     schedule:
@@ -18,6 +22,13 @@ updates:
     groups:
       minor-and-patch:
         update-types: [minor, patch]
+    ignore:
+      # The next RustCrypto generation (digest 0.11, cipher 0.5) does not fit
+      # rsa 0.9 and aes 0.8 yet; these move together with rsa 0.10 (TODO.md).
+      - dependency-name: cbc
+        versions: ['>= 0.2']
+      - dependency-name: sha1
+        versions: ['>= 0.11']
   - package-ecosystem: gomod
     directory: /sidecar
     schedule:

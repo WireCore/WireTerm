@@ -32,7 +32,9 @@ permissions:
 
 jobs:
   # One draft for all build jobs: created here, so that six jobs running at
-  # the same time do not each create their own.
+  # the same time do not each create their own. Its ID comes straight from the
+  # response — looking the draft up by tag afterwards found nothing, and the
+  # build jobs then skipped every upload.
   create-release:
     runs-on: ubuntu-latest
     outputs:
@@ -42,10 +44,10 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh release create "$GITHUB_REF_NAME" --repo "$GITHUB_REPOSITORY" --draft \
-            --title "WireTerm $GITHUB_REF_NAME" --notes "The installers are being built …"
-          id=$(gh api "repos/$GITHUB_REPOSITORY/releases" \
-            --jq ".[] | select(.tag_name == \"$GITHUB_REF_NAME\") | .id" | head -n 1)
+          id=$(gh api "repos/$GITHUB_REPOSITORY/releases" -f tag_name="$GITHUB_REF_NAME" \
+            -f name="WireTerm $GITHUB_REF_NAME" -f body="The installers are being built …" \
+            -F draft=true --jq .id)
+          test -n "$id"
           echo "id=$id" >> "$GITHUB_OUTPUT"
 
   build:
@@ -106,9 +108,10 @@ jobs:
       - uses: actions/checkout@v5
       - env:
           GH_TOKEN: ${{ github.token }}
+          RELEASE: repos/${{ github.repository }}/releases/${{ needs.create-release.outputs.id }}
         run: |
-          gh release view "$GITHUB_REF_NAME" --repo "$GITHUB_REPOSITORY" --json assets > assets.json
+          gh api "$RELEASE" > release.json
           gh api "repos/$GITHUB_REPOSITORY/releases/generate-notes" \
             -f tag_name="$GITHUB_REF_NAME" --jq .body > generated.md
-          node scripts/release-notes.mjs assets.json "$GITHUB_REPOSITORY" "$GITHUB_REF_NAME" generated.md > body.md
-          gh release edit "$GITHUB_REF_NAME" --repo "$GITHUB_REPOSITORY" --notes-file body.md
+          node scripts/release-notes.mjs release.json "$GITHUB_REPOSITORY" "$GITHUB_REF_NAME" generated.md > body.md
+          gh api -X PATCH "$RELEASE" -F body=@body.md > /dev/null
