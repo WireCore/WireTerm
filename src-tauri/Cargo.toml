@@ -89,7 +89,7 @@ cbc = { version = "0.1.2", features = ["alloc"] }
 # can present that one is already inside the process anyway. There is no pure
 # Rust alternative at the moment.
 rsa = "0.9.8"
-sha1 = "0.10.6"
+sha1 = "0.11.0"
 sha2 = "0.10.9"
 argon2 = "0.5.3"
 
