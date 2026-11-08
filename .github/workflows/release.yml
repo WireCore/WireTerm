@@ -114,4 +114,8 @@ jobs:
           gh api "repos/$GITHUB_REPOSITORY/releases/generate-notes" \
             -f tag_name="$GITHUB_REF_NAME" --jq .body > generated.md
           node scripts/release-notes.mjs release.json "$GITHUB_REPOSITORY" "$GITHUB_REF_NAME" generated.md > body.md
-          gh api -X PATCH "$RELEASE" -F body=@body.md > /dev/null
+          # The draft came out of 0.1.0 bound to an "untagged-…" tag, and publishing
+          # it created that tag on main instead of using the version tag. Bind it
+          # to the tag explicitly; the table's links depend on it.
+          gh api -X PATCH "$RELEASE" -f tag_name="$GITHUB_REF_NAME" -F body=@body.md \
+            --jq '"release bound to tag " + .tag_name'
