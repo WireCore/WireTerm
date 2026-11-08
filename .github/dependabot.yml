@@ -41,6 +41,8 @@ updates:
         versions: ['>= 0.11']
       - dependency-name: x25519-dalek
         versions: ['>= 3']
+      - dependency-name: argon2
+        versions: ['>= 0.6']
   - package-ecosystem: gomod
     directory: /sidecar
     schedule:
