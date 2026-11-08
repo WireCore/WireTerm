@@ -263,8 +263,11 @@ How the S3 side works is in the [README](README.md#s3). What is open:
   pass (Linux locally, all three in the CI), but the app itself has only been used on Windows:
   local shells, the agent in `SSH_AUTH_SOCK` (also for agent forwarding), the keyring prompt,
   1Password's desktop integration and the installers want a run on each system — Windows on ARM
-  and the Linux ARM64 packages included. The release workflow itself has not run yet either; it
-  needs the repository on GitHub, and its ARM runners need it public.
+  and the Linux ARM64 packages included. The release workflow builds all of them since 0.1.0.
+- **Auto-update not tried end to end yet.** 0.1.0 and 0.1.1 are released, signed and listed in
+  `latest.json`, and the files behind its links download. Missing is the run on a machine:
+  install 0.1.0, start it, take the offered update to 0.1.1 — with the EXE, the MSI (it asks for
+  administrator rights) and on macOS and Linux.
 - **A jump host from another workspace only works for private workspaces.** A connection in a
   team workspace can only jump through hosts of the same workspace, because colleagues could not
   resolve the ID otherwise. A locked workspace appears in the list with “(locked)”; connecting
