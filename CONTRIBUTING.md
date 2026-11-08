@@ -47,3 +47,11 @@ The CI runs the same. Add or adjust tests for what you change; the live tests
 
 By contributing you agree that your contribution is licensed under the
 [GNU AGPL v3](LICENSE), like the rest of the project.
+
+Every commit carries a `Signed-off-by` line (`git commit -s`). With it you
+confirm the [Developer Certificate of Origin](https://developercertificate.org):
+you wrote the change yourself, or it is based on work under a compatible open
+source license, and you have the right to contribute it under the AGPL. The DCO
+check on the pull request fails without it. To add it afterwards:
+`git commit --amend -s` for the last commit, `git rebase --signoff <base>` for
+several, then push with `--force-with-lease`.
