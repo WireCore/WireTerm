@@ -81,7 +81,7 @@ percent-encoding = "2.3.2"
 # SHA-256, but neither AES-CBC nor RSA decryption nor Argon2. Everything below
 # is pure Rust — no cmake, no NASM, the same constraint as above for rustls.
 base64 = "0.22.1"
-aes = "0.8.4"
+aes = "0.9.4"
 cbc = { version = "0.1.2", features = ["alloc"] }
 # RUSTSEC-2023-0071: rsa 0.9 does not decrypt in constant time. The attack
 # needs an oracle that ciphertexts can be presented to any number of times;
