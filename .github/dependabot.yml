@@ -24,11 +24,23 @@ updates:
         update-types: [minor, patch]
     ignore:
       # The next RustCrypto generation (digest 0.11, cipher 0.5) does not fit
-      # rsa 0.9 and aes 0.8 yet; these move together with rsa 0.10 (TODO.md).
+      # rsa 0.9 yet, and its crates only build with each other. They move
+      # together, with rsa 0.10 (TODO.md) — in one change that is tested
+      # against Bitwarden and the backend's envelope scheme.
+      - dependency-name: aes
+        versions: ['>= 0.9']
       - dependency-name: cbc
         versions: ['>= 0.2']
       - dependency-name: sha1
         versions: ['>= 0.11']
+      - dependency-name: sha2
+        versions: ['>= 0.11']
+      - dependency-name: hkdf
+        versions: ['>= 0.13']
+      - dependency-name: chacha20poly1305
+        versions: ['>= 0.11']
+      - dependency-name: x25519-dalek
+        versions: ['>= 3']
   - package-ecosystem: gomod
     directory: /sidecar
     schedule:
