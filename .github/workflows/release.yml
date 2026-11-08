@@ -65,7 +65,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     environment: release
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
       - if: runner.os == 'Linux'
         run: |
           sudo apt-get update
@@ -105,7 +105,7 @@ jobs:
     if: ${{ !cancelled() && needs.create-release.result == 'success' }}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
       - env:
           GH_TOKEN: ${{ github.token }}
           RELEASE: repos/${{ github.repository }}/releases/${{ needs.create-release.outputs.id }}
