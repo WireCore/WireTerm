@@ -90,7 +90,7 @@ cbc = { version = "0.1.2", features = ["alloc"] }
 # Rust alternative at the moment.
 rsa = "0.9.8"
 sha1 = "0.10.6"
-sha2 = "0.10.9"
+sha2 = "0.11.1"
 argon2 = "0.5.3"
 
 # ---- Cloud and custom backend -----------------------------------------------
