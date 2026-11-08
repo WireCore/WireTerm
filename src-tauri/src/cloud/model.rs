@@ -84,6 +84,10 @@ pub struct WorkspaceRow {
     pub kind: WorkspaceKind,
     #[serde(default)]
     pub role: Role,
+    /// The WireCloud company this organization stands for — only from a
+    /// backend in WireCloud mode. Its picture comes from WireCloud.
+    #[serde(default)]
+    pub wirecloud_company: Option<String>,
 }
 
 // ---- What `GET …/sync` returns -----------------------------------------------

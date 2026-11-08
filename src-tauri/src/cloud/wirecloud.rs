@@ -964,7 +964,29 @@ impl Wc {
     /// an error: the UI then keeps showing the initials and asks again later.
     pub async fn profile_image(&self) -> Result<Option<String>, WcError> {
         let (token, _) = self.access_token().await?;
-        let api = Api::new(&Server {
+        let profile = self
+            .wirecloud_api()?
+            .get_bearer("/v1/me/profile", &token)
+            .await
+            .map_err(token_error)?;
+        Ok(image_of(&profile))
+    }
+
+    /// The picture of a WireCloud company this account is a member of, as a
+    /// data URL; `None` without one. Errors as with the profile image.
+    pub async fn company_image(&self, company: &str) -> Result<Option<String>, WcError> {
+        let (token, _) = self.access_token().await?;
+        let company =
+            percent_encoding::utf8_percent_encode(company, percent_encoding::NON_ALPHANUMERIC);
+        self.wirecloud_api()?
+            .get_image_bearer(&format!("/v1/companies/{company}/image"), &token)
+            .await
+            .map_err(token_error)
+    }
+
+    /// WireCloud itself, for the calls with the access token.
+    fn wirecloud_api(&self) -> Result<Api, WcError> {
+        Api::new(&Server {
             url: self.0.url.clone(),
             accept_invalid_cert: self.0.accept_invalid_cert,
         })
@@ -974,12 +996,7 @@ impl Wc {
                 code: "WC-TLS".to_string(),
                 detail,
             })
-        })?;
-        let profile = api
-            .get_bearer("/v1/me/profile", &token)
-            .await
-            .map_err(token_error)?;
-        Ok(image_of(&profile))
+        })
     }
 
     /// A tool token for this backend. `force` fetches a new one even if the

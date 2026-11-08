@@ -153,17 +153,46 @@ export const accountImages = reactive<Record<string, string>>({});
 const imageCheckedAt = new Map<string, number>();
 const IMAGE_RECHECK_MS = 5 * 60 * 1000;
 
+/**
+ * The pictures of the WireCloud companies behind remote workspaces, by
+ * workspace ID (data URL) — the same way as the profile pictures: from
+ * WireCloud, and without one the tile shows initials.
+ */
+export const workspaceImages = reactive<Record<string, string>>({});
+/** Which entries above came with which account, to replace them as a whole. */
+const workspaceImagesOf = new Map<string, string[]>();
+
+function setWorkspaceImages(accountId: string, images: Record<string, string>) {
+  for (const id of workspaceImagesOf.get(accountId) ?? []) delete workspaceImages[id];
+  Object.assign(workspaceImages, images);
+  workspaceImagesOf.set(accountId, Object.keys(images));
+}
+
+/** Asks right away, not only every few minutes — after adding a workspace. */
+export function refreshWorkspaceImages(accountId: string) {
+  invoke<Record<string, string>>("cloud_workspace_images", { accountId })
+    .then((images) => setWorkspaceImages(accountId, images))
+    .catch(() => {});
+}
+
 function refreshImages(list: CloudAccount[]) {
   const ids = new Set(list.map((account) => account.id));
   for (const id of Object.keys(accountImages)) if (!ids.has(id)) delete accountImages[id];
+  for (const id of [...workspaceImagesOf.keys()]) {
+    if (ids.has(id)) continue;
+    setWorkspaceImages(id, {});
+    workspaceImagesOf.delete(id);
+  }
   for (const account of list) {
     if (!account.managedBy || !account.signedIn) {
       delete accountImages[account.id];
+      setWorkspaceImages(account.id, {});
       continue;
     }
     const last = imageCheckedAt.get(account.id) ?? 0;
     if (Date.now() - last < IMAGE_RECHECK_MS) continue;
     imageCheckedAt.set(account.id, Date.now());
+    refreshWorkspaceImages(account.id);
     invoke<string | null>("cloud_account_image", { accountId: account.id })
       .then((image) => {
         if (image) accountImages[account.id] = image;

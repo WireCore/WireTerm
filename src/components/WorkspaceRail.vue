@@ -17,7 +17,16 @@ import AccountWizard from "./AccountWizard.vue";
 import AccountsDialog from "./AccountsDialog.vue";
 import WorkspaceWizard from "./WorkspaceWizard.vue";
 import ImportDialog from "./ImportDialog.vue";
-import { accountImages, accounts, accountOf, loadAccounts, unlockWanted, type CloudAccount } from "../cloud";
+import {
+  accountImages,
+  accounts,
+  accountOf,
+  loadAccounts,
+  refreshWorkspaceImages,
+  unlockWanted,
+  workspaceImages,
+  type CloudAccount,
+} from "../cloud";
 import { adoptPersonalWorkspaces, loadWorkspaces, workspaces, persist } from "../store";
 import { newId, STORAGE_LABELS, type Workspace, type WorkspaceValues } from "../types";
 
@@ -48,6 +57,9 @@ function imported(workspaceId: string) {
 async function added(workspaceId: string) {
   adding.value = false;
   await loadWorkspaces();
+  // Its company's picture right away, not at the next round.
+  const accountId = workspaces.find((ws) => ws.id === workspaceId)?.remote?.accountId;
+  if (accountId) refreshWorkspaceImages(accountId);
   emit("select", workspaceId);
 }
 
@@ -302,6 +314,7 @@ function title(workspace: Workspace): string {
             class="p-0"
             :name="ws.name"
             :initials="initials(ws.name)"
+            :src="workspaceImages[ws.id]"
             shape="square"
             :color="group.color"
             :class="{ 'ring-2 ring-primary ring-inset': ws.id === props.selectedId, remote: !!ws.remote }"

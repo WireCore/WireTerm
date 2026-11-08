@@ -651,6 +651,7 @@ mod tests {
                 slug: String::new(),
                 kind: WorkspaceKind::Organization,
                 role: Role::Owner,
+                wirecloud_company: None,
             },
             revision: revision.into(),
             projects,

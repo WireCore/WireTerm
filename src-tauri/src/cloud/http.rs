@@ -17,7 +17,9 @@
 use std::collections::BTreeMap;
 use std::time::Duration;
 
-use reqwest::header::SET_COOKIE;
+use base64::engine::general_purpose::STANDARD as BASE64;
+use base64::Engine;
+use reqwest::header::{CONTENT_TYPE, SET_COOKIE};
 use reqwest::{Method, StatusCode};
 use rust_i18n::t;
 use serde::{Deserialize, Serialize};
@@ -349,6 +351,62 @@ impl Api {
     pub async fn get_bearer(&self, path: &str, token: &str) -> Result<Value, ApiError> {
         self.send_raw(Method::GET, path, &[], None, Auth::Bearer(token))
             .await
+    }
+
+    /// An image with a token, as a data URL: how the client gets the picture
+    /// of a WireCloud company. `None` when there is none (`404` — WireCloud
+    /// says the same when the account may not see it), and for anything that
+    /// is not a PNG, JPEG or WebP of reasonable size: only an image ever
+    /// reaches the UI.
+    pub async fn get_image_bearer(
+        &self,
+        path: &str,
+        token: &str,
+    ) -> Result<Option<String>, ApiError> {
+        const ALLOWED: [&str; 3] = ["image/png", "image/jpeg", "image/webp"];
+        const MAX_BYTES: usize = 2 * 1024 * 1024;
+
+        let response = self
+            .http
+            .request(Method::GET, format!("{}{path}", self.base))
+            .header("Accept", ALLOWED.join(", "))
+            .header("Authorization", format!("Bearer {token}"))
+            .send()
+            .await
+            .map_err(|e| ApiError::Offline(short(&e)))?;
+
+        let status = response.status();
+        if status == StatusCode::NOT_FOUND {
+            return Ok(None);
+        }
+        if status == StatusCode::UNAUTHORIZED {
+            return Err(ApiError::Unauthorized);
+        }
+        if !status.is_success() {
+            let text = response.text().await.unwrap_or_default();
+            return Err(problem(status.as_u16(), &text));
+        }
+        let mime = response
+            .headers()
+            .get(CONTENT_TYPE)
+            .and_then(|value| value.to_str().ok())
+            .and_then(|value| value.split(';').next())
+            .map(|value| value.trim().to_ascii_lowercase())
+            .unwrap_or_default();
+        if !ALLOWED.contains(&mime.as_str()) {
+            return Ok(None);
+        }
+        let bytes = response
+            .bytes()
+            .await
+            .map_err(|e| ApiError::Offline(short(&e)))?;
+        if bytes.is_empty() || bytes.len() > MAX_BYTES {
+            return Ok(None);
+        }
+        Ok(Some(format!(
+            "data:{mime};base64,{}",
+            BASE64.encode(&bytes)
+        )))
     }
 
     async fn send(
@@ -774,6 +832,37 @@ mod bearer_tests {
         let mut jar = Jar::default();
         jar.set_wirecloud(Wc::for_test(endpoint.clone(), "refresh-0"));
         (jar, endpoint)
+    }
+
+    #[test]
+    fn an_image_comes_back_as_data_url_and_anything_else_as_none() {
+        run(async {
+            let (url, seen) = server(vec![
+                (200, "Content-Type: image/png\r\n", "png-bytes"),
+                (404, "", r#"{"code":"NOT_FOUND"}"#),
+                (200, "Content-Type: text/html\r\n", "<script>"),
+            ])
+            .await;
+            let client = api(&url);
+            let image = client
+                .get_image_bearer("/v1/companies/c1/image", "access-1")
+                .await
+                .expect("answers");
+            assert_eq!(
+                image,
+                Some(format!(
+                    "data:image/png;base64,{}",
+                    BASE64.encode("png-bytes")
+                ))
+            );
+            for _ in 0..2 {
+                let none = client.get_image_bearer("/x", "access-1").await;
+                assert_eq!(none.expect("answers"), None);
+            }
+            let seen = seen.lock().unwrap();
+            assert_eq!(seen[0].path, "/v1/companies/c1/image");
+            assert_eq!(seen[0].authorization, "Bearer access-1");
+        });
     }
 
     #[test]

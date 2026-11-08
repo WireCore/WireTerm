@@ -444,6 +444,38 @@ pub async fn cloud_account_image(
     Ok(wc.profile_image().await.unwrap_or(None))
 }
 
+/// The pictures of the WireCloud companies behind this account's workspaces,
+/// by workspace (organization) ID. Without WireCloud, a picture or network an
+/// entry is missing and the sidebar keeps the initials — as with the profile
+/// image.
+#[tauri::command]
+pub async fn cloud_workspace_images(
+    state: State<'_, CloudState>,
+    account_id: String,
+) -> Result<HashMap<String, String>, String> {
+    let account = {
+        let inner = state.0.lock().await;
+        inner.account(&account_id)?.clone()
+    };
+    let Some(wc) = account.jar.wirecloud().cloned() else {
+        return Ok(HashMap::new());
+    };
+    let client = account.api()?;
+    let mut jar = account.jar.clone();
+    let rows = api::workspaces(&client, &mut jar).await?;
+
+    let mut images = HashMap::new();
+    for row in rows {
+        let Some(company) = row.wirecloud_company else {
+            continue;
+        };
+        if let Ok(Some(image)) = wc.company_image(&company).await {
+            images.insert(row.id, image);
+        }
+    }
+    Ok(images)
+}
+
 /// The address of the cloud — so that it is written in only one place.
 #[tauri::command]
 pub fn cloud_url() -> &'static str {

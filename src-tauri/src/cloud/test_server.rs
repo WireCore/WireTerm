@@ -79,8 +79,14 @@ pub async fn server(script: Vec<Reply>) -> (String, Arc<Mutex<Vec<Seen>>>) {
                 body: String::from_utf8_lossy(&body_bytes).to_string(),
                 head: head.clone(),
             });
+            // JSON unless the reply brings a type of its own (an image, say).
+            let content_type = if extra.to_ascii_lowercase().contains("content-type:") {
+                ""
+            } else {
+                "Content-Type: application/json\r\n"
+            };
             let response = format!(
-                "HTTP/1.1 {status} X\r\nContent-Type: application/json\r\nContent-Length: {}\r\n{extra}Connection: close\r\n\r\n{body}",
+                "HTTP/1.1 {status} X\r\n{content_type}Content-Length: {}\r\n{extra}Connection: close\r\n\r\n{body}",
                 body.len()
             );
             let _ = stream.write_all(response.as_bytes()).await;

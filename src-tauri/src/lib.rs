@@ -146,6 +146,7 @@ pub fn run() {
             cloud::cloud_url,
             cloud::cloud_accounts,
             cloud::cloud_account_image,
+            cloud::cloud_workspace_images,
             cloud::cloud_check_sessions,
             cloud::cloud_sign_in,
             cloud::cloud_wirecloud_detect,
