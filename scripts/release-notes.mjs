@@ -29,7 +29,7 @@ const ARCHS = [
   { label: "AArch64 (ARM64)", win: "arm64", mac: "aarch64", deb: "arm64", rpm: "aarch64", appimage: "aarch64" },
 ];
 const COLUMNS = [
-  { title: "Windows", files: (a) => [[`_${a.win}-setup.exe`, "EXE"], [new RegExp(`_${a.win}_[A-Za-z-]+\\.msi$`), "MSI"]] },
+  { title: "Windows", files: (a) => [[`_${a.win}-setup.exe`, "EXE"]] },
   { title: "macOS", files: (a) => [[`_${a.mac}.dmg`, "DMG"]] },
   { title: "Debian / Ubuntu", files: (a) => [[`_${a.deb}.deb`, "DEB"]] },
   { title: "Fedora / openSUSE", files: (a) => [[`.${a.rpm}.rpm`, "RPM"]] },
@@ -58,7 +58,7 @@ const body = [
   "",
   "Not sure which one?",
   "",
-  "- **Windows:** the EXE — it installs for your user, without administrator rights. The MSI installs for all users of the machine, needs administrator rights and is meant for rolling out centrally (Intune, group policy, `msiexec /qn`).",
+  "- **Windows:** the EXE — it installs for your user, without administrator rights.",
   "- **Mac:** Apple Silicon (M1 and later) is AArch64, an Intel Mac x86-64.",
   "- **Linux:** the package of your distribution, otherwise the AppImage.",
   "",

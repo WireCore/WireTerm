@@ -4,9 +4,13 @@ name: Release
 # release, with a download table in its description (scripts/release-notes.mjs)
 # and GitHub's generated notes below it. Check the draft, then publish it.
 #
-#   Windows  x64, ARM64           EXE (NSIS), MSI
+#   Windows  x64, ARM64           EXE (NSIS)
 #   macOS    Apple Silicon, Intel DMG (Intel is built on Apple Silicon)
 #   Linux    x64, ARM64           deb, rpm, AppImage
+#
+# No MSI (tauri.windows.conf.json): an MSI update uninstalls the old version with its
+# shortcuts, and Windows drops the pinned taskbar icon. The NSIS installer keeps them
+# on updates and removes an earlier MSI installation itself.
 #
 # The version comes from src-tauri/tauri.conf.json — keep it in step with the
 # tag.
