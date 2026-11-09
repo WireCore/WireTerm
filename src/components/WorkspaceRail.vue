@@ -74,22 +74,10 @@ const showingAccounts = ref(false);
 onMounted(loadAccounts);
 
 /**
- * The tile shows initials as soon as it is clear whose account is meant — so
- * with exactly one. With several any choice would be arbitrary, and then the
- * icon is shown.
+ * With exactly one account its title names it. The tile itself always shows
+ * the generic icon; pictures and initials are in the menu behind it.
  */
 const single = computed(() => (accounts.length === 1 ? accounts[0] : null));
-
-/**
- * Whose picture and initials the tile at the bottom shows: with one account
- * that one, with several the account of the selected workspace, and with a
- * local workspace none (then the icon is shown).
- */
-const shown = computed(() => {
-  if (single.value) return single.value;
-  const selected = workspaces.find((workspace) => workspace.id === props.selectedId);
-  return selected?.remote ? accountOf(selected.remote.accountId) : null;
-});
 
 /**
  * The most urgent state across all accounts. A signed-out account weighs more
@@ -370,10 +358,7 @@ function title(workspace: Workspace): string {
           <Avatar
             as="button"
             class="p-0"
-            :name="shown ? shown.name || shown.email : undefined"
-            :src="shown ? accountImages[shown.id] : undefined"
             :icon="User"
-            :color="shown ? avatarColor(shown.email) : undefined"
             :variant="accountState === 'ready' ? 'soft' : 'outline'"
             :title="accountTitle"
             :aria-label="accountTitle"

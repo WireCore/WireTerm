@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, onMounted, onUnmounted, ref, watch } from "vue";
 import { invoke } from "@tauri-apps/api/core";
+import { getVersion } from "@tauri-apps/api/app";
 import { listen, type UnlistenFn } from "@tauri-apps/api/event";
 import WorkspaceRail from "./components/WorkspaceRail.vue";
 import WorkspaceOverview from "./components/WorkspaceOverview.vue";
@@ -54,6 +55,10 @@ import {
 } from "./types";
 
 const { t } = useI18n();
+
+/** The installed version, small at the bottom right of the window. */
+const version = ref("");
+getVersion().then((v) => (version.value = v), () => undefined);
 
 const workspaceId = ref<string | null>(null);
 
@@ -502,6 +507,8 @@ onUnmounted(() => {
         </div>
       </div>
 
+      <span v-if="version" class="version">WireTerm {{ version }}</span>
+
       <!--
         Both of these belong to the window rather than to a tab: the question
         comes from the backend and may just as well have been raised by a
@@ -643,14 +650,59 @@ h2 {
 button:not(:disabled) {
   cursor: pointer;
 }
+
+/*
+  Scrollbars in the theme instead of the system's grey ones: a slim rounded
+  thumb on a transparent track, a step brighter under the pointer. The border
+  keeps the thumb off the edge. Not `scrollbar-color`/`scrollbar-width`: in
+  Chromium (WebView2) they would switch these off.
+*/
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track,
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--color-line-2);
+  background-clip: padding-box;
+  border: 2px solid transparent;
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: var(--color-muted);
+}
+
+::-webkit-scrollbar-button {
+  display: none;
+}
 }
 </style>
 
 <style scoped>
 .app {
+  position: relative;
   display: flex;
   height: 100%;
   overflow: hidden;
+}
+
+/* Above the panes, but never in the way of a click. */
+.version {
+  position: absolute;
+  right: 6px;
+  bottom: 2px;
+  z-index: 1;
+  font-size: 10px;
+  color: var(--muted);
+  opacity: 0.8;
+  pointer-events: none;
+  user-select: none;
 }
 
 .main {
