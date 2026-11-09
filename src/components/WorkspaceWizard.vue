@@ -172,12 +172,16 @@ async function checkAccount(): Promise<boolean | string> {
     }
     const id = accountId.value!;
     // Is in the rail afterwards and therefore no longer under "Existing".
-    await adoptPersonalWorkspaces(id);
+    const [personal] = await adoptPersonalWorkspaces(id);
     const status = await keyStatus(id);
     if (!status.hasKeys || !status.unlocked) {
       if (!(await ask("master"))) return t("WorkspaceWizard.masterRequired");
     }
     await loadOptions();
+    // WireCloud decides the organizations and nothing can be created here: if
+    // the personal workspace that just came into the rail was all there is,
+    // there is nothing left to choose — that one is what was added.
+    if (personal && managed.value && !addable.value.length) emit("added", personal);
     return true;
   } catch (e) {
     return String(e);

@@ -23,7 +23,7 @@ import TerminalSettingsDialog from "./TerminalSettingsDialog.vue";
 import SnippetMenu from "./SnippetMenu.vue";
 import { reportVaultProblem } from "../vault";
 import { findTheme, terminalSettings } from "../terminal-settings";
-import { workspaceOf } from "../store";
+import { projectOf, workspaceOf } from "../store";
 import {
   broadcasting,
   registerTerminal,
@@ -31,7 +31,7 @@ import {
   sendInput,
   unregisterTerminal,
 } from "../terminals";
-import type { LocalShell, RemoteSystem, Snippet, SshSettings, TabStatus } from "../types";
+import { snippetsFor, type LocalShell, type RemoteSystem, type Snippet, type SshSettings, type TabStatus } from "../types";
 
 /**
  * A terminal — over SSH or, with `local`, a shell on this machine. Both look
@@ -120,7 +120,10 @@ const settingsOpen = ref(false);
 // ---- Snippets ------------------------------------------------------------------
 
 const snippetsOpen = ref(false);
-const snippets = computed(() => workspaceOf(props.connectionId)?.snippets ?? []);
+/** Those of the connection's project, and its own. */
+const snippets = computed(() =>
+  snippetsFor(workspaceOf(props.connectionId), projectOf(props.connectionId)?.id ?? "", props.connectionId),
+);
 const broadcast = computed(() => broadcasting(props.sessionId));
 
 function run(snippet: Snippet, only: boolean) {
@@ -128,9 +131,12 @@ function run(snippet: Snippet, only: boolean) {
   term.value?.focus();
 }
 
-/** The connection's startup command, only in this terminal. */
+/**
+ * The connection's startup command, only in this terminal — and only a locked
+ * snippet, the only kind the backend accepts as one.
+ */
 function runStartup() {
-  const snippet = snippets.value.find((s) => s.id === props.settings?.startupSnippet);
+  const snippet = snippets.value.find((s) => s.id === props.settings?.startupSnippet && s.locked);
   if (snippet) run(snippet, true);
 }
 
@@ -236,6 +242,19 @@ function attempt(name: string, load: () => void) {
 }
 
 /**
+ * The scrollbar like the app's: a quiet slider in the text colour, a little
+ * stronger under the pointer — in every theme, light or dark.
+ */
+function scrollbarColors(foreground: string | undefined) {
+  if (!foreground || !/^#[0-9a-f]{6}$/i.test(foreground)) return {};
+  return {
+    scrollbarSliderBackground: `${foreground}26`,
+    scrollbarSliderHoverBackground: `${foreground}40`,
+    scrollbarSliderActiveBackground: `${foreground}59`,
+  };
+}
+
+/**
  * The settings live outside any workspace and every terminal reads the same
  * object, so one change reaches all open sessions at once. Everything here can
  * be set on a running terminal, which is what lets the dialog preview a theme
@@ -243,7 +262,8 @@ function attempt(name: string, load: () => void) {
  */
 function applySettings(terminal: Terminal) {
   const s = terminalSettings;
-  terminal.options.theme = findTheme(s.theme).theme;
+  const theme = findTheme(s.theme).theme;
+  terminal.options.theme = { ...theme, ...scrollbarColors(theme.foreground) };
   terminal.options.fontFamily = s.fontFamily;
   terminal.options.fontSize = s.fontSize;
   terminal.options.lineHeight = s.lineHeight;

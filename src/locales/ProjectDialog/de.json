@@ -1,5 +1,7 @@
 {
   "titleCreate": "Neues Projekt",
   "titleEdit": "Projekt bearbeiten",
-  "deleteQuestion": "„{name}“ mit {n} Verbindung wirklich löschen? | „{name}“ mit {n} Verbindungen wirklich löschen?"
+  "deleteQuestion": "„{name}“ mit {n} Verbindung wirklich löschen? | „{name}“ mit {n} Verbindungen wirklich löschen?",
+  "tabsLabel": "Einstellungen des Projekts",
+  "general": "Allgemein"
 }

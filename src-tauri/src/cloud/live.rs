@@ -897,8 +897,8 @@ fn the_server_rejects_a_second_key_pair() {
     });
 }
 
-/// Snippets, a startup command and a proxy reach the colleague. He himself
-/// may not create snippets — and after he was removed, the server names
+/// Snippets, a startup command and a proxy reach the colleague. As a viewer
+/// of the project he may not create snippets — and after he was removed, the server names
 /// exactly the project whose key he still knows.
 #[test]
 #[ignore]
@@ -917,6 +917,9 @@ fn snippets_startup_command_proxy_and_stale_keys() {
         let mut tree_now = tree(&workspace, &project, &connection, "SECRET");
         tree_now.snippets = vec![crate::storage::Snippet {
             id: snippet.clone(),
+            project_id: project.clone(),
+            connection_id: None,
+            locked: true,
             name: "Space".into(),
             folder: "Maintenance/Linux".into(),
             command: "df -h # {{connection.host}}".into(),
@@ -974,10 +977,13 @@ fn snippets_startup_command_proxy_and_stale_keys() {
             matches!(&ssh.proxy, Some(crate::proxy::ProxySetting::Custom(p)) if p.host == "proxy.intern")
         );
 
-        // Bert is only a member: the server rejects his snippet.
+        // Bert only views the project: the server rejects his snippet.
         let mut at_bert_new = tree_now.clone();
         at_bert_new.snippets.push(crate::storage::Snippet {
             id: new_id(),
+            project_id: project.clone(),
+            connection_id: None,
+            locked: false,
             name: "foreign".into(),
             folder: String::new(),
             command: "rm -rf ~".into(),

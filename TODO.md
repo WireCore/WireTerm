@@ -246,9 +246,10 @@ How the S3 side works is in the [README](README.md#s3). What is open:
   there is only the CSV route. `Match` in `~/.ssh/config` is not evaluated, and an `Include` in
   the middle of a `Host` block with its own `Host` lines ends up differently than with OpenSSH.
 - **Snippets: what is missing.** Custom variables with a prompt (`{{ask:path}}`), snippets on
-  hosts that are not currently open, a confirmation before the startup command. In a team
-  workspace only owner and admin may change snippets — a personal snippet folder for everyone
-  else is missing.
+  hosts that are not currently open, a confirmation before the startup command, a personal
+  snippet folder across projects. The client does not know a member's role in a shared project:
+  it offers creating and changing open snippets to every member, and the backend refuses a
+  viewer.
 - **Side by side: a fixed four tiles.** No freely split areas, no dragging a tab into a tile;
   broadcast only applies within the split view.
 - **Local terminal: what is missing.** No saved profile (start directory, environment), no
@@ -264,10 +265,6 @@ How the S3 side works is in the [README](README.md#s3). What is open:
   local shells, the agent in `SSH_AUTH_SOCK` (also for agent forwarding), the keyring prompt,
   1Password's desktop integration and the installers want a run on each system — Windows on ARM
   and the Linux ARM64 packages included. The release workflow builds all of them since 0.1.0.
-- **Auto-update not tried end to end yet.** 0.1.0 and 0.1.1 are released, signed and listed in
-  `latest.json`, and the files behind its links download. Missing is the run on a machine:
-  install 0.1.0, start it, take the offered update to 0.1.1 — with the EXE, the MSI (it asks for
-  administrator rights) and on macOS and Linux.
 - **A jump host from another workspace only works for private workspaces.** A connection in a
   team workspace can only jump through hosts of the same workspace, because colleagues could not
   resolve the ID otherwise. A locked workspace appears in the list with “(locked)”; connecting

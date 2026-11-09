@@ -26,7 +26,7 @@ use super::crypto;
 use super::model::{
     self, ApiConnection, ApiProject, ApiProjectKey, ApiSecret, ApiSnippet, ApiVaultAccount,
 };
-use crate::storage::{Connection, Project, Workspace};
+use crate::storage::{Connection, ConnectionSettings, Project, Workspace};
 use crate::vault::VaultProvider;
 
 /// Compares and enters the result into the copy right away.
@@ -51,20 +51,95 @@ pub fn plan(
     }
 
     vault_accounts(cached, incoming, &mut ops);
-    snippets(cached, incoming, &mut ops);
 
     let private = unlocked.map(|open| &*open.private);
     let (current, _) = cached.tree(private);
 
-    projects(cached, &current, incoming, user_id, private, &mut ops)?;
+    // After the projects: a new snippet needs its project and connection on
+    // the server, and a deleted one should go only after the connections that
+    // started with it have let go of it — otherwise the server takes it out
+    // of them first, and their change would meet a newer revision.
+    //
+    // A startup command the server would not take yet — its snippet is new,
+    // or becomes locked or this connection's only in this same go — waits for
+    // a second pass after the snippets.
+    let later = startups_for_later(cached, &current, incoming);
+    projects(
+        cached,
+        &current,
+        later.as_ref().unwrap_or(incoming),
+        user_id,
+        private,
+        &mut ops,
+    )?;
+    snippets(cached, incoming, &mut ops);
+    if later.is_some() {
+        let (current, _) = cached.tree(private);
+        projects(cached, &current, incoming, user_id, private, &mut ops)?;
+    }
 
     Ok(ops)
+}
+
+/// The tree with the startup commands the server would refuse right now put
+/// back to what they were — `None` if there are none. The server only takes
+/// a locked snippet of the connection's project that is for all of its
+/// connections or for this one; what the copy knows is what it has (or will
+/// have, from the queue).
+fn startups_for_later(
+    cached: &Cached,
+    current: &[Project],
+    incoming: &Workspace,
+) -> Option<Workspace> {
+    let startup = |connection: &Connection| match &connection.settings {
+        ConnectionSettings::Ssh(ssh) => ssh.startup_snippet.clone(),
+        _ => None,
+    };
+    let before = |id: &str| {
+        current
+            .iter()
+            .flat_map(|project| project.connections.iter())
+            .find(|connection| connection.id == id)
+            .and_then(startup)
+    };
+    let fits = |project_id: &str, connection_id: &str, snippet_id: &str| {
+        cached.snippets.iter().any(|row| {
+            row.id == snippet_id
+                && row.deleted_at.is_none()
+                && row.locked
+                && match &row.connection_id {
+                    Some(id) => id == connection_id,
+                    None => row.project_id == project_id,
+                }
+        })
+    };
+
+    let mut later = incoming.clone();
+    let mut any = false;
+    for project in &mut later.projects {
+        for connection in &mut project.connections {
+            let was = before(&connection.id);
+            if let ConnectionSettings::Ssh(ssh) = &mut connection.settings {
+                if let Some(id) = &ssh.startup_snippet {
+                    if was.as_deref() != Some(id.as_str()) && !fits(&project.id, &connection.id, id)
+                    {
+                        ssh.startup_snippet = was;
+                        any = true;
+                    }
+                }
+            }
+        }
+    }
+    any.then_some(later)
 }
 
 // ---- Snippets ----------------------------------------------------------------
 
 /// The order in the tree is the position. A snippet that is no longer in it is
 /// deleted.
+///
+/// The project is not compared: a snippet does not change projects on its
+/// own, only along with its connection — and that the server does itself.
 fn snippets(cached: &mut Cached, incoming: &Workspace, ops: &mut Vec<Pending>) {
     let wanted: HashSet<&str> = incoming.snippets.iter().map(|s| s.id.as_str()).collect();
     let gone: Vec<String> = cached
@@ -81,6 +156,9 @@ fn snippets(cached: &mut Cached, incoming: &Workspace, ops: &mut Vec<Pending>) {
     for (position, snippet) in incoming.snippets.iter().enumerate() {
         let row = ApiSnippet {
             id: snippet.id.clone(),
+            project_id: snippet.project_id.clone(),
+            connection_id: snippet.connection_id.clone(),
+            locked: snippet.locked,
             name: snippet.name.clone(),
             folder: snippet.folder.clone(),
             command: snippet.command.clone(),
@@ -97,6 +175,8 @@ fn snippets(cached: &mut Cached, incoming: &Workspace, ops: &mut Vec<Pending>) {
             Some(at) => {
                 let known = &cached.snippets[at];
                 let changed = known.name != row.name
+                    || known.connection_id != row.connection_id
+                    || known.locked != row.locked
                     || known.folder != row.folder
                     || known.command != row.command
                     || known.position != row.position;
@@ -107,6 +187,7 @@ fn snippets(cached: &mut Cached, incoming: &Workspace, ops: &mut Vec<Pending>) {
                 let revision = known.revision.clone();
                 cached.snippets[at] = ApiSnippet {
                     revision,
+                    project_id: known.project_id.clone(),
                     ..row.clone()
                 };
                 ops.push(Pending::UpdateSnippet {
@@ -667,23 +748,48 @@ mod tests {
         assert_eq!(names, vec!["project", "key", "connection", "secret"]);
     }
 
+    fn snippet(id: &str, command: &str) -> crate::storage::Snippet {
+        crate::storage::Snippet {
+            id: id.into(),
+            project_id: "p1".into(),
+            connection_id: None,
+            locked: true,
+            name: id.into(),
+            folder: String::new(),
+            command: command.into(),
+        }
+    }
+
+    /// Only the snippet operations, in their order.
+    fn snippet_ops(ops: &[Pending]) -> Vec<&Pending> {
+        ops.iter()
+            .filter(|op| {
+                matches!(
+                    op,
+                    Pending::CreateSnippet { .. }
+                        | Pending::UpdateSnippet { .. }
+                        | Pending::DeleteSnippet { .. }
+                )
+            })
+            .collect()
+    }
+
     /// Create, update with the revision the change builds on, and delete — and
     /// a mere reordering is a change.
     #[test]
     fn snippets_are_created_updated_and_deleted() {
+        let (open, _) = vault();
         let mut cached = copy();
-        let snippet = |id: &str, command: &str| crate::storage::Snippet {
-            id: id.into(),
-            name: id.into(),
-            folder: String::new(),
-            command: command.into(),
-        };
 
-        let mut tree = tree_of(Vec::new());
+        let mut tree = tree_of(vec![Project {
+            id: "p1".into(),
+            name: "Production".into(),
+            connections: Vec::new(),
+        }]);
         tree.snippets = vec![snippet("s1", "uptime"), snippet("s2", "df -h")];
-        let ops = plan(&mut cached, &tree, "u1", None).expect("plans");
+        let ops = plan(&mut cached, &tree, "u1", Some(&open)).expect("plans");
         assert!(matches!(
-            ops.as_slice(),
+            snippet_ops(&ops).as_slice(),
             [Pending::CreateSnippet { .. }, Pending::CreateSnippet { .. }]
         ));
 
@@ -692,11 +798,14 @@ mod tests {
         for row in &mut cached.snippets {
             row.revision = "7".into();
         }
+        for row in &mut cached.projects {
+            row.revision = "7".into();
+        }
 
         tree.snippets = vec![snippet("s2", "df -h"), snippet("s1", "uptime -p")];
-        let ops = plan(&mut cached, &tree, "u1", None).expect("plans");
-        let seen: Vec<_> = ops
-            .iter()
+        let ops = plan(&mut cached, &tree, "u1", Some(&open)).expect("plans");
+        let seen: Vec<_> = snippet_ops(&ops)
+            .into_iter()
             .map(|op| match op {
                 Pending::UpdateSnippet {
                     snippet,
@@ -712,11 +821,125 @@ mod tests {
         assert_eq!(seen, [("s2", 0, Some("7")), ("s1", 1, Some("7"))]);
 
         tree.snippets = vec![snippet("s1", "uptime -p")];
-        let ops = plan(&mut cached, &tree, "u1", None).expect("plans");
-        assert!(
-            matches!(ops.as_slice(), [Pending::DeleteSnippet { id }, Pending::UpdateSnippet { .. }] if id == "s2")
-        );
+        let ops = plan(&mut cached, &tree, "u1", Some(&open)).expect("plans");
+        assert!(matches!(
+            snippet_ops(&ops).as_slice(),
+            [Pending::DeleteSnippet { id }, Pending::UpdateSnippet { .. }] if id == "s2"
+        ));
         assert_eq!(cached.snippet_list().len(), 1);
+    }
+
+    /// Locking and binding to a connection are changes; the project is not —
+    /// it only changes along with the connection, on the server.
+    #[test]
+    fn a_snippet_is_changed_by_lock_and_connection_but_not_by_project() {
+        let (open, _) = vault();
+        let mut cached = copy();
+        let mut tree = tree_of(vec![Project {
+            id: "p1".into(),
+            name: "Production".into(),
+            connections: vec![connection("c1", "web01", ssh("KEY"))],
+        }]);
+        tree.snippets = vec![snippet("s1", "uptime")];
+        plan(&mut cached, &tree, "u1", Some(&open)).expect("plans");
+        cached.pending.clear();
+
+        tree.snippets[0].project_id = "p2".into();
+        let ops = plan(&mut cached, &tree, "u1", Some(&open)).expect("plans");
+        assert!(snippet_ops(&ops).is_empty());
+
+        tree.snippets[0].locked = false;
+        tree.snippets[0].connection_id = Some("c1".into());
+        let ops = plan(&mut cached, &tree, "u1", Some(&open)).expect("plans");
+        assert!(matches!(
+            snippet_ops(&ops).as_slice(),
+            [Pending::UpdateSnippet { snippet, .. }]
+                if !snippet.locked && snippet.connection_id.as_deref() == Some("c1")
+        ));
+    }
+
+    fn startup_of(connection: &model::ApiConnection) -> Option<String> {
+        serde_json::to_value(connection).ok()?["ssh"]["startupSnippetId"]
+            .as_str()
+            .map(str::to_string)
+    }
+
+    /// The snippets come after the connections: a new one needs its
+    /// connection on the server. A startup command that points at it waits
+    /// for it — the connection goes up without, and gets it afterwards.
+    #[test]
+    fn snippets_follow_the_connections_and_a_startup_command_follows_its_snippet() {
+        let (open, _) = vault();
+        let mut cached = copy();
+        let mut settings = ssh("KEY");
+        if let ConnectionSettings::Ssh(ssh) = &mut settings {
+            ssh.startup_snippet = Some("s1".into());
+        }
+        let mut tree = tree_of(vec![Project {
+            id: "p1".into(),
+            name: "Production".into(),
+            connections: vec![connection("c1", "web01", settings)],
+        }]);
+        tree.snippets = vec![crate::storage::Snippet {
+            connection_id: Some("c1".into()),
+            ..snippet("s1", "uptime")
+        }];
+        let ops = plan(&mut cached, &tree, "u1", Some(&open)).expect("plans");
+        let order: Vec<_> = ops
+            .iter()
+            .filter_map(|op| match op {
+                Pending::CreateConnection { connection, .. } => {
+                    Some(("create connection", startup_of(connection)))
+                }
+                Pending::CreateSnippet { .. } => Some(("create snippet", None)),
+                Pending::UpdateConnection { connection, .. } => {
+                    Some(("update connection", startup_of(connection)))
+                }
+                _ => None,
+            })
+            .collect();
+        assert_eq!(
+            order,
+            [
+                ("create connection", None),
+                ("create snippet", None),
+                ("update connection", Some("s1".to_string())),
+            ]
+        );
+    }
+
+    /// Deleting a startup snippet: the connection lets go of it first.
+    #[test]
+    fn a_deleted_startup_snippet_goes_after_the_connection_let_go() {
+        let (open, _) = vault();
+        let mut cached = copy();
+        let mut settings = ssh("KEY");
+        if let ConnectionSettings::Ssh(ssh) = &mut settings {
+            ssh.startup_snippet = Some("s1".into());
+        }
+        let mut tree = tree_of(vec![Project {
+            id: "p1".into(),
+            name: "Production".into(),
+            connections: vec![connection("c1", "web01", settings)],
+        }]);
+        tree.snippets = vec![snippet("s1", "uptime")];
+        plan(&mut cached, &tree, "u1", Some(&open)).expect("plans");
+        cached.pending.clear();
+
+        if let ConnectionSettings::Ssh(ssh) = &mut tree.projects[0].connections[0].settings {
+            ssh.startup_snippet = None;
+        }
+        tree.snippets.clear();
+        let ops = plan(&mut cached, &tree, "u1", Some(&open)).expect("plans");
+        let update = ops
+            .iter()
+            .position(|op| matches!(op, Pending::UpdateConnection { .. }))
+            .expect("updates the connection");
+        let delete = ops
+            .iter()
+            .position(|op| matches!(op, Pending::DeleteSnippet { .. }))
+            .expect("deletes the snippet");
+        assert!(update < delete);
     }
 
     /// And afterwards it comes back out when loading — the copy has been kept

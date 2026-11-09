@@ -88,7 +88,7 @@
   },
   "startup": {
     "label": "Run when connecting",
-    "hint": "A snippet of this workspace, sent as soon as the terminal is up.",
+    "hint": "A locked snippet of this project or this connection, sent as soon as the terminal is up.",
     "none": "none"
   },
   "proxy": {

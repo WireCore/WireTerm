@@ -21,6 +21,7 @@ import {
 } from "@wirecore/wirelayer-vue";
 import BrandIcon from "./BrandIcon.vue";
 import EditDialog from "./EditDialog.vue";
+import EmbeddedPanel from "./EmbeddedPanel.vue";
 import OnePasswordAccountHint from "./OnePasswordAccountHint.vue";
 import { accountOf } from "../cloud";
 import {
@@ -30,7 +31,15 @@ import {
   type WorkspaceValues,
 } from "../types";
 
-const props = defineProps<{ workspace: Workspace; mode: "create" | "edit" }>();
+/**
+ * More tabs, filled through the slot of the same name by whoever opens the
+ * dialog — each holds an edit dialog of its own, shown as the tab's content.
+ * `device` ones are about this device rather than the workspace and come
+ * last, under a heading of their own.
+ */
+type ExtraTab = { value: string; label: string; device?: boolean };
+
+const props = defineProps<{ workspace: Workspace; mode: "create" | "edit"; extras?: ExtraTab[] }>();
 
 /** The settings are the editable part; the projects stay where they are. */
 const emit = defineEmits<{
@@ -81,6 +90,11 @@ const confirming = ref<"local" | "remote" | "hide" | null>(null);
 
 const tab = ref("general");
 
+const workspaceTabs = computed(() => (props.extras ?? []).filter((extra) => !extra.device));
+const deviceTabs = computed(() => (props.extras ?? []).filter((extra) => extra.device));
+/** Only name and vaults are saved with the dialog's button; the others bring their own. */
+const ownTab = computed(() => tab.value === "general" || tab.value === "vaults");
+
 /**
  * The picture showing where the 1Password account name is: open as long as
  * none was entered yet. After that behind a link — whoever knows it already
@@ -125,24 +139,33 @@ function save() {
 
 <template>
   <!--
-    Two tabs instead of one long page: what one looks for on every opening
-    (name, backend) in front, what one sets up once (vaults) behind. Removing
-    sits apart at the bottom of the first tab, so the footer only carries
-    "Cancel" and "Save".
+    Side tabs instead of one long page: what one looks for on every opening
+    (name, backend) in front, what one sets up once (vaults) behind, then what
+    the overview used to carry as buttons. Removing sits apart at the bottom of
+    the first tab, so the footer only carries "Cancel" and "Save" — and only
+    for the two tabs it saves.
   -->
   <EditDialog
     :title="mode === 'create' ? t('WorkspaceDialog.titleCreate') : t('WorkspaceDialog.titleEdit')"
     :mode="mode"
-    wide
+    width="56rem"
     :can-save="valid"
     :can-delete="false"
+    :footer="ownTab"
     @save="save"
     @cancel="emit('cancel')"
   >
-    <Tabs v-model="tab" :label="t('WorkspaceDialog.tabsLabel')">
+    <Tabs v-model="tab" orientation="vertical" :label="t('WorkspaceDialog.tabsLabel')">
       <TabsList>
         <TabsTrigger value="general">{{ t("WorkspaceDialog.general") }}</TabsTrigger>
         <TabsTrigger value="vaults">{{ t("WorkspaceDialog.vaults") }}</TabsTrigger>
+        <TabsTrigger v-for="extra in workspaceTabs" :key="extra.value" :value="extra.value">
+          {{ extra.label }}
+        </TabsTrigger>
+        <p v-if="deviceTabs.length" class="tab-group">{{ t("WorkspaceDialog.device") }}</p>
+        <TabsTrigger v-for="extra in deviceTabs" :key="extra.value" :value="extra.value">
+          {{ extra.label }}
+        </TabsTrigger>
       </TabsList>
 
       <TabsContent value="general" class="panel">
@@ -240,23 +263,26 @@ function save() {
           </template>
 
           <div v-else-if="!remote" class="row">
-            <Button variant="text" color="danger" @click="confirming = 'local'">
+            <Button variant="outline" color="danger" @click="confirming = 'local'">
               {{ t("common.delete") }}
             </Button>
           </div>
 
           <div v-else class="row">
-            <Button variant="text" @click="confirming = 'hide'">{{ t("WorkspaceDialog.hide") }}</Button>
+            <Button variant="outline" color="danger" @click="confirming = 'hide'">{{ t("WorkspaceDialog.hide") }}</Button>
             <Button
               v-if="deletable"
-              variant="text"
+              variant="outline"
               color="danger"
               @click="confirming = 'remote'"
             >
               {{ leaveOnly ? t("WorkspaceDialog.leaveWorkspace") : t("WorkspaceDialog.deleteForAll") }}
             </Button>
           </div>
-          <p v-if="remote && managed" class="hint">{{ t("WorkspaceDialog.managedHint") }}</p>
+          <p v-if="remote && managed && remote.kind === 'personal'" class="hint">
+            {{ t("WorkspaceDialog.managedPersonalHint") }}
+          </p>
+          <p v-else-if="remote && managed" class="hint">{{ t("WorkspaceDialog.managedHint") }}</p>
           <p v-else-if="remote && !deletable" class="hint">{{ t("WorkspaceDialog.personalHint") }}</p>
         </section>
       </TabsContent>
@@ -342,17 +368,36 @@ function save() {
           </AccordionItem>
         </Accordion>
       </TabsContent>
+
+      <!-- Mounted only while in front: some of them load from the server. -->
+      <TabsContent v-for="extra in extras ?? []" :key="extra.value" :value="extra.value" class="panel">
+        <EmbeddedPanel v-if="tab === extra.value">
+          <slot :name="extra.value" />
+        </EmbeddedPanel>
+      </TabsContent>
     </Tabs>
   </EditDialog>
 </template>
 
 <style scoped>
-/* A tab: fields and frames stacked, with room in between. */
+/*
+  A tab: fields and frames stacked, with room in between. Beside the tab list,
+  at a height that keeps the dialog from jumping between tabs.
+*/
 .panel {
+  flex: 1;
+  min-width: 0;
+  min-height: 28rem;
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  padding-top: 1rem;
+}
+
+.tab-group {
+  margin: 0.75rem 0 0.25rem;
+  padding: 0 0.75rem;
+  font-size: 0.75rem;
+  color: var(--muted);
 }
 
 .hint {

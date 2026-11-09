@@ -1,6 +1,5 @@
 {
   "title": "Language",
   "button": "Language",
-  "buttonTitle": "The language of WireTerm on this device",
   "hint": "Applies to this device. Signed-in accounts get their emails in this language too."
 }

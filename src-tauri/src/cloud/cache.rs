@@ -331,13 +331,34 @@ impl Cached {
             })
     }
 
-    /// The snippets in their order, as the tree knows them.
+    /// The snippets in their order, as the tree knows them — only those of
+    /// a project (and connection) that is in the tree. One without a project
+    /// is from before snippets belonged to one; the next save deletes it on
+    /// the server, where it is long gone anyway.
     pub fn snippet_list(&self) -> Vec<crate::storage::Snippet> {
-        let mut rows: Vec<&ApiSnippet> = self.snippets.iter().collect();
+        let live = |id: &str| {
+            self.projects
+                .iter()
+                .any(|row| row.id == id && row.deleted_at.is_none())
+        };
+        let connection = |id: &str| {
+            self.connections
+                .iter()
+                .any(|row| row.id == id && row.deleted_at.is_none())
+        };
+        let mut rows: Vec<&ApiSnippet> = self
+            .snippets
+            .iter()
+            .filter(|row| live(&row.project_id))
+            .filter(|row| row.connection_id.as_deref().is_none_or(connection))
+            .collect();
         rows.sort_by_key(|row| (row.position, row.name.to_lowercase()));
         rows.into_iter()
             .map(|row| crate::storage::Snippet {
                 id: row.id.clone(),
+                project_id: row.project_id.clone(),
+                connection_id: row.connection_id.clone(),
+                locked: row.locked,
                 name: row.name.clone(),
                 folder: row.folder.clone(),
                 command: row.command.clone(),

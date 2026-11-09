@@ -71,7 +71,7 @@ fn tools() -> Value {
         {
             "name": "list_snippets",
             "title": "List snippets",
-            "description": "Lists the saved command snippets of all workspaces. Placeholders like {{connection.host}} are filled in when a snippet is sent to a terminal.",
+            "description": "Lists the saved command snippets of all workspaces, each with its project and, if it is meant for only one, its connection. Placeholders like {{connection.host}} are filled in when a snippet is sent to a terminal.",
             "inputSchema": { "type": "object", "properties": {} },
             "annotations": { "readOnlyHint": true, "openWorldHint": false }
         },

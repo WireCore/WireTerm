@@ -18,11 +18,12 @@ import {
 import VaultPicker from "./VaultPicker.vue";
 import { pickFile } from "../pick-file";
 import { defaultProxy, PROXY_PORTS, proxyLabel } from "../proxy";
-import { findConnection, jumpsThrough, withJumps, workspaces } from "../store";
+import { findConnection, jumpsThrough, projectOf, withJumps, workspaces } from "../store";
 import {
   CONNECTION_TYPES,
   defaultPort,
   PROXY_KIND_LABELS,
+  snippetsFor,
   switchType,
   VAULT_LABELS,
   VAULT_PROVIDERS,
@@ -59,6 +60,8 @@ const props = defineProps<{
   section: "general" | "server" | "login" | "options";
   /** Where the connection lives — for picking a jump host from the same workspace. */
   workspaceId?: string;
+  /** Its project, for a connection that is not in one yet — for the startup command. */
+  projectId?: string;
 }>();
 
 const { t } = useI18n();
@@ -233,11 +236,18 @@ function removeForward(index: number) {
 
 // ---- Startup command -----------------------------------------------------------------
 
+/**
+ * Only a locked snippet that applies to this connection: the backend accepts
+ * nothing else, because a startup command runs unasked in colleagues' terminals.
+ */
 const startupItems = computed(() => {
   const workspace = workspaces.find((w) => w.id === props.workspaceId);
+  const projectId = props.projectId ?? projectOf(props.connection.id)?.id ?? "";
   return [
     { value: "", label: t("ConnectionForm.startup.none") },
-    ...(workspace?.snippets ?? []).map((snippet) => ({
+    ...snippetsFor(workspace, projectId, props.connection.id)
+      .filter((snippet) => snippet.locked)
+      .map((snippet) => ({
       value: snippet.id,
       label: snippet.folder ? `${snippet.folder} / ${snippet.name}` : snippet.name,
     })),

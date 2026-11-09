@@ -347,9 +347,14 @@ pub async fn create_snippet(
     snippet: &ApiSnippet,
 ) -> Answer<()> {
     api.post(
-        &format!("/api/workspaces/{org}/snippets"),
+        &format!(
+            "/api/workspaces/{org}/projects/{}/snippets",
+            snippet.project_id
+        ),
         json!({
             "id": snippet.id,
+            "connectionId": snippet.connection_id,
+            "locked": snippet.locked,
             "name": snippet.name,
             "folder": snippet.folder,
             "command": snippet.command,
@@ -369,6 +374,8 @@ pub async fn update_snippet(
     expected_revision: Option<&str>,
 ) -> Answer<()> {
     let mut body = json!({
+        "connectionId": snippet.connection_id,
+        "locked": snippet.locked,
         "name": snippet.name,
         "folder": snippet.folder,
         "command": snippet.command,

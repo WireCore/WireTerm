@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, onBeforeUnmount, ref } from "vue";
-import { Copy, FolderInput, Pin, Plus, Settings, X } from "@lucide/vue";
+import { Copy, FolderInput, Pin, Plus, RefreshCw, Settings, X } from "@lucide/vue";
 import {
   Alert,
   Badge,
@@ -31,10 +31,11 @@ import SharesDialog from "./SharesDialog.vue";
 import HostImport from "./HostImport.vue";
 import WorkspaceDialog from "./WorkspaceDialog.vue";
 import { filterProjects } from "../search";
-import { deleteWorkspace, dismissConflicts, hideWorkspace, unlockWanted } from "../cloud";
+import { accountOf, deleteWorkspace, dismissConflicts, hideWorkspace, unlockWanted } from "../cloud";
 import {
   addConnection,
   deleteConnection,
+  dropSnippetsOf,
   loadWorkspaces,
   moveConnection,
   persist,
@@ -82,9 +83,16 @@ const editable = computed(() => !remote.value || !remote.value.locked);
 /** Only owner or admin may create, delete and share projects. */
 const canManageProjects = computed(() => (remote.value ? remote.value.admin : true));
 
+/**
+ * The personal workspace of a WireCloud account belongs to its owner alone:
+ * WireCloud knows no organization for it, so nobody can be invited and there
+ * are no teams to share with. Members and shares are hidden then.
+ */
+const solo = computed(
+  () => remote.value?.kind === "personal" && !!accountOf(remote.value.accountId)?.managedBy,
+);
+
 /** The open dialog for a project's shares. */
-const sharesFor = ref<Project | null>(null);
-const showingMembers = ref(false);
 const removeError = ref("");
 
 /** Asks for the master password. The dialog itself lives in `App.vue`. */
@@ -108,17 +116,13 @@ const projectDialog = ref<{ mode: "create" | "edit"; project: Project } | null>(
 
 /** And for the workspace header. It only ever edits the one on screen. */
 const editingWorkspace = ref(false);
-const exporting = ref(false);
 
 /** Whether this device works with an app password instead of a keyring — then it can be changed. */
 const vaultStatus = ref<LocalVaultStatus | null>(null);
 const changingAppPassword = ref(false);
-const showingHostKeys = ref(false);
-const editingProxy = ref(false);
-const editingMcp = ref(false);
-const editingLanguage = ref(false);
 const { t } = useI18n();
-const editingSnippets = ref(false);
+/** The project whose snippets are open. */
+const editingSnippets = ref<Project | null>(null);
 localVaultStatus()
   .then((status) => (vaultStatus.value = status))
   .catch(() => {});
@@ -160,6 +164,7 @@ function removeProject() {
   if (!open) return;
   const index = props.workspace.projects.findIndex((p) => p.id === open.project.id);
   if (index >= 0) props.workspace.projects.splice(index, 1);
+  dropSnippetsOf(props.workspace, { projectId: open.project.id });
   persist();
   projectDialog.value = null;
 }
@@ -288,15 +293,38 @@ function removeConnection() {
   connectionDialog.value = null;
 }
 
-/** The project being imported into right now. */
-const importingInto = ref<Project | null>(null);
-
+/** Imported from the project's settings, into that project. */
 function importConnections(connections: Connection[]) {
-  const project = importingInto.value;
+  const project = projectDialog.value?.project;
   if (!project) return;
   for (const connection of connections) addConnection(project.id, connection);
-  importingInto.value = null;
+  projectDialog.value = null;
 }
+
+/**
+ * The tabs a project's settings have besides name and delete: the shares for
+ * whoever manages projects of a shared workspace, the import for whoever may
+ * change the tree.
+ */
+const projectTabs = computed(() => [
+  ...(remote.value && canManageProjects.value && !solo.value
+    ? [{ value: "shares", label: t("WorkspaceOverview.shares") }]
+    : []),
+  ...(editable.value ? [{ value: "import", label: t("WorkspaceOverview.import") }] : []),
+]);
+
+/**
+ * What used to sit as buttons in the header, now tabs of the settings: the
+ * workspace's own, then those of this device.
+ */
+const workspaceTabs = computed(() => [
+  ...(remote.value && !solo.value ? [{ value: "members", label: t("WorkspaceOverview.members") }] : []),
+  { value: "hostKeys", label: t("WorkspaceOverview.hostKeys") },
+  { value: "export", label: t("WorkspaceOverview.export") },
+  { value: "proxy", label: t("WorkspaceOverview.proxy"), device: true },
+  { value: "mcp", label: "MCP", device: true },
+  { value: "language", label: t("LanguageDialog.button"), device: true },
+]);
 
 /** The name question before a connection is duplicated into its project. */
 const copying = ref<{ projectId: string; connection: Connection; name: string } | null>(null);
@@ -429,35 +457,18 @@ function target(connection: Connection): string {
         </div>
       </div>
       <div class="head-actions">
-        <Button
+        <IconButton
           v-if="remote"
+          class="gear"
+          :class="{ spinning: syncing }"
+          :icon="RefreshCw"
+          :label="syncing ? t('WorkspaceOverview.syncing') : t('WorkspaceOverview.sync')"
           variant="text"
+          size="sm"
           :disabled="syncing"
+          :title="syncing ? t('WorkspaceOverview.syncing') : t('WorkspaceOverview.sync')"
           @click="syncNow(workspace.id)"
-        >
-          {{ syncing ? t("WorkspaceOverview.syncing") : t("WorkspaceOverview.sync") }}
-        </Button>
-        <Button v-if="remote" variant="text" @click="showingMembers = true">
-          {{ t("WorkspaceOverview.members") }}
-        </Button>
-        <Button variant="text" :title="t('WorkspaceOverview.hostKeysTitle')" @click="showingHostKeys = true">
-          {{ t("WorkspaceOverview.hostKeys") }}
-        </Button>
-        <Button variant="text" :title="t('WorkspaceOverview.snippetsTitle')" @click="editingSnippets = true">
-          {{ t("WorkspaceOverview.snippets") }}
-        </Button>
-        <Button variant="text" :title="t('WorkspaceOverview.proxyTitle')" @click="editingProxy = true">
-          {{ t("WorkspaceOverview.proxy") }}
-        </Button>
-        <Button variant="text" :title="t('WorkspaceOverview.mcpTitle')" @click="editingMcp = true">
-          MCP
-        </Button>
-        <Button variant="text" :title="t('LanguageDialog.buttonTitle')" @click="editingLanguage = true">
-          {{ t("LanguageDialog.button") }}
-        </Button>
-        <Button variant="text" :title="t('WorkspaceOverview.exportTitle')" @click="exporting = true">
-          {{ t("WorkspaceOverview.export") }}
-        </Button>
+        />
         <IconButton
           class="gear"
           :icon="Settings"
@@ -531,25 +542,16 @@ function target(connection: Connection): string {
       <header class="project-head">
         <h2 class="project-name">{{ project.name }}</h2>
         <Button
-          v-if="remote && canManageProjects"
+          v-if="!searching"
           variant="text"
           size="sm"
-:title="t('WorkspaceOverview.sharesTitle')"
-          @click="sharesFor = project"
+          :title="t('WorkspaceOverview.snippetsTitle')"
+          @click="editingSnippets = project"
         >
-          {{ t("WorkspaceOverview.shares") }}
-        </Button>
-        <Button
-          v-if="!searching && editable"
-          variant="text"
-          size="sm"
-:title="t('WorkspaceOverview.importTitle')"
-          @click="importingInto = project"
-        >
-          {{ t("WorkspaceOverview.import") }}
+          {{ t("WorkspaceOverview.snippets") }}
         </Button>
         <IconButton
-          v-if="canManageProjects && editable"
+          v-if="(canManageProjects && editable) || projectTabs.length"
           class="gear"
           :icon="Settings"
           :label="t('WorkspaceOverview.editProject')"
@@ -714,6 +716,7 @@ function target(connection: Connection): string {
     <ConnectionWizard
       v-if="connectionDialog?.mode === 'create'"
       :workspace-id="workspace.id"
+      :project-id="connectionDialog.projectId"
       @save="saveConnection"
       @cancel="connectionDialog = null"
     />
@@ -727,19 +730,13 @@ function target(connection: Connection): string {
       @cancel="connectionDialog = null"
     />
 
-    <ExportDialog v-if="exporting" :initial-id="workspace.id" @close="exporting = false" />
-    <HostKeysDialog v-if="showingHostKeys" :workspace="workspace" @close="showingHostKeys = false" />
-    <ProxyDialog v-if="editingProxy" @close="editingProxy = false" />
-    <McpDialog v-if="editingMcp" @close="editingMcp = false" />
-    <LanguageDialog v-if="editingLanguage" @close="editingLanguage = false" />
-    <SnippetsDialog v-if="editingSnippets" :workspace="workspace" @close="editingSnippets = false" />
-
-    <HostImport
-      v-if="importingInto"
-      :project="importingInto"
-      @save="importConnections"
-      @cancel="importingInto = null"
+    <SnippetsDialog
+      v-if="editingSnippets"
+      :workspace="workspace"
+      :project="editingSnippets"
+      @close="editingSnippets = null"
     />
+
 
     <EditDialog
       v-if="copying"
@@ -779,15 +776,38 @@ function target(connection: Connection): string {
       :key="projectDialog.project.id"
       :project="projectDialog.project"
       :mode="projectDialog.mode"
+      :extras="projectDialog.mode === 'edit' ? projectTabs : []"
+      :general="projectDialog.mode === 'create' || (canManageProjects && editable)"
       @save="saveProject"
       @remove="removeProject"
       @cancel="projectDialog = null"
-    />
+    >
+      <!--
+        After saving the shares, a sync runs: a share only shows once the
+        project keys are distributed, and that is exactly what the sync does.
+      -->
+      <template #shares>
+        <SharesDialog
+          :workspace-id="workspace.id"
+          :project-id="projectDialog.project.id"
+          :project-name="projectDialog.project.name"
+          @saved="
+            projectDialog = null;
+            syncNow(workspace.id);
+          "
+          @cancel="projectDialog = null"
+        />
+      </template>
+      <template #import>
+        <HostImport :project="projectDialog.project" @save="importConnections" @cancel="projectDialog = null" />
+      </template>
+    </ProjectDialog>
 
     <WorkspaceDialog
       v-if="editingWorkspace"
       :workspace="workspace"
       mode="edit"
+      :extras="workspaceTabs"
       @save="saveWorkspace"
       @remove="removeWorkspace"
       @remove-remote="removeRemoteWorkspace"
@@ -797,32 +817,32 @@ function target(connection: Connection): string {
         remote && emit('changeMaster', remote.accountId);
       "
       @cancel="editingWorkspace = false"
-    />
-
-    <MembersDialog
-      v-if="showingMembers && remote"
-      :workspace-id="workspace.id"
-      :workspace-name="workspace.name"
-      :remote="remote"
-      @close="showingMembers = false"
-    />
-
-    <!--
-      After saving, a sync runs: a share only shows once the project keys are
-      distributed, and that is exactly what the sync does.
-    -->
-    <SharesDialog
-      v-if="sharesFor"
-      :key="sharesFor.id"
-      :workspace-id="workspace.id"
-      :project-id="sharesFor.id"
-      :project-name="sharesFor.name"
-      @saved="
-        sharesFor = null;
-        syncNow(workspace.id);
-      "
-      @cancel="sharesFor = null"
-    />
+    >
+      <template #members>
+        <MembersDialog
+          v-if="remote"
+          :workspace-id="workspace.id"
+          :workspace-name="workspace.name"
+          :remote="remote"
+          @close="editingWorkspace = false"
+        />
+      </template>
+      <template #hostKeys>
+        <HostKeysDialog :workspace="workspace" @close="editingWorkspace = false" />
+      </template>
+      <template #export>
+        <ExportDialog :initial-id="workspace.id" @close="editingWorkspace = false" />
+      </template>
+      <template #proxy>
+        <ProxyDialog @close="editingWorkspace = false" />
+      </template>
+      <template #mcp>
+        <McpDialog @close="editingWorkspace = false" />
+      </template>
+      <template #language>
+        <LanguageDialog @close="editingWorkspace = false" />
+      </template>
+    </WorkspaceDialog>
   </div>
 </template>
 
@@ -1016,6 +1036,17 @@ h1 {
 .head .gear,
 .project-head .gear {
   opacity: 1;
+}
+
+/* Turns while the sync runs. */
+.spinning :deep(svg) {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 /*

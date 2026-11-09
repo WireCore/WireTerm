@@ -118,8 +118,10 @@ fn unpack(raw: &str, password: &str) -> Result<Vec<Workspace>, String> {
             let id = new_id();
             snippets.insert(std::mem::replace(&mut snippet.id, id.clone()), id);
         }
+        let mut projects = std::collections::HashMap::new();
         for project in &mut workspace.projects {
-            project.id = new_id();
+            let id = new_id();
+            projects.insert(std::mem::replace(&mut project.id, id.clone()), id);
             for connection in &mut project.connections {
                 let id = new_id();
                 connections.insert(std::mem::replace(&mut connection.id, id.clone()), id);
@@ -132,6 +134,21 @@ fn unpack(raw: &str, password: &str) -> Result<Vec<Workspace>, String> {
                 }
             }
         }
+        // The snippets go along to the new IDs of their project and
+        // connection. Here on the device they are all locked: there is nobody
+        // whose rights would differ.
+        for snippet in &mut workspace.snippets {
+            snippet.project_id = projects
+                .get(&snippet.project_id)
+                .cloned()
+                .unwrap_or_default();
+            snippet.connection_id = snippet
+                .connection_id
+                .as_ref()
+                .map(|old| connections.get(old).cloned().unwrap_or_default());
+            snippet.locked = true;
+        }
+        workspace.prune_snippets();
     }
     for workspace in &mut workspaces {
         for project in &mut workspace.projects {
@@ -271,6 +288,9 @@ mod tests {
         let mut workspaces = tree();
         workspaces[0].snippets = vec![Snippet {
             id: "s1".into(),
+            project_id: "p1".into(),
+            connection_id: Some("c1".into()),
+            locked: false,
             name: "Logs".into(),
             folder: String::new(),
             command: "tail -f /var/log/syslog".into(),
@@ -283,6 +303,15 @@ mod tests {
         let back = unpack(&file, "a long password").expect("unpacks");
         let new = &back[0].snippets[0].id;
         assert_ne!(new, "s1");
+        // Along to the new IDs of project and connection, and locked on the
+        // device.
+        let project = &back[0].projects[0];
+        assert_eq!(back[0].snippets[0].project_id, project.id);
+        assert_eq!(
+            back[0].snippets[0].connection_id.as_deref(),
+            Some(project.connections[0].id.as_str())
+        );
+        assert!(back[0].snippets[0].locked);
         assert!(matches!(
             &back[0].projects[0].connections[0].settings,
             ConnectionSettings::Ssh(SshSettings { startup_snippet: Some(id), .. }) if id == new

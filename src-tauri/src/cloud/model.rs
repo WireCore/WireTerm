@@ -376,6 +376,13 @@ pub struct ApiKnownHost {
 #[serde(rename_all = "camelCase")]
 pub struct ApiSnippet {
     pub id: String,
+    /// Empty only in a cache from before snippets belonged to a project.
+    #[serde(default)]
+    pub project_id: String,
+    #[serde(default)]
+    pub connection_id: Option<String>,
+    #[serde(default = "locked")]
+    pub locked: bool,
     pub name: String,
     #[serde(default)]
     pub folder: String,
@@ -386,6 +393,10 @@ pub struct ApiSnippet {
     pub revision: Revision,
     #[serde(default)]
     pub deleted_at: Option<String>,
+}
+
+fn locked() -> bool {
+    true
 }
 
 /// A member together with their public key — or without one, as long as they

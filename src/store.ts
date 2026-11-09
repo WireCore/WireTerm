@@ -131,23 +131,25 @@ function adopted(): Set<string> {
  *
  * Errors stay here. No network is no reason to let a sign-in fail — nothing is
  * noted then, and the next start tries again.
+ *
+ * Returns the IDs of the workspaces it brought into the rail.
  */
-export async function adoptPersonalWorkspaces(accountId?: string): Promise<void> {
+export async function adoptPersonalWorkspaces(accountId?: string): Promise<string[]> {
   const done = adopted();
   const targets = cloud.accounts.filter(
     (account) =>
       account.signedIn && !done.has(account.id) && (!accountId || account.id === accountId),
   );
-  if (targets.length === 0) return;
+  if (targets.length === 0) return [];
 
-  let added = false;
+  const added: string[] = [];
   for (const account of targets) {
     try {
       const options = await cloud.availableWorkspaces(account.id);
       const personal = options.find((option) => option.kind === "personal");
       if (personal && !personal.added) {
         await cloud.addWorkspace(account.id, personal.id, personal.name);
-        added = true;
+        added.push(personal.id);
       }
       done.add(account.id);
     } catch {
@@ -161,7 +163,8 @@ export async function adoptPersonalWorkspaces(accountId?: string): Promise<void>
     // see `rememberWorkspace`
   }
 
-  if (added) await loadWorkspaces();
+  if (added.length) await loadWorkspaces();
+  return added;
 }
 
 // ---- Sync -------------------------------------------------------------------
@@ -311,9 +314,38 @@ export function moveConnection(id: string, projectId: string, index: number) {
     const at = from.connections.findIndex((c) => c.id === id);
     const [connection] = from.connections.splice(at, 1);
     to.connections.splice(Math.min(index, to.connections.length), 0, connection);
+    if (from !== to) followConnection(workspace, connection, to.id);
     persist();
     return;
   }
+}
+
+/**
+ * Into another project, a connection takes its own snippets along. A startup
+ * command for all connections of the old project stays behind — the backend
+ * does the same.
+ */
+function followConnection(workspace: Workspace, connection: Connection, projectId: string) {
+  const own = new Set<string>();
+  for (const snippet of workspace.snippets ?? []) {
+    if (snippet.connectionId !== connection.id) continue;
+    snippet.projectId = projectId;
+    own.add(snippet.id);
+  }
+  const settings = connection.settings;
+  if (settings.type === "ssh" && settings.startupSnippet && !own.has(settings.startupSnippet)) {
+    settings.startupSnippet = undefined;
+  }
+}
+
+/** Snippets of a connection or project that is gone go with it. */
+export function dropSnippetsOf(workspace: Workspace, gone: { projectId?: string; connectionIds?: string[] }) {
+  if (!workspace.snippets) return;
+  workspace.snippets = workspace.snippets.filter(
+    (snippet) =>
+      snippet.projectId !== gone.projectId &&
+      !(snippet.connectionId && gone.connectionIds?.includes(snippet.connectionId)),
+  );
 }
 
 /**
@@ -331,10 +363,12 @@ export function updateConnection(connection: Connection) {
 
 export function deleteConnection(id: string) {
   const connections = projectOf(id)?.connections;
-  if (!connections) return;
+  const workspace = workspaceOf(id);
+  if (!connections || !workspace) return;
   const index = connections.findIndex((c) => c.id === id);
   if (index < 0) return;
   connections.splice(index, 1);
+  dropSnippetsOf(workspace, { connectionIds: [id] });
   persist();
 }
 

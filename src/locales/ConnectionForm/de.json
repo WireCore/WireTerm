@@ -88,7 +88,7 @@
   },
   "startup": {
     "label": "Beim Verbinden ausführen",
-    "hint": "Ein Snippet dieses Workspaces, abgeschickt, sobald das Terminal steht.",
+    "hint": "Ein gesperrtes Snippet dieses Projekts oder dieser Verbindung, abgeschickt, sobald das Terminal steht.",
     "none": "keiner"
   },
   "proxy": {

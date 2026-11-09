@@ -2,7 +2,7 @@
   "search": "Search snippet …",
   "searchLabel": "Search snippets",
   "broadcast": "Broadcast is on: the snippet goes to all terminals alongside.",
-  "empty": "There are no snippets in this workspace yet — they are created in the overview.",
+  "empty": "There are no snippets for this connection yet — they are created in the overview, in the project's header.",
   "noMatches": "No matches.",
   "onlyHere": "only here"
 }

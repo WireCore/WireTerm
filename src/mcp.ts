@@ -126,13 +126,19 @@ function listConnections(): Outcome {
 function listSnippets(): Outcome {
   return json(
     workspaces.flatMap((workspace) =>
-      (workspace.snippets ?? []).map((snippet) => ({
-        id: snippet.id,
-        workspace: workspace.name,
-        folder: snippet.folder,
-        name: snippet.name,
-        command: snippet.command,
-      })),
+      (workspace.snippets ?? []).map((snippet) => {
+        const project = workspace.projects.find((p) => p.id === snippet.projectId);
+        return {
+          id: snippet.id,
+          workspace: workspace.name,
+          project: project?.name ?? "",
+          // Without: for every connection of the project.
+          connection: project?.connections.find((c) => c.id === snippet.connectionId)?.name,
+          folder: snippet.folder,
+          name: snippet.name,
+          command: snippet.command,
+        };
+      }),
     ),
   );
 }

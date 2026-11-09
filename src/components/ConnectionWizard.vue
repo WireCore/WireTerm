@@ -31,7 +31,7 @@ import {
   type ConnectionType,
 } from "../types";
 
-defineProps<{ workspaceId?: string }>();
+defineProps<{ workspaceId?: string; projectId?: string }>();
 
 const emit = defineEmits<{ save: [connection: Connection]; cancel: [] }>();
 const { t } = useI18n();
@@ -183,9 +183,9 @@ function finish() {
           />
         </RadioGroup>
 
-        <ConnectionForm v-else-if="stepId(current) === 'server'" :connection="draft" section="server" :workspace-id="workspaceId" />
-        <ConnectionForm v-else-if="stepId(current) === 'login'" :connection="draft" section="login" :workspace-id="workspaceId" />
-        <ConnectionForm v-else :connection="draft" section="options" :workspace-id="workspaceId" />
+        <ConnectionForm v-else-if="stepId(current) === 'server'" :connection="draft" section="server" :workspace-id="workspaceId" :project-id="projectId" />
+        <ConnectionForm v-else-if="stepId(current) === 'login'" :connection="draft" section="login" :workspace-id="workspaceId" :project-id="projectId" />
+        <ConnectionForm v-else :connection="draft" section="options" :workspace-id="workspaceId" :project-id="projectId" />
       </template>
 
       <template #summary>

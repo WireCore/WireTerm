@@ -93,7 +93,7 @@ feature, is in [TODO.md](TODO.md#feature-gaps-compared-to-electerm-voltius-termi
 
 1. Download the installer for your system from the
    [releases](https://github.com/WireCore/wireterm/releases) — the table there lists them by
-   system and architecture: EXE or MSI for Windows, DMG for macOS (Apple Silicon or Intel), deb,
+   system and architecture: EXE for Windows, DMG for macOS (Apple Silicon or Intel), deb,
    rpm or AppImage for Linux. The builds are not signed yet — Windows SmartScreen
    warns, and macOS only opens the app after allowing it under System Settings → Privacy &
    Security.
@@ -183,7 +183,7 @@ checked against an sshd with Google Authenticator from
 
 ### Importing
 
-"Import" on a project takes over connections from other programs
+"Import" in a project's settings (the gear on its row) takes over connections from other programs
 ([import.rs](src-tauri/src/import.rs), [ssh_config.rs](src-tauri/src/ssh_config.rs)). Every
 source yields the same list; what cannot be taken over — Telnet, RDP, Serial — is listed below
 it with the reason. None of them takes over passwords: where there is no key, the connection
@@ -266,16 +266,18 @@ comment, it does not go in a second time; the remote command reports `WIRETERM:A
 
 ### Snippets
 
-Saved commands of the workspace, in folders (`Maintenance/Linux`), managed under "Snippets" in
-the overview and sent through the snippet menu above the terminal. Several lines go out one
-after another, each with Enter. `{{connection.host}}`, `.user`, `.port` and `.name` are replaced
+Saved commands of a project, in folders (`Maintenance/Linux`), managed under "Snippets" in the
+project's header and sent through the snippet menu above the terminal. A snippet applies to all
+connections of its project or, if it says so, to just one — then it moves along with that
+connection into another project. Several lines go out one after another, each with Enter. `{{connection.host}}`, `.user`, `.port` and `.name` are replaced
 with the connection's values ([terminals.ts](src/terminals.ts)).
 
 An SSH connection can name one as its **startup command** ("Run when connecting" under Options
 in the form); it runs as soon as the terminal is up, and again after every reconnect. On a
-backend the snippets reach all members through the sync — but only owner and admin may change
-them there, because a startup command runs unasked in every colleague's terminal. So passwords
-do not belong in them.
+backend the snippets reach everyone who sees the project through the sync, so passwords do not
+belong in them. A **locked** snippet is changed only by owner and admin, an open one by whoever
+may edit the project — and only a locked one can be a startup command, because that runs unasked
+in every colleague's terminal. Owner and admin lock and unlock; the backend checks all of it.
 
 ### Side by side and broadcast
 
@@ -293,7 +295,7 @@ yellow border; in the snippet menu "only here" still sends to just the one.
 SSH, FTP and S3 can go through a SOCKS5 or HTTP CONNECT proxy
 ([proxy.rs](src-tauri/src/proxy.rs)). Two levels:
 
-- The **default proxy** belongs to this device (overview → "Proxy"), not to the workspace:
+- The **default proxy** belongs to this device (workspace settings → "This device" → "Proxy"), not to the workspace:
   whether a proxy is needed depends on the network the computer is in. It lives in `proxy.json`,
   its password encrypted with the device key.
 - A **connection** can deviate from it: directly, or through a proxy of its own. That travels
@@ -337,7 +339,7 @@ The shell runs in a pseudo terminal ([portable-pty](https://crates.io/crates/por
 ConPTY on Windows) and looks like an SSH session in the tab: the same terminal, the same
 settings, search, copy, side by side and broadcast. Events and commands are called `local:…` and
 `local_…` instead of `ssh:…` and `ssh_…`. Nothing is stored, and a local tab does not come back
-after a restart. There are no snippets there, because they belong to a workspace.
+after a restart. There are no snippets there, because they belong to a project.
 
 ConPTY asks for the cursor position at startup (`ESC[6n`) and waits for the answer — xterm.js
 gives it on its own. And closing a pseudo terminal on Windows waits until conhost is done; it
@@ -345,7 +347,7 @@ therefore runs in a thread of its own.
 
 ## MCP server
 
-So that Claude and other agents can use WireTerm — switched on in the overview under **MCP**. An
+So that Claude and other agents can use WireTerm — switched on in the workspace settings under **MCP** ("This device"). An
 HTTP endpoint on `127.0.0.1` (port 47821, configurable) following the
 [Model Context Protocol](https://modelcontextprotocol.io), "Streamable HTTP" without a stream
 from the server: every request gets its answer as JSON. Whoever wants to talk to it needs the
@@ -357,7 +359,7 @@ dialog shows the ready-made `claude mcp add` command.
 | Tool | What it does | Confirmation |
 |---|---|---|
 | `list_connections` | Connections of all workspaces: name, type, host, port, user | no |
-| `list_snippets` | The snippets of all workspaces | no |
+| `list_snippets` | The snippets of all workspaces, with project and connection | no |
 | `list_terminals` | The open terminals, SSH and local | no |
 | `read_terminal` | The last lines of an open terminal | no |
 | `list_files` | A directory over SFTP, FTP or S3 | no |
@@ -1016,7 +1018,7 @@ second would run into the state the first has just moved on.
 
 ### Invitations
 
-Invitations are sent under "Members"; the backend sends the mail. The invitee only sees their
+Invitations are sent under "Members" in the workspace settings; the backend sends the mail. The invitee only sees their
 open invitations under "Add workspace" once their email address is verified — better-auth
 insists on that. The backend sends the link for it on registration; whoever does not have it
 (any more) can request it again in the same dialog. *Accepting* works unverified too, which is
@@ -1033,13 +1035,13 @@ A revocation only takes effect on the server: the local file stays as it is. It 
 device, and an entry someone confirmed here themselves must not disappear because someone else
 takes it out of the workspace.
 
-Both lists can be viewed and revoked under "Host keys" in the overview, with the fingerprint in
+Both lists can be viewed and revoked under "Host keys" in the workspace settings, with the fingerprint in
 `SHA256:…` format. `~/.ssh/known_hosts` does not appear there — the app only reads it.
 
 ### A new version of the project key
 
 Whoever loses a share also loses their copy of the project key — but what they have read until
-then, they still know. Under "Shares" → "Renew key" ([cloud/rotate.rs](src-tauri/src/cloud/rotate.rs))
+then, they still know. Under "Shares" in the project's settings → "Renew key" ([cloud/rotate.rs](src-tauri/src/cloud/rotate.rs))
 a new version is therefore created: wrapped for everyone who is entitled now, and every secret of
 the project re-encrypted under it. Whoever has no master password yet gets it at the next sync of
 another client. Secrets that cannot be opened here stay under the old version and are reported.
@@ -1142,7 +1144,7 @@ it does not: malware running as the same user — it asks the keyring just like 
 
 ### Export and import
 
-"Export" in the overview puts workspaces including credentials into a `.wireterm` file,
+"Export" in the workspace settings puts workspaces including credentials into a `.wireterm` file,
 encrypted **as a whole** (hosts and names too) with a password of its own, Argon2id with the same
 parameters as the master password. That is the way onto another computer and the backup against
 a lost device key. Workspaces from a backend can be saved this way too, as far as their vault is
@@ -1346,7 +1348,7 @@ Vaultwarden instance, see [TODO.md](TODO.md).
 
 The UI speaks English and German. It starts in the system language — German if the operating
 system says German, English otherwise — unless someone picks one under **Language** in the
-workspace overview's toolbar. The choice belongs to this person on this device and is kept in
+workspace settings ("This device"). The choice belongs to this person on this device and is kept in
 the webview's `localStorage`, like the terminal settings ([i18n.ts](src/i18n.ts)).
 
 Texts live in two places, with English as the source and the fallback for a missing key:

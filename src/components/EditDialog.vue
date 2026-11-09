@@ -1,5 +1,5 @@
 <script lang="ts">
-import { ref as globalRef } from "vue";
+import { ref as globalRef, type InjectionKey } from "vue";
 
 /**
  * The dialogs currently open, deepest last.
@@ -19,10 +19,17 @@ const stack: symbol[] = [];
  * sync runs anyway — it is only put in place later.
  */
 export const dialogsOpen = globalRef(0);
+
+/**
+ * Set by a settings dialog around one of its tabs: the edit dialog in there
+ * then is no window of its own but the tab's content, with its buttons below
+ * it. Only the outermost one — what it opens itself is a window again.
+ */
+export const EMBEDDED: InjectionKey<boolean> = Symbol("embedded");
 </script>
 
 <script setup lang="ts">
-import { onBeforeUnmount, onMounted, ref } from "vue";
+import { inject, onBeforeUnmount, onMounted, provide, ref } from "vue";
 import { useI18n } from "vue-i18n";
 import { Button, Dialog, DialogContent } from "@wirecore/wirelayer-vue";
 
@@ -68,6 +75,9 @@ const props = withDefaults(defineProps<{
 const emit = defineEmits<{ save: []; remove: []; cancel: [] }>();
 const { t } = useI18n();
 
+const embedded = inject(EMBEDDED, false);
+provide(EMBEDDED, false);
+
 const content = ref<InstanceType<typeof DialogContent>>();
 
 /** For content that changes while open: focuses its first field again. */
@@ -96,19 +106,43 @@ function onKeydown(event: KeyboardEvent) {
     if (confirmingDelete.value) confirmingDelete.value = false;
     else emit("cancel");
   } else if (event.key === "Enter") {
-    if (event.ctrlKey || event.altKey || event.metaKey || event.shiftKey) return;
-    const target = event.target as HTMLElement | null;
-    // A textarea takes the key itself, and Enter on a focused button already
-    // means that button.
-    if (target?.tagName === "TEXTAREA" || target?.tagName === "BUTTON") return;
-    // Nothing while the delete question stands: that is the one answer worth
-    // a deliberate click.
-    if (confirmingDelete.value || props.canSave === false) return;
+    if (!confirms(event)) return;
     emit("save");
   } else {
     return;
   }
   event.preventDefault();
+}
+
+/** Whether Enter means "Save" here. */
+function confirms(event: KeyboardEvent): boolean {
+  if (event.ctrlKey || event.altKey || event.metaKey || event.shiftKey) return false;
+  // Without the buttons there is no "Save" to press — a settings tab with
+  // buttons of its own takes the key itself (see onEmbeddedKeydown).
+  if (!props.footer) return false;
+  const target = event.target as HTMLElement | null;
+  // A textarea takes the key itself, and Enter on a focused button already
+  // means that button.
+  if (target?.tagName === "TEXTAREA" || target?.tagName === "BUTTON") return false;
+  // Nothing while the delete question stands: that is the one answer worth
+  // a deliberate click.
+  return !confirmingDelete.value && props.canSave !== false;
+}
+
+/**
+ * As a tab, Enter in its fields saves this one; Escape goes on to the dialog
+ * around it — except to back out of the delete question.
+ */
+function onEmbeddedKeydown(event: KeyboardEvent) {
+  if (event.key === "Escape" && confirmingDelete.value) {
+    confirmingDelete.value = false;
+  } else if (event.key === "Enter" && confirms(event)) {
+    emit("save");
+  } else {
+    return;
+  }
+  event.preventDefault();
+  event.stopPropagation();
 }
 
 /** The close button in the header: the same as Cancel. */
@@ -117,12 +151,14 @@ function onOpenChange(open: boolean) {
 }
 
 onMounted(() => {
+  if (embedded) return;
   stack.push(token);
   dialogsOpen.value += 1;
   window.addEventListener("keydown", onKeydown);
 });
 
 onBeforeUnmount(() => {
+  if (embedded) return;
   const at = stack.indexOf(token);
   if (at >= 0) stack.splice(at, 1);
   dialogsOpen.value = Math.max(0, dialogsOpen.value - 1);
@@ -131,12 +167,41 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
+  <div v-if="embedded" class="embedded" @keydown="onEmbeddedKeydown">
+    <slot />
+
+    <!-- Without "Cancel": the dialog around it closes, through its cross and Escape. -->
+    <div v-if="footer" class="actions footer">
+      <template v-if="confirmingDelete">
+        <p class="warn">{{ deleteQuestion }}</p>
+        <span class="spacer"></span>
+        <Button variant="outline" @click="confirmingDelete = false">{{ t("common.cancel") }}</Button>
+        <Button variant="danger" @click="emit('remove')">{{ t("common.delete") }}</Button>
+      </template>
+      <slot v-else name="actions">
+        <Button
+          v-if="mode === 'edit' && canDelete"
+          variant="text"
+          color="danger"
+          @click="confirmingDelete = true"
+        >
+          {{ t("common.delete") }}
+        </Button>
+        <span class="spacer"></span>
+        <Button :disabled="!canSave" @click="emit('save')">
+          {{ mode === "create" ? t("EditDialog.create") : t("common.save") }}
+        </Button>
+      </slot>
+    </div>
+  </div>
+
   <!--
     No click-away close — a stray click must not throw the input away. Escape
     does that, and it is handled on the window (see onKeydown), so the delete
     question can take it first.
   -->
   <Dialog
+    v-else
     :open="true"
     :close-on-escape="false"
     :close-on-interact-outside="false"
@@ -207,6 +272,17 @@ onBeforeUnmount(() => {
 
 .spacer {
   flex: 1;
+}
+
+.embedded {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.footer {
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--border);
 }
 
 .warn {

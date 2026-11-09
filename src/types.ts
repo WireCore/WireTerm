@@ -426,21 +426,44 @@ export type Workspace = {
    */
   remote?: Remote | null;
   projects: Project[];
-  /** Saved commands for the terminal, in their order. */
+  /** Saved commands for the terminal, in their order — each of a project. */
   snippets?: Snippet[];
 };
 
 /**
  * A saved command. `{{connection.host}}`, `.user`, `.port` and `.name` are
  * replaced by the connection's values when it is sent.
+ *
+ * It belongs to a project and is offered for all of its connections — or,
+ * with `connectionId`, for just that one.
  */
 export type Snippet = {
   id: string;
+  projectId: string;
+  connectionId?: string;
+  /**
+   * Locked, only owner and admin change it — and only a locked one can be a
+   * startup command, because that runs unasked in other people's terminals.
+   * On this device always locked.
+   */
+  locked: boolean;
   name: string;
   /** `/`-separated; empty means top level. */
   folder: string;
   command: string;
 };
+
+/** The snippets offered for a connection: its project's, and its own. */
+export function snippetsFor(
+  workspace: Workspace | null | undefined,
+  projectId: string,
+  connectionId: string,
+): Snippet[] {
+  return (workspace?.snippets ?? []).filter(
+    (snippet) =>
+      snippet.projectId === projectId && (!snippet.connectionId || snippet.connectionId === connectionId),
+  );
+}
 
 /** Whether this workspace lives on a backend. */
 export function isRemote(workspace: Workspace | null | undefined): boolean {

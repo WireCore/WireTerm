@@ -117,22 +117,56 @@ pub struct Workspace {
     pub remote: Option<Remote>,
     #[serde(default)]
     pub projects: Vec<Project>,
-    /// Saved commands, in the order they are in.
+    /// Saved commands, in the order they are in. Each belongs to one of the
+    /// projects, see [`Snippet`].
     #[serde(default, skip_serializing_if = "Vec::is_empty")]
     pub snippets: Vec<Snippet>,
 }
 
+impl Workspace {
+    /// Drops the snippets whose project — or connection — is not in this
+    /// workspace. From a version in which snippets belonged to the workspace,
+    /// they have no project at all.
+    pub fn prune_snippets(&mut self) {
+        let projects = &self.projects;
+        self.snippets.retain(|snippet| {
+            projects.iter().any(|project| {
+                project.id == snippet.project_id
+                    && snippet
+                        .connection_id
+                        .as_ref()
+                        .is_none_or(|id| project.connections.iter().any(|c| &c.id == id))
+            })
+        });
+    }
+}
+
 /// A saved command for the terminal. The UI replaces placeholders like
 /// `{{connection.host}}` when sending.
+///
+/// It belongs to a project and is offered for all of its connections — or,
+/// with `connection_id`, for just that one.
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
 #[serde(rename_all = "camelCase")]
 pub struct Snippet {
     pub id: String,
+    #[serde(default)]
+    pub project_id: String,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub connection_id: Option<String>,
+    /// Locked, only owner and admin change it — and only a locked one can be
+    /// a startup command. In a workspace on this device always locked.
+    #[serde(default = "locked")]
+    pub locked: bool,
     pub name: String,
     /// `/`-separated; empty means top level.
     #[serde(default)]
     pub folder: String,
     pub command: String,
+}
+
+fn locked() -> bool {
+    true
 }
 
 /// A named folder. Nothing more for now.
@@ -247,7 +281,7 @@ pub struct SshSettings {
     /// See [`crate::proxy`].
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub proxy: Option<ProxySetting>,
-    /// A snippet of the same workspace that is sent in the terminal after
+    /// A locked snippet for this connection that is sent in the terminal after
     /// connecting — its ID.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub startup_snippet: Option<String>,
@@ -519,6 +553,7 @@ fn read_local(app: &AppHandle) -> Result<Vec<Workspace>, String> {
     workspaces.retain(|workspace| workspace.storage.is_local());
     for workspace in &mut workspaces {
         workspace.remote = None;
+        workspace.prune_snippets();
     }
     Ok(workspaces)
 }
