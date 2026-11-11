@@ -1,6 +1,6 @@
 [package]
 name = "wireterm"
-version = "0.1.4"
+version = "0.1.5"
 description = "WireTerm — terminal and connection manager"
 authors = ["WireCore GmbH"]
 license = "AGPL-3.0-only"
