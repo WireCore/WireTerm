@@ -60,8 +60,17 @@ cloud.code_wc_managed:
   en: "You manage this in WireCloud, not in WireTerm."
   de: "Das verwalten Sie in WireCloud, nicht in WireTerm."
 cloud.code_no_grant:
-  en: "Your WireCloud account has no access to this backend. Ask your company's administrator to grant it."
-  de: "Ihr Konto hat bei WireCloud keinen Zugriff auf dieses Backend. Bitten Sie den Administrator Ihrer Firma, ihn zu vergeben."
+  en: "Your WireCloud account has no access to this backend. Activate WireTerm in WireCloud under “Apps”, or ask your company's administrator for access."
+  de: "Ihr Konto hat bei WireCloud keinen Zugriff auf dieses Backend. Aktivieren Sie WireTerm in WireCloud unter „Apps“, oder bitten Sie den Administrator Ihrer Firma um Zugriff."
+cloud.code_subscription_required:
+  en: "This backend requires a subscription, and yours has expired or is missing. Activate one in WireCloud under “Apps”, or contact your company's administrator."
+  de: "Für dieses Backend brauchen Sie ein Abo, und Ihres ist abgelaufen oder fehlt. Aktivieren Sie es in WireCloud unter „Apps“, oder wenden Sie sich an den Administrator Ihrer Firma."
+cloud.code_mfa_required:
+  en: "This backend requires a sign-in with the second factor. Set it up in WireCloud under “My account” and sign in to WireTerm again."
+  de: "Dieses Backend verlangt eine Anmeldung mit dem zweiten Faktor. Richten Sie ihn in WireCloud unter „Mein Konto“ ein und melden Sie sich in WireTerm neu an."
+cloud.code_app_not_available:
+  en: "WireTerm is not available for your WireCloud account."
+  de: "WireTerm ist für Ihr Konto in WireCloud nicht freigegeben."
 cloud.code_account_suspended:
   en: "Your WireCloud account is suspended."
   de: "Ihr Konto bei WireCloud ist gesperrt."

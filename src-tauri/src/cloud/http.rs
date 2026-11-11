@@ -268,6 +268,9 @@ fn friendly(code: &str) -> Option<String> {
         "WC-UR" => "cloud.code_wc_ur",
         "WC-MANAGED" => "cloud.code_wc_managed",
         "no_grant" => "cloud.code_no_grant",
+        "subscription_required" => "cloud.code_subscription_required",
+        "mfa_required" => "cloud.code_mfa_required",
+        "app_not_available" => "cloud.code_app_not_available",
         "account_suspended" => "cloud.code_account_suspended",
         "unknown_audience" => "cloud.code_unknown_audience",
         _ => return None,
@@ -745,6 +748,9 @@ mod tests {
             "WC-UR",
             "RL",
             "no_grant",
+            "subscription_required",
+            "mfa_required",
+            "app_not_available",
             "account_suspended",
         ] {
             let text = problem(403, &format!(r#"{{"code":"{code}"}}"#)).to_string();
