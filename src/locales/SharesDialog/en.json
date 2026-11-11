@@ -1,10 +1,12 @@
 {
   "title": "Shares for \"{name}\"",
   "wholeOrganization": "The whole organization",
-  "hint": "Owners and administrators see every project, even without a share. For everyone else this list decides whether the project exists at all.",
+  "teams": "Teams",
+  "hint": "Owners and administrators see every project, even without a share, and so does whoever created it. For everyone else this list decides whether the project exists at all. The whole organization and any number of teams can be combined; the more generous share wins.",
   "none": "not shared",
   "shareFor": "Share for {name}",
   "noTeams": "There are no teams yet. Until then \"the whole organization\" is the only share — teams are created under \"Members\".",
+  "wirecloudTeams": "The teams come from WireCloud. A team shows up here once one of its members has signed in to WireTerm.",
   "newMember": "A new member sees the connections right away, but the credentials only once a client with access has wrapped the project key for them. That happens at the next sync — unless they have not set up a master password yet.",
   "rotateTitle": "Renew project key",
   "rotateHint": "Whoever loses a share also loses their copy of the project key — but what they have read until then, they still know. It only becomes tight with a new version: all credentials of the project are re-encrypted under it, and only those who are still shared with get it.",

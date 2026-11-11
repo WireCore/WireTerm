@@ -74,8 +74,14 @@ export type Remote = {
   email: string;
   kind: WorkspaceKind;
   role: Role;
-  /** Whether this role may create, delete and share projects. */
+  /** Whether this role may create, delete and share every project. */
   admin: boolean;
+  /** Whether members may create projects here — switched by owner and admin. */
+  memberProjects: boolean;
+  /** Whether this person may create a project: admins always, members if allowed. */
+  canCreateProjects: boolean;
+  /** The projects this person created; they rename, share and delete them like an admin. */
+  ownProjects: string[];
   /** The vault is locked: the rows are there, the secrets are not. */
   locked: boolean;
   /**

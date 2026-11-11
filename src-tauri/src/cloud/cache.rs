@@ -26,7 +26,7 @@ use serde::{Deserialize, Serialize};
 use super::crypto::{self, Secret32};
 use super::model::{
     newer, ApiConnection, ApiKnownHost, ApiProject, ApiProjectKey, ApiSecret, ApiShare, ApiSnippet,
-    ApiVaultAccount, Role, SyncResponse, WorkspaceKind,
+    ApiTeam, ApiVaultAccount, Role, SyncResponse, WorkspaceKind,
 };
 use crate::bitwarden;
 use crate::storage::{Connection, Project};
@@ -48,6 +48,12 @@ pub struct Cached {
     pub kind: WorkspaceKind,
     #[serde(default)]
     pub role: Role,
+    /// Whether members may create projects, not only owner and admin.
+    #[serde(default)]
+    pub member_projects: bool,
+    /// What a project can be shared with. Comes complete with every sync.
+    #[serde(default)]
+    pub teams: Vec<ApiTeam>,
     /// Where the next sync continues. `"0"` means: fetch everything.
     #[serde(default = "zero")]
     pub revision: String,
@@ -95,6 +101,8 @@ impl Cached {
             slug: String::new(),
             kind: WorkspaceKind::Organization,
             role: Role::Member,
+            member_projects: false,
+            teams: Vec::new(),
             revision: zero(),
             projects: Vec::new(),
             connections: Vec::new(),
@@ -116,6 +124,9 @@ impl Cached {
         self.slug = delta.workspace.slug;
         self.kind = delta.workspace.kind;
         self.role = delta.workspace.role;
+        self.member_projects = delta.workspace.member_projects;
+        // Complete, like the shares below.
+        self.teams = delta.teams;
         self.revision = newer(&self.revision, &delta.revision);
 
         merge(
@@ -363,6 +374,16 @@ impl Cached {
                 folder: row.folder.clone(),
                 command: row.command.clone(),
             })
+            .collect()
+    }
+
+    /// The projects `user_id` created — including those that are only here
+    /// so far and not yet on the server.
+    pub fn own_projects(&self, user_id: &str) -> Vec<String> {
+        self.projects
+            .iter()
+            .filter(|project| project.created_by_id.as_deref() == Some(user_id))
+            .map(|project| project.id.clone())
             .collect()
     }
 
@@ -673,6 +694,7 @@ mod tests {
                 kind: WorkspaceKind::Organization,
                 role: Role::Owner,
                 wirecloud_company: None,
+                member_projects: false,
             },
             revision: revision.into(),
             projects,
@@ -683,7 +705,53 @@ mod tests {
             project_keys: Vec::new(),
             shares: Vec::new(),
             snippets: Vec::new(),
+            teams: Vec::new(),
         }
+    }
+
+    /// The teams and the setting are not a delta: what the server sends now
+    /// is what applies — a team that is gone must not stay selectable.
+    #[test]
+    fn teams_and_the_setting_come_complete() {
+        let mut cached = empty_workspace();
+        let mut first = delta(&cached.clone(), Vec::new(), "1");
+        first.workspace.member_projects = true;
+        first.teams = vec![
+            ApiTeam {
+                id: "t1".into(),
+                name: "Ops".into(),
+            },
+            ApiTeam {
+                id: "t2".into(),
+                name: "Support".into(),
+            },
+        ];
+        cached.apply(first);
+        assert!(cached.member_projects);
+        assert_eq!(cached.teams.len(), 2);
+
+        let mut second = delta(&cached.clone(), Vec::new(), "2");
+        second.teams = vec![ApiTeam {
+            id: "t2".into(),
+            name: "Support".into(),
+        }];
+        cached.apply(second);
+        assert!(!cached.member_projects);
+        assert_eq!(cached.teams.len(), 1);
+        assert_eq!(cached.teams[0].id, "t2");
+    }
+
+    /// Own projects are those one created — also before they reach the server.
+    #[test]
+    fn own_projects_are_the_ones_one_created() {
+        let mut cached = empty_workspace();
+        let mut mine = project("p1", "1");
+        mine.created_by_id = Some("u1".into());
+        let mut theirs = project("p2", "1");
+        theirs.created_by_id = Some("u2".into());
+        cached.projects = vec![mine, theirs, project("p3", "1")];
+
+        assert_eq!(cached.own_projects("u1"), vec!["p1".to_string()]);
     }
 
     /// A tombstone is a message, not an entry. Whoever takes it in as a row

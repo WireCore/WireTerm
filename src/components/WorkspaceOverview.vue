@@ -80,8 +80,14 @@ const remote = computed(() => props.workspace.remote ?? null);
  */
 const editable = computed(() => !remote.value || !remote.value.locked);
 
-/** Only owner or admin may create, delete and share projects. */
-const canManageProjects = computed(() => (remote.value ? remote.value.admin : true));
+/** Owner and admin create projects; members where the workspace allows it. */
+const canCreateProjects = computed(() => (remote.value ? remote.value.canCreateProjects : true));
+
+/** Renaming, sharing and deleting: owner and admin, and whoever created the project. */
+function canManage(project: Project): boolean {
+  if (!remote.value) return true;
+  return remote.value.admin || remote.value.ownProjects.includes(project.id);
+}
 
 /**
  * The personal workspace of a WireCloud account belongs to its owner alone:
@@ -303,15 +309,17 @@ function importConnections(connections: Connection[]) {
 
 /**
  * The tabs a project's settings have besides name and delete: the shares for
- * whoever manages projects of a shared workspace, the import for whoever may
- * change the tree.
+ * whoever manages this project of a shared workspace, the import for whoever
+ * may change the tree.
  */
-const projectTabs = computed(() => [
-  ...(remote.value && canManageProjects.value && !solo.value
-    ? [{ value: "shares", label: t("WorkspaceOverview.shares") }]
-    : []),
-  ...(editable.value ? [{ value: "import", label: t("WorkspaceOverview.import") }] : []),
-]);
+function projectTabsFor(project: Project) {
+  return [
+    ...(remote.value && canManage(project) && !solo.value
+      ? [{ value: "shares", label: t("WorkspaceOverview.shares") }]
+      : []),
+    ...(editable.value ? [{ value: "import", label: t("WorkspaceOverview.import") }] : []),
+  ];
+}
 
 /**
  * What used to sit as buttons in the header, now tabs of the settings: the
@@ -551,7 +559,7 @@ function target(connection: Connection): string {
           {{ t("WorkspaceOverview.snippets") }}
         </Button>
         <IconButton
-          v-if="(canManageProjects && editable) || projectTabs.length"
+          v-if="(canManage(project) && editable) || projectTabsFor(project).length"
           class="gear"
           :icon="Settings"
           :label="t('WorkspaceOverview.editProject')"
@@ -680,7 +688,7 @@ function target(connection: Connection): string {
     />
 
     <Button
-      v-if="!searching && canManageProjects && editable"
+      v-if="!searching && canCreateProjects && editable"
       class="add-project"
       variant="outline"
       :leading-icon="Plus"
@@ -688,7 +696,7 @@ function target(connection: Connection): string {
     >
       {{ t("WorkspaceOverview.addProject") }}
     </Button>
-    <p v-else-if="!searching && !canManageProjects" class="path">
+    <p v-else-if="!searching && !canCreateProjects" class="path">
       {{ t("WorkspaceOverview.adminOnly") }}
     </p>
 
@@ -776,8 +784,8 @@ function target(connection: Connection): string {
       :key="projectDialog.project.id"
       :project="projectDialog.project"
       :mode="projectDialog.mode"
-      :extras="projectDialog.mode === 'edit' ? projectTabs : []"
-      :general="projectDialog.mode === 'create' || (canManageProjects && editable)"
+      :extras="projectDialog.mode === 'edit' ? projectTabsFor(projectDialog.project) : []"
+      :general="projectDialog.mode === 'create' || (canManage(projectDialog.project) && editable)"
       @save="saveProject"
       @remove="removeProject"
       @cancel="projectDialog = null"

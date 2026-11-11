@@ -506,6 +506,11 @@ export function setShares(
   return invoke("cloud_set_shares", { workspaceId, projectId, shares: list });
 }
 
+/** Whether members may create projects in this workspace. Owner and admin only. */
+export function setMemberProjects(workspaceId: string, enabled: boolean) {
+  return invoke("cloud_set_member_projects", { workspaceId, enabled });
+}
+
 export function revokeKey(workspaceId: string, projectId: string, userId: string) {
   return invoke("cloud_revoke_key", { workspaceId, projectId, userId });
 }

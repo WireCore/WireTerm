@@ -23,6 +23,7 @@ import {
   Badge,
   Button,
   Card,
+  Checkbox,
   EmptyState,
   Input,
   NativeSelect,
@@ -39,6 +40,7 @@ import {
   rotateProjectKey,
   removeTeamMember,
   renameTeam,
+  setMemberProjects,
   setMemberRole,
   staleKeys,
   teamMembers,
@@ -76,6 +78,20 @@ const admin = computed(() => props.remote.admin && !data.value?.managedBy);
 
 /** The personal workspace has no member management — but inviting works. */
 const personal = computed(() => props.remote.kind === "personal");
+
+/**
+ * Whether members may create projects. A setting of WireTerm, not of
+ * WireCloud — so owner and admin switch it here in both modes. Held here
+ * because the tree is only reloaded once the dialogs are closed.
+ */
+const memberProjects = ref(props.remote.memberProjects);
+
+async function switchMemberProjects(enabled: boolean) {
+  await act(async () => {
+    await setMemberProjects(props.workspaceId, enabled);
+    memberProjects.value = enabled;
+  });
+}
 
 const ROLES: Role[] = ["owner", "admin", "member"];
 const roleItems = computed(() =>
@@ -243,6 +259,7 @@ const teamCandidates = computed(() => {
         <template #url><code>{{ data.managedBy }}</code></template>
       </i18n-t>
     </Alert>
+    <p v-if="data?.managedBy" class="hint">{{ t("MembersDialog.wirecloudTeams") }}</p>
 
     <p v-if="personal" class="hint">{{ t("MembersDialog.personal") }}</p>
 
@@ -288,6 +305,19 @@ const teamCandidates = computed(() => {
     <p v-if="hasKey.size && [...hasKey.values()].some((value) => !value)" class="hint">
       {{ t("MembersDialog.noKeyHint") }}
     </p>
+
+    <!-- ---- Projects of members ---------------------------------------- -->
+    <template v-if="remote.admin && !personal">
+      <h4 class="label-mono">{{ t("MembersDialog.projects") }}</h4>
+      <Checkbox
+        :checked="memberProjects"
+        :disabled="busy"
+        @update:checked="switchMemberProjects($event)"
+      >
+        {{ t("MembersDialog.memberProjects") }}
+      </Checkbox>
+      <p class="hint">{{ t("MembersDialog.memberProjectsHint") }}</p>
+    </template>
 
     <!-- ---- Invitations ----------------------------------------------- -->
     <template v-if="admin">

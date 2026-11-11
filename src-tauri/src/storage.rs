@@ -76,6 +76,15 @@ pub struct Remote {
     /// [`Role::is_admin`], so the UI does not have to write the rule down a
     /// second time — and differently.
     pub admin: bool,
+    /// Whether members may create projects here — the workspace setting that
+    /// owner and admin switch.
+    pub member_projects: bool,
+    /// Whether this person may create a project: owner and admin always,
+    /// members if `member_projects` allows it.
+    pub can_create_projects: bool,
+    /// The projects this person created. They manage them like an admin:
+    /// rename, share, delete.
+    pub own_projects: Vec<String>,
     /// The vault is locked: the rows are there, the secrets are not.
     pub locked: bool,
     /// There are ciphertexts that could not be opened. With the vault open

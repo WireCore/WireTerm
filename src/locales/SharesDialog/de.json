@@ -1,10 +1,12 @@
 {
   "title": "Freigaben für „{name}“",
   "wholeOrganization": "Die ganze Organisation",
-  "hint": "Eigentümer und Administratoren sehen jedes Projekt, auch ohne Freigabe. Für alle anderen entscheidet diese Liste, ob es das Projekt überhaupt gibt.",
+  "teams": "Teams",
+  "hint": "Eigentümer und Administratoren sehen jedes Projekt, auch ohne Freigabe, ebenso wer es angelegt hat. Für alle anderen entscheidet diese Liste, ob es das Projekt überhaupt gibt. Die ganze Organisation und beliebig viele Teams lassen sich kombinieren; es gilt die großzügigere Freigabe.",
   "none": "keine Freigabe",
   "shareFor": "Freigabe für {name}",
   "noTeams": "Es gibt noch keine Teams. Bis dahin ist „die ganze Organisation“ die einzige Freigabe — Teams werden unter „Mitglieder“ angelegt.",
+  "wirecloudTeams": "Die Teams kommen aus WireCloud. Ein Team erscheint hier, sobald sich eines seiner Mitglieder bei WireTerm angemeldet hat.",
   "newMember": "Ein neues Mitglied sieht die Verbindungen sofort, die Zugangsdaten aber erst, wenn ihm ein Client mit Zugriff den Projektschlüssel verpackt hat. Das passiert beim nächsten Abgleich — es sei denn, er hat noch kein Masterpasswort eingerichtet.",
   "rotateTitle": "Projektschlüssel erneuern",
   "rotateHint": "Wer eine Freigabe verliert, verliert auch seine Kopie des Projektschlüssels — aber was er bis dahin gelesen hat, weiß er weiterhin. Dicht wird es erst mit einer neuen Fassung: alle Zugangsdaten des Projekts werden darunter neu verschlüsselt, und nur wer jetzt noch freigegeben ist, bekommt sie.",

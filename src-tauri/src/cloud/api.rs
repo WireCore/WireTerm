@@ -334,6 +334,17 @@ pub async fn update_project(
         .map(|_| ())
 }
 
+/// Whether members may create projects in this workspace (owner and admin).
+pub async fn set_member_projects(api: &Api, jar: &mut Jar, org: &str, enabled: bool) -> Answer<()> {
+    api.patch(
+        &format!("/api/workspaces/{org}"),
+        json!({ "memberProjects": enabled }),
+        jar,
+    )
+    .await
+    .map(|_| ())
+}
+
 pub async fn delete_project(api: &Api, jar: &mut Jar, org: &str, id: &str) -> Answer<()> {
     api.delete(&format!("/api/workspaces/{org}/projects/{id}"), jar)
         .await

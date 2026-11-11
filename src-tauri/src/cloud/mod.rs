@@ -237,6 +237,11 @@ impl CloudState {
                         kind: cached.kind,
                         role: cached.role,
                         admin: cached.role.is_admin(),
+                        member_projects: cached.member_projects,
+                        can_create_projects: cached.role.is_admin() || cached.member_projects,
+                        own_projects: account
+                            .map(|a| cached.own_projects(&a.user_id))
+                            .unwrap_or_default(),
                         locked: private.is_none(),
                         secrets_missing: missing,
                         pending: cached.pending.len(),
@@ -1468,8 +1473,8 @@ pub struct Members {
     pub kind: WorkspaceKind,
     pub own_user_id: String,
     /// The WireCloud address, if the account is signed in through it. Then
-    /// members and roles come from the backend, there are no teams and
-    /// invitations here, and the UI only displays.
+    /// members and roles come from the backend, the teams from the sync,
+    /// there are no invitations here, and the UI only displays.
     pub managed_by: Option<String>,
 }
 
@@ -1490,13 +1495,23 @@ pub async fn cloud_members(
 
     // In WireCloud mode there is no `get-full-organization`. The members then
     // come from `member-keys` (the backend knows them itself), teams and
-    // invitations are managed by WireCloud.
+    // invitations are managed by WireCloud. The teams a project can be shared
+    // with come along with the sync.
     let keys = api::member_keys(&client, &mut jar, &workspace_id).await;
     let (organization, teams) = if managed_by.is_some() {
         let keys = keys.clone().unwrap_or_default();
+        let teams = cached
+            .teams
+            .iter()
+            .map(|team| org::TeamRow {
+                id: team.id.clone(),
+                name: team.name.clone(),
+                organization_id: workspace_id.clone(),
+            })
+            .collect();
         (
             Ok(organization_from_keys(&workspace_id, &cached.name, &keys)),
-            Ok(Vec::new()),
+            Ok(teams),
         )
     } else {
         (
@@ -1729,6 +1744,26 @@ pub async fn cloud_set_shares(
 
     let written: Result<(), String> = with_org!(app, state, workspace_id, |client, jar, org| {
         api::put_shares(&client, &mut jar, org, &project_id, &list)
+    });
+    written?;
+
+    let mut inner = state.0.lock().await;
+    sync_one(&app, &mut inner, &workspace_id).await;
+    Ok(())
+}
+
+/// Lets members create projects in this workspace, or stops it. Projects
+/// they created before stay theirs. The sync afterwards brings the setting
+/// into the copy.
+#[tauri::command]
+pub async fn cloud_set_member_projects(
+    app: AppHandle,
+    state: State<'_, CloudState>,
+    workspace_id: String,
+    enabled: bool,
+) -> Result<(), String> {
+    let written: Result<(), String> = with_org!(app, state, workspace_id, |client, jar, org| {
+        api::set_member_projects(&client, &mut jar, org, enabled)
     });
     written?;
 

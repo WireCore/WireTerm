@@ -35,7 +35,7 @@
   "addConnection": "Connection",
   "noHits": "No results for \"{query}\".",
   "addProject": "Project",
-  "adminOnly": "Only an administrator may create and delete projects in this workspace.",
+  "adminOnly": "Only an administrator may create projects in this workspace. An administrator can allow members to do so under \"Members\".",
   "remoteStorage": "Storage: {server} · {email} · revision {revision}",
   "localStorage": "Storage: {path}",
   "appPassword": "Credentials under app password",

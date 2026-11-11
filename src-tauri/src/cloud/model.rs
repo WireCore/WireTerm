@@ -88,6 +88,9 @@ pub struct WorkspaceRow {
     /// backend in WireCloud mode. Its picture comes from WireCloud.
     #[serde(default)]
     pub wirecloud_company: Option<String>,
+    /// Whether members may create projects, not only owner and admin.
+    #[serde(default)]
+    pub member_projects: bool,
 }
 
 // ---- What `GET …/sync` returns -----------------------------------------------
@@ -116,6 +119,10 @@ pub struct SyncResponse {
     /// Also in full, for the same reason.
     #[serde(default)]
     pub shares: Vec<ApiShare>,
+    /// What a project can be shared with — also in full. In WireCloud mode
+    /// the only way to learn the teams: `list-teams` does not exist there.
+    #[serde(default)]
+    pub teams: Vec<ApiTeam>,
 }
 
 #[derive(Serialize, Deserialize, Clone, Debug)]
@@ -313,6 +320,14 @@ pub struct ApiProjectKey {
     pub ephemeral_public_key: String,
     pub nonce: String,
     pub wrapped_key: String,
+}
+
+/// A team of the workspace, the unit a project is shared with.
+#[derive(Serialize, Deserialize, Clone, Debug)]
+#[serde(rename_all = "camelCase")]
+pub struct ApiTeam {
+    pub id: String,
+    pub name: String,
 }
 
 /// Who may access a project. `team_id: None` means: the whole organization.

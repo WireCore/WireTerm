@@ -42,6 +42,8 @@ type Entry = { teamId: string | null; name: string; role: ShareRole | "" };
 const entries = ref<Entry[]>([]);
 const busy = ref(true);
 const error = ref("");
+/** Signed in through WireCloud: the teams come from there, not from "Members". */
+const managed = ref(false);
 
 const ROLES: ShareRole[] = ["editor", "viewer"];
 const roleItems = computed(() =>
@@ -49,6 +51,15 @@ const roleItems = computed(() =>
 );
 
 const granted = computed(() => entries.value.filter((entry) => entry.role !== ""));
+
+/** The whole organization on its own, the teams below under a heading of their own. */
+const groups = computed(() => {
+  const [organization, ...teams] = entries.value;
+  return [
+    ...(organization ? [{ key: "organization", title: "", entries: [organization] }] : []),
+    ...(teams.length ? [{ key: "teams", title: t("SharesDialog.teams"), entries: teams }] : []),
+  ];
+});
 
 /** What was shared when opened — to see whether someone is being dropped right now. */
 const before = ref<Map<string | null, ShareRole | "">>(new Map());
@@ -103,6 +114,7 @@ onMounted(async () => {
       })),
     ];
     before.value = new Map(entries.value.map((entry) => [entry.teamId, entry.role]));
+    managed.value = !!org.managedBy;
     error.value = "";
   } catch (e) {
     error.value = String(e);
@@ -139,23 +151,28 @@ async function save() {
   >
     <p class="hint">{{ t("SharesDialog.hint") }}</p>
 
-    <ul v-if="entries.length" class="rows">
-      <Card v-for="entry in entries" :key="entry.teamId ?? 'org'" size="sm" as-child>
-        <li class="row">
-          <span class="grow" :class="{ everyone: entry.teamId === null }">{{ entry.name }}</span>
-          <NativeSelect
-            v-model="entry.role"
-            class="select"
-            size="sm"
-            :items="roleItems"
-            :placeholder="t('SharesDialog.none')"
-            :disabled="busy"
-            :aria-label="t('SharesDialog.shareFor', { name: entry.name })"
-          />
-        </li>
-      </Card>
-    </ul>
-    <p v-else-if="!busy" class="hint">{{ t("SharesDialog.noTeams") }}</p>
+    <template v-for="group in groups" :key="group.key">
+      <h4 v-if="group.title" class="label-mono heading">{{ group.title }}</h4>
+      <ul class="rows">
+        <Card v-for="entry in group.entries" :key="entry.teamId ?? 'org'" size="sm" as-child>
+          <li class="row">
+            <span class="grow" :class="{ everyone: entry.teamId === null }">{{ entry.name }}</span>
+            <NativeSelect
+              v-model="entry.role"
+              class="select"
+              size="sm"
+              :items="roleItems"
+              :placeholder="t('SharesDialog.none')"
+              :disabled="busy"
+              :aria-label="t('SharesDialog.shareFor', { name: entry.name })"
+            />
+          </li>
+        </Card>
+      </ul>
+    </template>
+    <!-- The first row is always the whole organization. -->
+    <p v-if="!busy && managed" class="hint">{{ t("SharesDialog.wirecloudTeams") }}</p>
+    <p v-else-if="!busy && entries.length <= 1" class="hint">{{ t("SharesDialog.noTeams") }}</p>
 
     <p class="hint">{{ t("SharesDialog.newMember") }}</p>
 
@@ -237,5 +254,16 @@ async function save() {
 
 .everyone {
   font-style: italic;
+}
+
+/* Font and color come from `label-mono`, WireLayer's label style. */
+.heading {
+  margin: 1.1rem 0 0;
+  font-weight: 400;
+}
+
+/* Under its heading the list sits closer than after the hint text. */
+.heading + .rows {
+  margin-top: 0.35rem;
 }
 </style>

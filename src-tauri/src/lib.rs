@@ -185,6 +185,7 @@ pub fn run() {
             cloud::cloud_remove_team_member,
             cloud::cloud_shares,
             cloud::cloud_set_shares,
+            cloud::cloud_set_member_projects,
             cloud::cloud_revoke_key,
             cloud::cloud_stale_keys,
             proxy::proxy_default_get,

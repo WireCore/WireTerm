@@ -35,7 +35,7 @@
   "addConnection": "Verbindung",
   "noHits": "Keine Treffer für „{query}“.",
   "addProject": "Projekt",
-  "adminOnly": "Projekte anlegen und löschen darf in diesem Workspace nur ein Administrator.",
+  "adminOnly": "Projekte anlegen darf in diesem Workspace nur ein Administrator. Er kann es unter „Mitglieder“ auch Mitgliedern erlauben.",
   "remoteStorage": "Ablage: {server} · {email} · Stand {revision}",
   "localStorage": "Ablage: {path}",
   "appPassword": "Zugangsdaten unter App-Passwort",
