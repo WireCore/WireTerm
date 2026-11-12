@@ -1,0 +1,12 @@
+{
+  "check": "Nach Updates suchen",
+  "checking": "wird geprüft …",
+  "current": "aktuell",
+  "available": "{version} verfügbar",
+  "failed": "Prüfung fehlgeschlagen",
+  "lastChecked": "Zuletzt geprüft: {time}",
+  "neverChecked": "Seit dem Start noch nicht geprüft.",
+  "currentLong": "WireTerm ist auf dem neuesten Stand.",
+  "availableLong": "WireTerm {version} ist verfügbar — siehe den Hinweis oben im Fenster.",
+  "failedLong": "Die Prüfung ist fehlgeschlagen: {error}"
+}

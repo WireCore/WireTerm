@@ -21,6 +21,7 @@ import HostKeysDialog from "./HostKeysDialog.vue";
 import ProxyDialog from "./ProxyDialog.vue";
 import McpDialog from "./McpDialog.vue";
 import LanguageDialog from "./LanguageDialog.vue";
+import AboutDialog from "./AboutDialog.vue";
 import { useI18n } from "vue-i18n";
 import SnippetsDialog from "./SnippetsDialog.vue";
 import { localVaultStatus, type LocalVaultStatus } from "../local-vault";
@@ -332,6 +333,7 @@ const workspaceTabs = computed(() => [
   { value: "proxy", label: t("WorkspaceOverview.proxy"), device: true },
   { value: "mcp", label: "MCP", device: true },
   { value: "language", label: t("LanguageDialog.button"), device: true },
+  { value: "about", label: t("AboutDialog.button"), device: true },
 ]);
 
 /** The name question before a connection is duplicated into its project. */
@@ -849,6 +851,9 @@ function target(connection: Connection): string {
       </template>
       <template #language>
         <LanguageDialog @close="editingWorkspace = false" />
+      </template>
+      <template #about>
+        <AboutDialog @close="editingWorkspace = false" />
       </template>
     </WorkspaceDialog>
   </div>

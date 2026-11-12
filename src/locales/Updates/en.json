@@ -1,0 +1,12 @@
+{
+  "check": "Check for updates",
+  "checking": "checking …",
+  "current": "up to date",
+  "available": "{version} available",
+  "failed": "check failed",
+  "lastChecked": "Last checked: {time}",
+  "neverChecked": "Not checked yet since the start.",
+  "currentLong": "WireTerm is up to date.",
+  "availableLong": "WireTerm {version} is available — see the notice at the top of the window.",
+  "failedLong": "The check failed: {error}"
+}

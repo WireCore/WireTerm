@@ -16,6 +16,7 @@ import MasterPasswordDialog from "./components/MasterPasswordDialog.vue";
 import LocalVaultDialog from "./components/LocalVaultDialog.vue";
 import TabBar from "./components/TabBar.vue";
 import UpdateBanner from "./components/UpdateBanner.vue";
+import { availableUpdate, checkForUpdates, checkState } from "./updates";
 import { EmptyState, LocaleProvider } from "@wirecore/wirelayer-vue";
 import { useVaults, vaultProblem } from "./vault";
 import { useI18n } from "vue-i18n";
@@ -59,6 +60,28 @@ const { t } = useI18n();
 /** The installed version, small at the bottom right of the window. */
 const version = ref("");
 getVersion().then((v) => (version.value = v), () => undefined);
+
+/**
+ * A click on the version checks for updates. Its answer stands next to it for
+ * a few seconds; an update itself shows as the banner, as always.
+ */
+const asked = ref(false);
+let askedTimer: ReturnType<typeof setTimeout> | undefined;
+async function checkFromVersion() {
+  clearTimeout(askedTimer);
+  asked.value = true;
+  await checkForUpdates();
+  askedTimer = setTimeout(() => (asked.value = false), 8000);
+}
+const versionStatus = computed(() => {
+  if (!asked.value) return "";
+  if (checkState.checking) return t("Updates.checking");
+  if (checkState.result === "failed") return t("Updates.failed");
+  if (checkState.result === "available") {
+    return t("Updates.available", { version: availableUpdate.value?.version ?? "" });
+  }
+  return t("Updates.current");
+});
 
 const workspaceId = ref<string | null>(null);
 
@@ -507,7 +530,16 @@ onUnmounted(() => {
         </div>
       </div>
 
-      <span v-if="version" class="version">WireTerm {{ version }}</span>
+      <button
+        v-if="version"
+        type="button"
+        class="version"
+        :title="t('Updates.check')"
+        :disabled="checkState.checking"
+        @click="checkFromVersion"
+      >
+        WireTerm {{ version }}<template v-if="versionStatus"> · {{ versionStatus }}</template>
+      </button>
 
       <!--
         Both of these belong to the window rather than to a tab: the question
@@ -692,17 +724,31 @@ button:not(:disabled) {
   overflow: hidden;
 }
 
-/* Above the panes, but never in the way of a click. */
+/* Above the panes; a click on it checks for updates. */
 .version {
   position: absolute;
   right: 6px;
   bottom: 2px;
   z-index: 1;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
   font-size: 10px;
   color: var(--muted);
   opacity: 0.8;
-  pointer-events: none;
+  cursor: pointer;
   user-select: none;
+}
+
+.version:hover,
+.version:focus-visible {
+  opacity: 1;
+  text-decoration: underline;
+}
+
+.version:disabled {
+  cursor: progress;
 }
 
 .main {
